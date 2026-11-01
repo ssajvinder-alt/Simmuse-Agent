@@ -1,7 +1,8 @@
 import { useStore } from '@nanostores/react'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useInRouterContext, useNavigate } from 'react-router'
 
+import { getToolsets } from '@/api/toolsets'
 import { requestComposerSetDraft } from '@/app/chat/composer/focus'
 import { openSession, type OpenSessionNavigate } from '@/app/open-session'
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,7 @@ import { relativeTime } from '@/lib/time'
 import { cn } from '@/lib/utils'
 import { $projects, enterProject } from '@/store/projects'
 import { $currentModel, $gatewayState, $sessions } from '@/store/session'
-import type { SessionInfo } from '@/types/hermes'
+import type { SessionInfo, ToolsetInfo } from '@/types/hermes'
 
 import { Wordmark } from './wordmark'
 
@@ -22,6 +23,15 @@ type StarterAction = {
   hint: string
   /** What lands in the message box; the person finishes it and sends. */
   prompt: string
+  /** A tool group the action cannot work without. Absent means it always works. */
+  needs?: {
+    /** Backend toolset name (see toolsets.py). */
+    toolset: string
+    /** How the missing capability reads in a sentence ("web access is off"). */
+    what: string
+    /** Also require the toolset to be set up (keys present), not just switched on. */
+    configured: boolean
+  }
 }
 
 // Home is the empty-chat screen: one question, five ways to begin, then where
@@ -29,10 +39,9 @@ type StarterAction = {
 // and projects). Starting actions only fill the message box, so nothing is sent
 // or changed until the person presses send.
 //
-// TODO(simmuse): the brief asks to show only examples the person's setup
-// supports (for example research needs a web connection, summarizing needs
-// file access). Every action is shown for now; gate them once the capability
-// state they depend on is wired in.
+// An action whose tool group is switched off or not set up is hidden, with one
+// muted line saying why. If the tool list cannot be loaded, every action stays
+// visible: hiding everything because of a failed lookup would be worse.
 export const STARTER_ACTIONS: readonly StarterAction[] = [
   {
     id: 'research',
@@ -40,14 +49,16 @@ export const STARTER_ACTIONS: readonly StarterAction[] = [
     label: 'Research a topic',
     hint: 'A sourced report',
     prompt:
-      'Research this topic and write a short report with source links. Keep what the sources say separate from your own suggestions. Topic: '
+      'Research this topic and write a short report with source links. Keep what the sources say separate from your own suggestions. Topic: ',
+    needs: { toolset: 'web', what: 'web access', configured: true }
   },
   {
     id: 'summarize',
     icon: FileText,
     label: 'Summarize a document',
     hint: 'Key points from a file',
-    prompt: 'Summarize the document I attach. List the key points and anything that is unclear or missing.'
+    prompt: 'Summarize the document I attach. List the key points and anything that is unclear or missing.',
+    needs: { toolset: 'file', what: 'file access', configured: false }
   },
   {
     id: 'draft',
@@ -100,6 +111,38 @@ export function recentSessions(sessions: readonly SessionInfo[], limit = RECENT_
     .slice(0, limit)
 }
 
+export type StarterAvailability = { shown: true } | { shown: false; reason: string }
+
+/** Whether a starting action can work with the tool groups the backend reports.
+ *  `toolsets` is null while unknown (not loaded yet, or the lookup failed), and
+ *  an unknown list never hides anything. */
+export function starterAvailability(
+  action: StarterAction,
+  toolsets: readonly ToolsetInfo[] | null
+): StarterAvailability {
+  const needs = action.needs
+
+  if (!needs || toolsets === null) {
+    return { shown: true }
+  }
+
+  const toolset = toolsets.find(t => t.name === needs.toolset)
+
+  if (!toolset) {
+    return { shown: false, reason: `${needs.what} is not available in this setup.` }
+  }
+
+  if (!toolset.enabled) {
+    return { shown: false, reason: `${needs.what} is off.` }
+  }
+
+  if (needs.configured && !toolset.configured) {
+    return { shown: false, reason: `${needs.what} is not set up yet.` }
+  }
+
+  return { shown: true }
+}
+
 const TONE_DOT: Record<SetupStatus['tone'], string> = {
   ok: 'bg-emerald-500',
   pending: 'bg-amber-500',
@@ -118,6 +161,42 @@ function HomeWithNavigation() {
   return <HomeView navigate={navigate} />
 }
 
+/** The backend's tool groups, or null while unknown. Fetched directly, not
+ *  through the query cache, so Home works on surfaces that have no cache. Any
+ *  failure leaves it null, which shows every action. */
+function useToolsets(ready: boolean): ToolsetInfo[] | null {
+  const [toolsets, setToolsets] = useState<ToolsetInfo[] | null>(null)
+
+  useEffect(() => {
+    if (!ready) {
+      return
+    }
+
+    let cancelled = false
+
+    // getToolsets reads window.hermesDesktop and throws synchronously without
+    // it, so start from a resolved promise to turn that into a rejection too.
+    void Promise.resolve()
+      .then(() => getToolsets())
+      .then(list => {
+        if (!cancelled) {
+          setToolsets(Array.isArray(list) ? list : null)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setToolsets(null)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [ready])
+
+  return toolsets
+}
+
 function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
   const sessions = useStore($sessions)
   const projects = useStore($projects)
@@ -128,6 +207,18 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
   const recentProjects = useMemo(() => projects.filter(p => !p.archived).slice(0, RECENT_LIMIT), [projects])
   const status = setupStatus(connection, model)
   const latest = recent[0]
+  const toolsets = useToolsets(connection === 'open')
+
+  const availability = useMemo(
+    () => STARTER_ACTIONS.map(action => ({ action, availability: starterAvailability(action, toolsets) })),
+    [toolsets]
+  )
+
+  const visibleActions = availability.filter(item => item.availability.shown).map(item => item.action)
+
+  const hiddenNotes = availability.flatMap(item =>
+    item.availability.shown ? [] : [`${item.action.label} isn't shown: ${item.availability.reason}`]
+  )
 
   const start = (action: StarterAction) => {
     // "Continue previous work" goes straight to the latest conversation when
@@ -158,7 +249,7 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
         </p>
 
         <ul className="m-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2">
-          {STARTER_ACTIONS.map(action => (
+          {visibleActions.map(action => (
             <li key={action.id}>
               <Button
                 className="h-auto w-full justify-start gap-3 px-3 py-2.5 text-left"
@@ -178,6 +269,12 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
             </li>
           ))}
         </ul>
+
+        {hiddenNotes.length > 0 && (
+          <p className="mt-3 mb-0 text-xs text-muted-foreground" data-slot="home_hidden">
+            {hiddenNotes.join(' ')}
+          </p>
+        )}
 
         {(recent.length > 0 || recentProjects.length > 0) && (
           <div className="mt-6 grid grid-cols-1 gap-4 text-left sm:grid-cols-2" data-slot="home_recent">

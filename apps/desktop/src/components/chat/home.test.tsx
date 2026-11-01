@@ -1,21 +1,24 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 
+import { getToolsets } from '@/api/toolsets'
 import { requestComposerSetDraft } from '@/app/chat/composer/focus'
 import { openSession } from '@/app/open-session'
 import type * as ProjectsStore from '@/store/projects'
 import { $projects, enterProject } from '@/store/projects'
 import { $currentModel, $gatewayState, $sessions } from '@/store/session'
-import type { ProjectInfo, SessionInfo } from '@/types/hermes'
+import type { ProjectInfo, SessionInfo, ToolsetInfo } from '@/types/hermes'
 
-import { Home, recentSessions, setupStatus, STARTER_ACTIONS } from './home'
+import { Home, recentSessions, setupStatus, STARTER_ACTIONS, starterAvailability } from './home'
 
 vi.mock('@/app/chat/composer/focus', () => ({
   requestComposerSetDraft: vi.fn(() => Promise.resolve(true))
 }))
 
 vi.mock('@/app/open-session', () => ({ openSession: vi.fn() }))
+
+vi.mock('@/api/toolsets', () => ({ getToolsets: vi.fn() }))
 
 vi.mock('@/store/projects', async importOriginal => ({
   ...(await importOriginal<typeof ProjectsStore>()),
@@ -37,7 +40,20 @@ const session = (id: string, over: Partial<SessionInfo> = {}) =>
 
 const project = (id: string, name: string, archived = false) => ({ id, name, archived }) as ProjectInfo
 
+const toolset = (name: string, over: Partial<ToolsetInfo> = {}): ToolsetInfo => ({
+  configured: true,
+  description: '',
+  enabled: true,
+  label: name,
+  name,
+  tools: [],
+  ...over
+})
+
+const action = (id: string) => STARTER_ACTIONS.find(a => a.id === id)!
+
 beforeEach(() => {
+  vi.mocked(getToolsets).mockReset()
   $sessions.set([])
   $projects.set([])
   $gatewayState.set('open')
@@ -189,4 +205,100 @@ it('still renders without a router, with recent conversations shown but not clic
 
   expect(row).toBeTruthy()
   expect(row.disabled).toBe(true)
+})
+
+it('treats an unknown tool list as "everything works", so nothing is hidden', () => {
+  for (const a of STARTER_ACTIONS) {
+    expect(starterAvailability(a, null)).toEqual({ shown: true })
+  }
+})
+
+it('hides research when web access is off, not set up, or missing', () => {
+  expect(starterAvailability(action('research'), [toolset('web', { enabled: false })])).toEqual({
+    shown: false,
+    reason: 'web access is off.'
+  })
+
+  expect(starterAvailability(action('research'), [toolset('web', { configured: false })])).toEqual({
+    shown: false,
+    reason: 'web access is not set up yet.'
+  })
+
+  expect(starterAvailability(action('research'), [toolset('file')])).toEqual({
+    shown: false,
+    reason: 'web access is not available in this setup.'
+  })
+
+  expect(starterAvailability(action('research'), [toolset('web')])).toEqual({ shown: true })
+})
+
+it('needs file access switched on for summarizing, but not "set up"', () => {
+  expect(starterAvailability(action('summarize'), [toolset('file', { enabled: false })]).shown).toBe(false)
+  expect(starterAvailability(action('summarize'), [toolset('file', { configured: false })]).shown).toBe(true)
+})
+
+it('never hides the actions that need no tools', () => {
+  for (const id of ['draft', 'plan', 'continue']) {
+    expect(starterAvailability(action(id), [])).toEqual({ shown: true })
+  }
+})
+
+it('hides the research card and says why when web access is off', async () => {
+  vi.mocked(getToolsets).mockResolvedValue([toolset('web', { enabled: false }), toolset('file')])
+
+  const { container } = render(<Home />)
+
+  await waitFor(() => expect(screen.queryByRole('button', { name: /Research a topic/ })).toBeNull())
+
+  expect(container.querySelector('[data-slot="home_hidden"]')?.textContent).toBe(
+    "Research a topic isn't shown: web access is off."
+  )
+
+  expect(screen.getByRole('button', { name: /Summarize a document/ })).toBeTruthy()
+  expect(screen.getByRole('button', { name: /Draft a report/ })).toBeTruthy()
+})
+
+it('explains each hidden card on its own', async () => {
+  vi.mocked(getToolsets).mockResolvedValue([toolset('web', { configured: false }), toolset('file', { enabled: false })])
+
+  const { container } = render(<Home />)
+
+  await waitFor(() => expect(screen.queryByRole('button', { name: /Summarize a document/ })).toBeNull())
+
+  expect(container.querySelector('[data-slot="home_hidden"]')?.textContent).toBe(
+    "Research a topic isn't shown: web access is not set up yet. Summarize a document isn't shown: file access is off."
+  )
+})
+
+it('keeps every card when the tool list cannot be loaded', async () => {
+  vi.mocked(getToolsets).mockRejectedValue(new Error('backend unreachable'))
+
+  const { container } = render(<Home />)
+
+  await waitFor(() => expect(getToolsets).toHaveBeenCalled())
+
+  expect(screen.getAllByRole('button').filter(b => b.hasAttribute('data-starter'))).toHaveLength(5)
+  expect(container.querySelector('[data-slot="home_hidden"]')).toBeNull()
+})
+
+it('keeps every card when the desktop bridge is missing and getToolsets throws', async () => {
+  vi.mocked(getToolsets).mockImplementation(() => {
+    throw new TypeError("Cannot read properties of undefined (reading 'api')")
+  })
+
+  const { container } = render(<Home />)
+
+  await waitFor(() => expect(getToolsets).toHaveBeenCalled())
+
+  expect(screen.getAllByRole('button').filter(b => b.hasAttribute('data-starter'))).toHaveLength(5)
+  expect(container.querySelector('[data-slot="home_hidden"]')).toBeNull()
+})
+
+it('does not ask for the tool list before the backend is connected', () => {
+  $gatewayState.set('connecting')
+
+  render(<Home />)
+
+  expect(getToolsets).not.toHaveBeenCalled()
+  expect(screen.getAllByRole('button').filter(b => b.hasAttribute('data-starter'))).toHaveLength(5)
 })
