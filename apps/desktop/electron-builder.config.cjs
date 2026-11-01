@@ -5,7 +5,7 @@
 // how the two halves drift.
 //
 // A .cjs module (not JSON) so the variant is decided at require time:
-// HERMES_DESKTOP_VARIANT=light builds "Hermes Light". The whole config
+// HERMES_DESKTOP_VARIANT=light builds "Simmuse Light". The whole config
 // derives from that one flag.
 // @ts-check
 'use strict'
@@ -78,7 +78,7 @@ module.exports = {
   protocols: [
     {
       name: `${displayName} Protocol`,
-      schemes: ['hermes']
+      schemes: ['simmuse']
     }
   ],
   // A store build is archived, never served to a feed — prefix its artifact
@@ -205,7 +205,7 @@ module.exports = {
     // paste onto the stock removable-drive icon). It lives in packaging/ with
     // the background so the `files` whitelist keeps it out of the app bundle.
     icon: 'packaging/dmg-volume.icns',
-    title: 'Hermes Agent Installer',
+    title: 'Simmuse Agent Installer',
     // A prebuilt .tiff on purpose, not a PNG plus a @2x sibling: dmg-builder's
     // PNG path runs `tiffutil -cathidpicheck`, which on macOS 26 rewrites both
     // frames to 72 dpi and silently drops the 2x representation. A .tiff is
@@ -250,7 +250,7 @@ module.exports = {
     applicationId: appNamePascal,
     displayName,
     publisher: store ? mustStoreMsix(storeMsixWhenStore).publisher : OUT_OF_STORE_PUBLISHER,
-    publisherDisplayName: store ? mustStoreMsix(storeMsixWhenStore).publisherDisplayName : 'Nous Research',
+    publisherDisplayName: store ? mustStoreMsix(storeMsixWhenStore).publisherDisplayName : 'Simmuse',
     // The native quad is the build time (scripts/msix-shared.mjs::nativeQuad),
     // baked into the manifest template, so the builder's own build-number
     // override would stamp a second, conflicting version.
@@ -272,7 +272,7 @@ module.exports = {
     customManifestPath: store ? 'build/store-msix-manifest.xml'
       : releaseBuild || channelRequest || appNamePascal !== artifactNamePascal
         ? 'build/msix-manifest.xml' : 'assets/msix-manifest.xml',
-    // Hermes state is deliberately shared with unpackaged CLI/gateway
+    // Simmuse state is deliberately shared with unpackaged CLI/gateway
     // processes. Pair the manifest's disabled virtualization properties with
     // the restricted capability that permits unvirtualized AppData/HKCU writes.
     capabilities: ['unvirtualizedResources'],
@@ -282,8 +282,8 @@ module.exports = {
     category: 'Development',
     maintainer: 'Nous Research <support@nousresearch.com>',
     synopsis: light
-      ? 'Remote-only desktop client for Hermes Agent.'
-      : 'Native desktop shell for Hermes Agent.',
+      ? 'Remote-only desktop client for Simmuse Agent.'
+      : 'Native desktop shell for Simmuse Agent.',
     target: ['AppImage']
   }
 }

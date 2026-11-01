@@ -3,10 +3,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
+import { SIMMUSE_LINKS } from '../../shared/src/simmuse-links'
+
 /** The closed token set `hermes_cli.update_receipt.record_stop_reason` records. */
 const STOP_CLASS_TOKEN = /^[a-z][a-z0-9_]{0,39}$/
 
-const UPDATES_GUIDE = 'https://hermes-agent.nousresearch.com/docs/getting-started/updating'
+const UPDATES_GUIDE = SIMMUSE_LINKS.docsUpdating
 
 export interface UpdateStop {
   stopClass: string
@@ -87,7 +89,7 @@ export function readStoppedRun(hermesHome: string, correlationId: string | null)
  */
 const STOP_EXPLANATIONS: Record<string, UpdateStopExplanation> = {
   downgrade_refused: {
-    message: 'Hermes kept your install: the offered release is older than it',
+    message: 'Simmuse kept your install: the offered release is older than it',
     detail:
       'The updater refused to move this install back to the release it offered, because that release predates the ' +
       'gateway runtime your session stores already use. Downgrading is unsupported, and nothing was changed: you are ' +

@@ -39,7 +39,7 @@ export function reasoningEffortClamp(
 }
 
 /** Compact label; a clamped pick shows both ends ("Ultra→Max") so the pill
- *  never presents a Hermes step as a wire level the route does not have. */
+ *  never presents a Simmuse step as a wire level the route does not have. */
 export function reasoningEffortLabel(effort: string, wire?: string): string {
   const key = normalize(effort)
   const clamp = reasoningEffortClamp(effort, wire)

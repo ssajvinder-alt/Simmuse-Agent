@@ -211,7 +211,7 @@ describe('spawnRelaunch', () => {
     }
   )
 
-  // Started from another app's AppImage (an AppImage terminal), Hermes inherits
+  // Started from another app's AppImage (an AppImage terminal), Simmuse inherits
   // that app's APPDIR/APPIMAGE and its mount on PATH and EDITOR; app.relaunch
   // kept them, so a restart must not strip half of that env.
   it.skipIf(process.platform !== 'linux')("keeps another app's AppImage env intact", async () => {

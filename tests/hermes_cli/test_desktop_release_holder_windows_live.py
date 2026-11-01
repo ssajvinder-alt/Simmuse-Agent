@@ -1,7 +1,7 @@
-"""A program outside Hermes whose working folder is inside release/ blocks the Desktop swap (#101789).
+"""A program outside Simmuse whose working folder is inside release/ blocks the Desktop swap (#101789).
 
 Real processes on a real Windows host: a helper started with its cwd inside
-``release/win-unpacked`` (the shape of Sogou IME's ``SogouCloud.exe``, spawned from a Hermes
+``release/win-unpacked`` (the shape of Sogou IME's ``SogouCloud.exe``, spawned from a Simmuse
 window and inheriting its cwd) makes Windows refuse the promotion rename. The failure must name
 that program, must never close it without consent, and a consented retry must close exactly it
 and finish the swap.
@@ -68,7 +68,7 @@ def test_blocked_swap_names_the_foreign_holder_and_leaves_it_running(swap_fixtur
     assert promoted is None
     assert f"pid {helper.pid}" in error, error  # the update failure names the holder
     assert f"Desktop app folder held by: {psutil.Process(helper.pid).name()} (pid {helper.pid}, " in out, out
-    assert helper.poll() is None, "a program outside Hermes was closed without consent"
+    assert helper.poll() is None, "a program outside Simmuse was closed without consent"
     assert (live_root / "Hermes.exe").read_text(encoding="utf-8") == "old"
 
 

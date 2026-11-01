@@ -92,8 +92,8 @@ test('nonstable runtime pins userData before the app name can change', async ():
   const canary: ProductIdentity = await identityForVariant('bundled')
   const runtime: { applyDesktopIdentity: typeof applyDesktopIdentity } = await import('./product-identity')
   const root: string = fs.mkdtempSync(path.join(os.tmpdir(), 'identity-userdata-'))
-  const paths: Record<string, string> = { appData: root, userData: path.join(root, 'Hermes') }
-  let name: string = 'Hermes'
+  const paths: Record<string, string> = { appData: root, userData: path.join(root, 'Simmuse') }
+  let name: string = 'Simmuse'
 
   const app: Parameters<typeof applyDesktopIdentity>[0] = {
     getPath: (key: string): string => paths[key],
@@ -108,7 +108,7 @@ test('nonstable runtime pins userData before the app name can change', async ():
 
   try {
     assert.equal(runtime.applyDesktopIdentity(app, stable), null)
-    assert.equal(paths.userData, path.join(root, 'Hermes'))
+    assert.equal(paths.userData, path.join(root, 'Simmuse'))
     assert.equal(runtime.applyDesktopIdentity(app, canary), canary.displayName)
     assert.equal(paths.userData, path.join(paths.appData, canary.appNamePascal))
     assert.equal(name, canary.displayName)
@@ -118,9 +118,9 @@ test('nonstable runtime pins userData before the app name can change', async ():
 })
 
 test.each([
-  [undefined, 'Hermes', 'hermes', 'latest', 'canary'],
-  ['bundled', 'Hermes Agent', 'hermes', 'latest', 'canary'],
-  ['light', 'Hermes Light', 'hermes-light', 'light', 'light-canary']
+  [undefined, 'Simmuse', 'hermes', 'latest', 'canary'],
+  ['bundled', 'Simmuse Agent', 'hermes', 'latest', 'canary'],
+  ['light', 'Simmuse Light', 'hermes-light', 'light', 'light-canary']
 ] as const)(
   '%s separates stable, canary and independent commits',
   async (
@@ -254,7 +254,7 @@ test('packaging isolates boot metadata and executable names without renaming rel
     const artifact: ReturnType<typeof appIdentity> = appIdentity(fileURLToPath(new URL('../', import.meta.url)))
     assert.equal(artifact.name, identity.artifactNamePascal)
     assert.equal(artifact.identity.msixAppIdWithOrg, config.msix.identityName)
-    assert.deepEqual(config.protocols[0].schemes, ['hermes'])
+    assert.deepEqual(config.protocols[0].schemes, ['simmuse'])
 
     if (build !== 'canary') {
       assert.equal(config.publish, null)

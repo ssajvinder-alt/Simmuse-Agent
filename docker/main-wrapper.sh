@@ -93,5 +93,5 @@ case "$1" in
         ;;
 esac
 
-# Hermes subcommand pass-through.
+# Simmuse subcommand pass-through.
 drop hermes "$@"

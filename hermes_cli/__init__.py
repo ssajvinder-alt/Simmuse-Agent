@@ -1,4 +1,4 @@
-"""Hermes CLI - Unified command-line interface for Hermes Agent."""
+"""Simmuse CLI - Unified command-line interface for Simmuse Agent."""
 
 import sys
 

@@ -91,8 +91,8 @@ test('chunk splits into ~100-file batches with no leftovers', () => {
 
 test('customSign skips Store- submission packages (Partner Center signs)', async () => {
   const result = await customSign(
-    { path: 'C:/out/Store-HermesBundled-0.28.0-win-x64.msix' },
-    { appInfo: { productFilename: 'Hermes' } },
+    { path: 'C:/out/Store-SimmuseBundled-0.28.0-win-x64.msix' },
+    { appInfo: { productFilename: 'Simmuse' } },
     { signMsix: async () => { throw new Error('must not be called') } }
   )
   assert.equal(result, true)
@@ -121,7 +121,7 @@ test('customSign delegates only the msix package and root product exe to the Azu
   })
   await info.validateConfig()
   const packager = new WinPackager(info)
-  const msix = path.join(tmpTree(), 'HermesBundled-0.28.0-win-x64.msix')
+  const msix = path.join(tmpTree(), 'SimmuseBundled-0.28.0-win-x64.msix')
   assert.equal(await customSign({ path: msix }, packager, deps), true)
   assert.deepEqual(delegated, [['msix', msix]])
 

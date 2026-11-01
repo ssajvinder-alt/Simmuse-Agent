@@ -312,7 +312,7 @@ describe('Linux runtime --no-sandbox relaunch', () => {
   })
 
   // AppImage apps (terminals, IDEs) export APPIMAGE/APPDIR to everything they
-  // start; Hermes launched from one must relaunch itself, not that app.
+  // start; Simmuse launched from one must relaunch itself, not that app.
   it('relaunches this executable when APPIMAGE was inherited from another AppImage', () => {
     for (const env of [
       { APPIMAGE: '/home/u/Apps/Terminal.AppImage' },

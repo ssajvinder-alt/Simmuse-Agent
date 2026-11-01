@@ -917,7 +917,7 @@ def _worktree_lock_is_live(repo_root: str, worktree_path: str, timeout: int = 10
     """Lock state: ``"live"`` (owning pid runs / a resumable session works in the tree),
     ``"dead"`` (pid and sessions gone / non-hermes reason), None (unlocked).
 
-    A Hermes tree locks with reason ``hermes pid=<pid>``; ``worktree remove --force`` refuses
+    A Simmuse tree locks with reason ``hermes pid=<pid>``; ``worktree remove --force`` refuses
     locked trees, so a crashed session's lock would keep its tree forever. A ``-w`` tree
     also names its profile's ``state.db`` from creation, so a ``--tui -w`` launcher killed with
     its terminal (SIGHUP skips the exit re-lock) still keeps the tree while a resumable session's
@@ -952,7 +952,7 @@ def _worktree_lock_is_live(repo_root: str, worktree_path: str, timeout: int = 10
     return "dead" if pid is not None else "live"  # a session lock without its store: unverifiable
 
 
-# Trees Hermes names itself (``hermes -w`` sessions, subagent isolation) age on the base tier.
+# Trees Simmuse names itself (``hermes -w`` sessions, subagent isolation) age on the base tier.
 _AUTO_TREE_PREFIXES = ("hermes-", "subagent-")
 
 

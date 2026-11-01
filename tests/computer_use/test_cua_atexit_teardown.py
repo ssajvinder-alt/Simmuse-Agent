@@ -1,8 +1,8 @@
 """Tests for cua-driver subprocess teardown on interpreter exit.
 
 ``CuaDriverBackend`` spawns a long-lived ``cua-driver`` child process and
-caches it for the life of the Hermes process. Nothing ever tore it down, so
-the driver outlived the session that started it (#28152 item 3 — "Hermes does
+caches it for the life of the Simmuse process. Nothing ever tore it down, so
+the driver outlived the session that started it (#28152 item 3 — "Simmuse does
 not keep the driver alive after tool completion"). #69903 fixed the *overlay*
 redraw loop that made the lingering process burn CPU, but not the lingering
 process itself.

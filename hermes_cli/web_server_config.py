@@ -112,8 +112,8 @@ _SCHEMA_OVERRIDES: dict[str, dict[str, Any]] = {
     "auth.adopt_external_logins": {
         "type": "boolean",
         "description": (
-            "Borrow and refresh the Codex CLI / Claude Code logins when Hermes has no usable login of its own. "
-            "Off: Hermes uses only its own logins (`hermes auth add <provider>`)."
+            "Borrow and refresh the Codex CLI / Claude Code logins when Simmuse has no usable login of its own. "
+            "Off: Simmuse uses only its own logins (`hermes auth add <provider>`)."
         ),
         "category": "security",
     },
@@ -154,7 +154,7 @@ _SCHEMA_OVERRIDES: dict[str, dict[str, Any]] = {
         "", "minimal", "low", "medium", "high", "xhigh", "max", "ultra",
     ),
     "updates.non_interactive_local_changes": _select(
-        "When the chat app / gateway updates Hermes (no terminal prompt), "
+        "When the chat app / gateway updates Simmuse (no terminal prompt), "
         "what to do with uncommitted local source edits. 'stash' keeps them "
         "and re-applies them after the update; 'discard' throws them away. "
         "Terminal updates always ask, regardless of this setting.",
@@ -614,7 +614,7 @@ _AUX_TASK_SLOTS: tuple[str, ...] = (
 
 def _plugin_aux_tasks() -> list[dict[str, Any]]:
     """Auxiliary tasks registered by plugins (``PluginContext.register_auxiliary_task``) for the
-    Hermes home active in this context.
+    Simmuse home active in this context.
 
     Callers run inside ``_profile_scope`` / ``_config_profile_scope``, and ``get_plugin_manager()``
     keys its manager on the same context-local home, so a request for profile B enumerates
@@ -672,10 +672,10 @@ def _dashboard_skew_restart_hint() -> str:
     if os.environ.get("HERMES_SERVE_HEADLESS") == "1":
         return (
             "restart the Desktop-owned backend to load the new code "
-            "(use Restart backend in Hermes Desktop, or quit and reopen the app)"
+            "(use Restart backend in Simmuse Desktop, or quit and reopen the app)"
         )
     return (
-        "restart this Hermes process to load the new code "
+        "restart this Simmuse process to load the new code "
         "(hermes dashboard --port <port>, or the equivalent service restart for this install)"
     )
 

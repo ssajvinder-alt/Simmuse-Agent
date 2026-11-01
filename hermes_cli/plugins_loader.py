@@ -99,7 +99,7 @@ def _reserve_abandoned_loader_slot() -> None:
             return
     raise PluginLoadTimeout(
         f"not loaded: {_MAX_ABANDONED_LOADERS} abandoned plugin loader thread(s) are still running "
-        f"(plugins.load_timeout_seconds); restart Hermes to retry"
+        f"(plugins.load_timeout_seconds); restart Simmuse to retry"
     )
 
 
@@ -182,7 +182,7 @@ def _serialized_replacement(method):
 
 @contextmanager
 def _plugin_home_scope(home: Path):
-    """Bind discovery and loading to the manager's immutable Hermes home."""
+    """Bind discovery and loading to the manager's immutable Simmuse home."""
     token = set_hermes_home_override(home)
     try:
         yield
@@ -233,7 +233,7 @@ def missing_python_dependencies(manifest: Any) -> list[str]:
 
 
 def _declared_requirements(manifest: Any) -> tuple[str, ...]:
-    """What PM installs into Hermes's environment for this plugin: its declaration read the way
+    """What PM installs into Simmuse's environment for this plugin: its declaration read the way
     admission reads it (``pm.plugin_declarations.read_python_declaration`` — an authored
     ``pyproject.toml`` first, then ``python_dependencies`` / ``pip_dependencies``; nothing for a
     ``python_runtime: external`` sidecar). A plugin with no directory (an entry point) has only its
@@ -505,7 +505,7 @@ class PluginLoaderMixin:
         if installed_in_selected_environment(missing):
             logger.warning(
                 "Plugin %s's Python dependencies were installed after this process started: %s. "
-                "A running process never switches dependency environments; restart Hermes "
+                "A running process never switches dependency environments; restart Simmuse "
                 "(hermes gateway restart for the gateway) to load them.",
                 key, ", ".join(missing),
             )
@@ -513,7 +513,7 @@ class PluginLoaderMixin:
             logger.warning(
                 "Plugin %s declares Python dependencies that are not "
                 "installed: %s. For an enabled plugin, run hermes pm repair, "
-                "then restart Hermes. Discovery does not install dependencies.",
+                "then restart Simmuse. Discovery does not install dependencies.",
                 key, ", ".join(missing),
             )
 
@@ -803,7 +803,7 @@ class PluginLoaderMixin:
             ns_pkg.__package__ = _NS_PARENT
             sys.modules[_NS_PARENT] = ns_pkg
         module_name = module_name or self._directory_module_name(manifest)
-        # Evict stale entries for this slug (same slug cached from another Hermes home, or an earlier force
+        # Evict stale entries for this slug (same slug cached from another Simmuse home, or an earlier force
         # reload). Replacing only sys.modules[module_name] is not enough: the plugin's relative imports are
         # cached as "module_name.sub" and resolve from sys.modules first, so a stale submodule would keep
         # serving the previous load's code/state.

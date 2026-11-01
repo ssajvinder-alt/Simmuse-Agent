@@ -65,13 +65,13 @@ async function fixture(): Promise<{
     bundleEnv: {},
     identity: {
       token: '1234567890abcdef',
-      displayName: 'Hermes fresh-preview-29',
+      displayName: 'Simmuse fresh-preview-29',
       appId: 'chat.nous.hermes.h1234567890abcdef',
       appNamePascal: 'HermesH1234567890abcdef',
       artifactNamePascal: 'HermesH1234567890abcdef',
       cliName: 'hermes-fresh-preview-29',
       windowsExecutableName: 'HermesH1234567890abcdef.exe',
-      msixAppIdWithOrg: 'NousResearch.HermesH1234567890abcdef'
+      msixAppIdWithOrg: 'Simmuse.SimmuseH1234567890abcdef'
     }
   }
 

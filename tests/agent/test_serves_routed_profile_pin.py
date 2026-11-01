@@ -1,6 +1,6 @@
 """A host that mirrors the served profile into HERMES_HOME must not flip launch-home identity.
 
-Hermes WebUI serves several profiles from one process and, for legacy readers, mirrors the active
+Simmuse WebUI serves several profiles from one process and, for legacy readers, mirrors the active
 turn's profile into ``os.environ["HERMES_HOME"]`` while also installing the context-local override.
 Every "is this task routed / is this the launch home" decision that compared the override with the
 live env var then saw the served home as the launch home: MCP connections were keyed by bare name

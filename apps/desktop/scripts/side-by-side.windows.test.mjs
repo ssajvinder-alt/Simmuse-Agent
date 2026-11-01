@@ -91,10 +91,10 @@ foreach ($asset in @(@('Square44x44Logo.png',44,44), @('Square150x150Logo.png',1
     schema: 1, buildId: 'a'.repeat(32), channel: 'sdk-preview', sequence,
     repository: 'fixture/project', commit: commitB, sourceVersion: '1.2.4', version: `0.0.${sequence}`,
     windowsVersion: `0.${Math.floor(sequence / 65536)}.${sequence % 65536}.0`,
-    identity: { token: 'ab12cd34ef56ab78', displayName: 'Hermes sdk-preview',
+    identity: { token: 'ab12cd34ef56ab78', displayName: 'Simmuse sdk-preview',
       appId: 'ai.hermes.channel.hab12cd34ef56ab78', appNamePascal: 'HermesChannelab12cd34ef56ab78',
       artifactNamePascal: 'HermesChannelab12cd34ef56ab78', cliName: 'hermes-sdk-preview',
-      windowsExecutableName: 'HermesChannelab12cd34ef56ab78', msixAppIdWithOrg: 'NousResearch.HermesChannelab12cd34ef56ab78' },
+      windowsExecutableName: 'HermesChannelab12cd34ef56ab78', msixAppIdWithOrg: 'Simmuse.SimmuseChannelab12cd34ef56ab78' },
     bundleEnv: {}, publicBase: 'https://example.invalid'
   })
   const cases = [

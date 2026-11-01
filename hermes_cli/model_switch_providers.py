@@ -72,7 +72,7 @@ def _discovered_catalog_stale(entry: dict, model_ids: list[str]) -> bool:
     """Whether a live probe may overwrite ``entry["models"]``.
 
     A ``models`` mapping or list of dicts is user-curated per-model metadata — never replaced.
-    A mapping Hermes itself discovered (entry flag or legacy in-mapping sentinel) is ours to
+    A mapping Simmuse itself discovered (entry flag or legacy in-mapping sentinel) is ours to
     refresh, but only when stale; a legacy-shape entry is always rewritten so the save migrates
     it to the clean entry-level flag."""
     existing = entry.get("models")
@@ -590,7 +590,7 @@ def _discover_flag(entry: dict):
 
 
 def _display_prefix(name: str) -> str:
-    """Text before the per-model separator Hermes's own writer uses ("—" / " - ")."""
+    """Text before the per-model separator Simmuse's own writer uses ("—" / " - ")."""
     return next((name.split(sep)[0].strip() for sep in ("—", " - ") if sep in name), name)
 
 
@@ -914,7 +914,7 @@ def _lap_overlay_rows(b: _PickerBuild, data: dict, user_providers: dict) -> None
     from hermes_cli.model_switch import _declared_model_ids
     from hermes_cli.providers import hermes_overlays
 
-    # Overlay keys may be models.dev IDs while config.yaml uses Hermes IDs.
+    # Overlay keys may be models.dev IDs while config.yaml uses Simmuse IDs.
     mdev_to_hermes = {v: k for k, v in models_dev_provider_map().items()}
     for pid, overlay in hermes_overlays().items():
         hermes_slug = mdev_to_hermes.get(pid, pid)

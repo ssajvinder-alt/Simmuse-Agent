@@ -1,4 +1,4 @@
-"""Profile management for multiple isolated Hermes instances."""
+"""Profile management for multiple isolated Simmuse instances."""
 
 import contextlib
 import json
@@ -100,7 +100,7 @@ NO_BUNDLED_SKILLS_MARKER = ".no-bundled-skills"
 
 # Header seeded into a profile's empty .env so it owns a credentials file from day one.
 _PLACEHOLDER_ENV = (
-    "# Per-profile secrets for this Hermes profile.\n"
+    "# Per-profile secrets for this Simmuse profile.\n"
     "# API keys and tokens set here override the shell environment.\n"
     "# Behavioral settings belong in config.yaml, not here.\n"
 )
@@ -153,7 +153,7 @@ def _clone_all_copytree_ignore(source_dir: Path):
 # OS credential dirs (file_safety.HOME_CREDENTIAL_DIRS) + direnv .envrc (_BLOCKED_PROJECT_ENV_BASENAMES).
 _OS_CREDENTIAL_STORES = (*HOME_CREDENTIAL_DIRS, ".envrc")
 
-# Credential stores in a profile home, as paths relative to it, plus the directories where Hermes
+# Credential stores in a profile home, as paths relative to it, plus the directories where Simmuse
 # keeps recovery copies of them. Never shipped in a profile export, and user-owned (never
 # overwritten) on a distribution install. Add a store here when a writer or loader starts using one.
 PROFILE_CREDENTIAL_PATHS = frozenset({
@@ -187,7 +187,7 @@ PROFILE_CREDENTIAL_PATHS = frozenset({
 })
 _CREDENTIAL_PATH_PARTS = tuple(tuple(p.casefold().split("/")) for p in PROFILE_CREDENTIAL_PATHS)
 
-# Copies Hermes' writers leave beside a store at the profile root, matched case-folded. Any
+# Copies Simmuse' writers leave beside a store at the profile root, matched case-folded. Any
 # ``auth.json.*`` / ``.env.bak*`` is a credential store whoever named it; for config.yaml only the
 # writers' formats match (post_update ``.bak-<stamp>[.N]``, config_backups' legacy siblings), because a
 # hand-named ``config.yaml.bak-my-note`` is the user's and ships through the export scrub instead.
@@ -253,7 +253,7 @@ _DEFAULT_EXPORT_EXCLUDE_ROOT = DEFAULT_EXPORT_EXCLUDE_ROOT = frozenset({
 # Allow-list for ``export_profile("default")``: when HERMES_HOME equals the
 # cwd (Docker/custom deployments), the default profile home is the working
 # directory and contains arbitrary user files that should NOT be bundled
-# into the export. The set below identifies the *known Hermes profile
+# into the export. The set below identifies the *known Simmuse profile
 # artifacts* at the root of HERMES_HOME; everything else is excluded.
 # Sensitive runtime infrastructure (``state.db``, ``logs/``, ``auth.*``,
 # other profiles) is intentionally *not* in this list so the export stays
@@ -274,7 +274,7 @@ _DEFAULT_EXPORT_INCLUDE_ROOT = frozenset({
 # Names that cannot be used as profile aliases
 _RESERVED_NAMES = frozenset({"hermes", "default", "test", "tmp", "root", "sudo"})
 
-# Hermes subcommands that cannot be used as profile names/aliases
+# Simmuse subcommands that cannot be used as profile names/aliases
 _HERMES_SUBCOMMANDS = frozenset({
     "chat", "model", "gateway", "setup", "whatsapp", "login", "logout",
     "status", "cron", "doctor", "dump", "config", "pairing", "skills", "tools",
@@ -311,7 +311,7 @@ def _wrapper_path(alias: str) -> Path:
 
 
 def _find_our_wrapper(alias: str) -> Optional[Path]:
-    """The Hermes wrapper for *alias*: :func:`_wrapper_path`, else a pre-``.bat`` bare Windows one."""
+    """The Simmuse wrapper for *alias*: :func:`_wrapper_path`, else a pre-``.bat`` bare Windows one."""
     candidates = [_wrapper_path(alias), _get_wrapper_dir() / alias] if sys.platform == "win32" else [_wrapper_path(alias)]
     return next((p for p in candidates if _is_our_wrapper(p)), None)
 
@@ -406,7 +406,7 @@ def validate_profile_name(name: str) -> None:
     if name in _RESERVED_NAMES:
         raise ValueError(
             f"Profile name {name!r} is reserved — it collides with either "
-            f"the Hermes installation itself or a common system binary.  "
+            f"the Simmuse installation itself or a common system binary.  "
             f"Pick a different name."
         )
 
@@ -858,7 +858,7 @@ def _cached_skill_count(profile_dir: Path) -> int:
 
 
 # profile.yaml — per-profile metadata (description, etc.)
-# Deliberately tiny and separate from ``config.yaml`` (user-facing Hermes config, ~5000
+# Deliberately tiny and separate from ``config.yaml`` (user-facing Simmuse config, ~5000
 # lines of defaults): this is metadata ABOUT the profile. Missing file -> empty defaults,
 # never an error; the kanban decomposer falls back to the profile name.
 
@@ -1512,7 +1512,7 @@ _HERMES_CONSOLE_SCRIPT_NAMES = frozenset({"hermes", "hermes-agent", "hermes-acp"
 
 
 def _is_hermes_argv(argv: list) -> bool:
-    """True for a Hermes process: entrypoint marker in argv, executable named ``hermes*``,
+    """True for a Simmuse process: entrypoint marker in argv, executable named ``hermes*``,
     or a python interpreter directly exec'ing a known ``hermes`` console-script shim."""
     joined = " ".join(argv)
     exe_name = os.path.basename(argv[0]).lower()
@@ -1534,7 +1534,7 @@ def _argv_profile_selectors(argv: list):
 
 
 def _profile_bound_backend_pids(canon: str, profile_dir: Path) -> list[int]:
-    """PIDs of running Hermes *backends* bound to this profile (``gateway.pid`` only tracks
+    """PIDs of running Simmuse *backends* bound to this profile (``gateway.pid`` only tracks
     the messaging gateway). Tightly scoped: current-user processes, backend subcommands only
     (never an interactive ``chat``/``tui``), never this process or its ancestors. Empty when
     ``psutil`` can't inspect anything."""
@@ -1932,7 +1932,7 @@ def _stop_gateway_process(profile_dir: Path) -> None:
 # Active profile (sticky default)
 
 def get_active_profile(root: Path | None = None) -> str:
-    """Read the sticky active profile name (of *root*, default: this process's Hermes root)."""
+    """Read the sticky active profile name (of *root*, default: this process's Simmuse root)."""
     path = root / "active_profile" if root is not None else _get_active_profile_path()
     try:
         name = path.read_text(encoding="utf-8-sig").strip()
@@ -2374,7 +2374,7 @@ def rename_profile(old_name: str, new_name: str) -> Path:
 # Profile env resolution (called from _apply_profile_override)
 
 def profile_root_for_env_home(env_home: str, default_root: Path) -> Path:
-    """Hermes root named by an exported ``HERMES_HOME``: the grandparent of a profile-shaped value
+    """Simmuse root named by an exported ``HERMES_HOME``: the grandparent of a profile-shaped value
     (``<root>/profiles/<name>``, mirrors ``get_default_hermes_root()``), the value itself otherwise,
     *default_root* when unset. Pure: callers pass any process's env, not only ``os.environ``."""
     env_home = env_home.strip()

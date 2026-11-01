@@ -1,4 +1,4 @@
-"""Single source of truth for provider identity in Hermes Agent."""
+"""Single source of truth for provider identity in Simmuse Agent."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from utils import base_url_host_matches, base_url_hostname
 logger = logging.getLogger(__name__)
 
 
-# -- Hermes overlay: metadata models.dev doesn't provide ----------------------
+# -- Simmuse overlay: metadata models.dev doesn't provide ----------------------
 
 @dataclass(frozen=True)
 class HermesOverlay:
@@ -280,7 +280,7 @@ def _plugin_alias_owner(canonical: str) -> str:
 
 
 def get_provider(name: str, *, allow_network: bool = True) -> Optional[ProviderDef]:
-    """Look up a built-in provider by id or alias: models.dev catalog merged with the Hermes overlay;
+    """Look up a built-in provider by id or alias: models.dev catalog merged with the Simmuse overlay;
     Hermes-only overlay (nous, openai-codex, …); plugin provider profiles with a concrete endpoint."""
     canonical = _plugin_alias_owner(normalize_provider(name))
     from hermes_cli.left_core_migration import provider_left_core
@@ -566,10 +566,10 @@ def resolve_custom_provider(name: str, custom_providers: Optional[list[dict[str,
 
 
 def _lossy_alias_registry_pdef(raw: str, canonical: str) -> Optional[ProviderDef]:
-    """Exact Hermes registry ids win over LOSSY alias collapsing (kimi-coding-cn must stay distinct
+    """Exact Simmuse registry ids win over LOSSY alias collapsing (kimi-coding-cn must stay distinct
     from kimi-coding instead of collapsing through the shared models.dev alias "kimi-for-coding").
     A collapse is lossy only when MULTIPLE registry providers normalize to the same canonical name;
-    single-entry rewrites (a Hermes id -> its models.dev id) are correct routing and keep resolving
+    single-entry rewrites (a Simmuse id -> its models.dev id) are correct routing and keep resolving
     through the built-in chain so overlay transports apply."""
     try:
         from hermes_cli.auth import PROVIDER_REGISTRY as _AUTH_PROVIDER_REGISTRY
@@ -598,7 +598,7 @@ LLAMACPP_ALIASES: tuple[str, ...] = (LLAMACPP_PROVIDER_ID, "llama.cpp", "llama-c
 
 
 def _has_staged_local_models() -> bool:
-    """True when GGUFs are staged under the Hermes home's ``models/`` — the model the picker's Local
+    """True when GGUFs are staged under the Simmuse home's ``models/`` — the model the picker's Local
     row offers, which the runtime seam serves by booting/attaching a server on selection."""
     try:
         from hermes_cli.local_runtime.bootstrap import staged_model_ids

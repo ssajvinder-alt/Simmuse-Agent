@@ -85,7 +85,7 @@ def _ellipsize(text: str, limit: int) -> str:
 _ON_WORDS = {"on", "enable", "true", "1"}
 _OFF_WORDS = {"off", "disable", "false", "0"}
 
-# /busy modes; what Enter does while Hermes is working lives in the catalog as
+# /busy modes; what Enter does while Simmuse is working lives in the catalog as
 # ``cli.commands.busy.short_<mode>`` (status line) / ``long_<mode>`` (post-set explanation).
 _BUSY_MODES = ("queue", "steer", "interrupt")
 
@@ -208,11 +208,11 @@ def _print_side_result_panel(cli, *, header_lines, body, title_suffix, empty_not
     try:
         from hermes_cli.skin_engine import get_active_skin
         _skin = get_active_skin()
-        label = _skin.get_branding("response_label", "☤ Hermes")
+        label = _skin.get_branding("response_label", "☤ Simmuse")
         _resp_color = _maybe_remap_for_light_mode(_skin.get_color("response_border", "#CD7F32"))
         _resp_text = _maybe_remap_for_light_mode(_skin.get_color("banner_text", "#FFF8DC"))
     except Exception:
-        label, _resp_color, _resp_text = "☤ Hermes", "#CD7F32", "#FFF8DC"
+        label, _resp_color, _resp_text = "☤ Simmuse", "#CD7F32", "#FFF8DC"
     rich_console.print(Panel(
         _render_final_assistant_content(body, mode=cli.final_response_markdown),
         title=f"[{_resp_color} bold]{label} {title_suffix}[/]", title_align="left",
@@ -491,7 +491,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
     # ---- /diff ----------------------------------------------------------------------------
     def _handle_diff_command(self, command: str):
         """Handle /diff [working|staged|all|session] [--stat] [<path>...] — git changes in the
-        cwd; ``session`` is everything Hermes changed since the checkpoint baseline."""
+        cwd; ``session`` is everything Simmuse changed since the checkpoint baseline."""
         stat_only = False
         mode = "working"
         paths: list[str] = []
@@ -2038,7 +2038,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
                             scope=_scope_outcome(explicit_global, saved))))
 
     def _handle_busy_command(self, cmd: str):
-        """Handle /busy [status|queue|steer|interrupt] — what Enter does while Hermes is working."""
+        """Handle /busy [status|queue|steer|interrupt] — what Enter does while Simmuse is working."""
         arg = _command_arg(cmd, lower=True)
         usage = _dim_line(_t("busy.usage"))
         if not arg or arg == "status":
@@ -2140,7 +2140,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
             _cp(_t("voice.unknown_subcommand", subcommand=subcommand), _t("voice.usage"))
 
     def _handle_wake_command(self, command: str):
-        """Handle /wake [on|off|status] — the 'Hey Hermes' hotword listener. The toggle IS the
+        """Handle /wake [on|off|status] — the 'Hey Simmuse' hotword listener. The toggle IS the
         config: on/off also writes ``wake_word.enabled`` so the choice persists; startup
         auto-arm only reads it."""
         subcommand = _command_arg(command, lower=True) or (

@@ -1,3 +1,4 @@
+import { SIMMUSE_LINKS } from '@hermes/shared/simmuse-links'
 import { useStore } from '@nanostores/react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import { type ComponentProps, lazy, type ReactNode, Suspense, useEffect, useState } from 'react'
@@ -297,7 +298,7 @@ export function BootFailureOverlay() {
   }
 
   // Clear this gateway's stale auth first, then re-establish it through the
-  // connection's owning login flow. Hermes Cloud must reuse its portal session
+  // connection's owning login flow. Simmuse Cloud must reuse its portal session
   // and per-agent cascade; generic remote gateways use native/embedded OAuth.
   // Reload after success so boot mints a fresh ticket against the new session.
   // The cloud ladder is shared with Settings (reestablishCloudAgentSession) so
@@ -462,7 +463,7 @@ export function BootFailureOverlay() {
       {
         key: 'discord',
         label: copy.cloudDownDiscord,
-        onClick: () => openExternalLink('https://discord.gg/NousResearch'),
+        onClick: () => openExternalLink(SIMMUSE_LINKS.community),
         variant: 'ghost'
       },
       { ...settingsAction, variant: 'ghost' }

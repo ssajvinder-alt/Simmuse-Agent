@@ -117,11 +117,11 @@ function channelRecord(channel: 'stable' | 'canary', sequence: number): FixtureR
     nextSequence: sequence + 1,
     identity: {
       token: 'b'.repeat(16),
-      displayName: channel === 'stable' ? 'Hermes Stable' : 'Hermes Canary',
-      appNamePascal: 'Hermes',
-      artifactNamePascal: 'Hermes',
+      displayName: channel === 'stable' ? 'Simmuse Stable' : 'Simmuse Canary',
+      appNamePascal: 'Simmuse',
+      artifactNamePascal: 'Simmuse',
       appId: 'chat.nous.hermes',
-      msixAppIdWithOrg: 'NousResearch.Hermes',
+      msixAppIdWithOrg: 'Simmuse.Simmuse',
       cliName: 'hermes',
       windowsExecutableName: 'hermes'
     },
@@ -143,11 +143,11 @@ function buildManifest(
 ): FixtureManifest {
   const identity: FixtureIdentity = {
     token: 'b'.repeat(16),
-    displayName: channel === 'stable' ? 'Hermes Stable' : 'Hermes Canary',
-    appNamePascal: 'Hermes',
-    artifactNamePascal: 'Hermes',
+    displayName: channel === 'stable' ? 'Simmuse Stable' : 'Simmuse Canary',
+    appNamePascal: 'Simmuse',
+    artifactNamePascal: 'Simmuse',
     appId: 'chat.nous.hermes',
-    msixAppIdWithOrg: 'NousResearch.Hermes',
+    msixAppIdWithOrg: 'Simmuse.Simmuse',
     cliName: 'hermes',
     windowsExecutableName: 'hermes'
   }
