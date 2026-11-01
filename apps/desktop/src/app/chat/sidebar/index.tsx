@@ -160,6 +160,7 @@ import { filterSessionsByProfileScope } from './profile-scope'
 import { ProfileRail } from './profile-switcher'
 import { ProjectDialog } from './project-dialog'
 import { filterToSessionBearingProjects, resolveLiveProjectFilter } from './project-filter'
+import { ProjectInstructionsDialog } from './project-instructions-dialog'
 import {
   excludeProjectSessions,
   orderProjectsByIds,
@@ -2064,6 +2065,7 @@ export function ChatSidebar({
         )}
       </SidebarContent>
       <ProjectDialog />
+      <ProjectInstructionsDialog />
       {/* One mount for the whole app. The header of WorktreeDialog tells why. */}
       <WorktreeDialog />
     </Sidebar>
