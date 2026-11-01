@@ -68,13 +68,15 @@ def test_every_catalog_row_is_a_full_prompt():
         assert task.goal and task.output and task.quality and task.done and 2 <= len(task.steps) <= 6, task.id
 
 
-def test_how_hermes_works_reads_the_docs_and_builds_three_screens():
+def test_how_simmuse_works_uses_this_install_reads_no_website_and_builds_three_screens():
     text = reminder("build_hermes", new_record(MAC), MAC)
 
     assert text.split("\n")[1] == ("Load these skills with skill_view first: hermes-agent, claude-design, p5js, "
                                    "humanizer.")
-    assert "https://hermes-agent.nousresearch.com/docs" in text and "web_extract" in text
-    assert all(f"Screen {n}" in text for n in (1, 2, 3)) and "~/hermes-first-task/" in text
+    # Simmuse does not send the first task to another company's website.
+    assert "nousresearch" not in text.lower() and "web_extract" not in text
+    assert "Read no website" in text and "from this install" in text
+    assert all(f"Screen {n}" in text for n in (1, 2, 3)) and "~/Simmuse/first-task/" in text
 
 
 @pytest.mark.parametrize("facts", [MAC, PC, Facts(os="linux"), Facts(os="linux", facts_source="remote")],
@@ -125,7 +127,7 @@ def test_plan_my_week_asks_for_three_goals_and_saves_a_file_it_names():
 
     assert text.startswith('They picked "Plan my week from three goals". Your job: ')
     assert "three goals" in text and "Never invent goals" in text
-    assert "week-plan.md" in text and "~/hermes-first-task/" in text
+    assert "week-plan.md" in text and "~/Simmuse/first-task/" in text
     assert "you said where the file is" in text
     assert "Load these skills with skill_view first: weekly-review-planning, humanizer." in text
 

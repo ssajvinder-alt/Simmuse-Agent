@@ -77,7 +77,36 @@ describe('onboarding Picker', () => {
     expect(screen.getByText('Anthropic Account')).toBeTruthy()
     expect(screen.getByText('ChatGPT or Codex Subscription')).toBeTruthy()
     expect(screen.queryByText('Other sign-in options')).toBeNull()
-    expect(screen.queryByText('Recommended')).toBeNull()
+    // OpenRouter is Simmuse's one recommendation; no other row carries the tag.
+    expect(screen.getAllByText('Recommended')).toHaveLength(1)
+  })
+
+  it('leads with OpenRouter as the one recommended provider, and does not recommend Nous Portal', () => {
+    setProviders([makeOAuthProvider('nous', 'Nous Portal')])
+    render(<Picker ctx={ctx} />)
+
+    const rows = screen.getAllByRole('button').filter(b => /OpenRouter|Nous Portal/.test(b.textContent ?? ''))
+
+    expect(rows[0].textContent).toContain('OpenRouter')
+    expect(rows[0].textContent).toContain('Recommended')
+    expect(rows[1].textContent).toContain('Nous Portal')
+    expect(rows[1].textContent).not.toMatch(/recommended/i)
+  })
+
+  it('describes Nous Portal as another company’s service, not as how to run Simmuse', () => {
+    setProviders([makeOAuthProvider('nous', 'Nous Portal')])
+    render(<Picker ctx={ctx} />)
+
+    expect(screen.getByText(/A Nous Research service/)).toBeTruthy()
+    expect(screen.queryByText(/recommended way to run/i)).toBeNull()
+  })
+
+  it('shows OpenRouter once, not again inside "Other providers"', () => {
+    setProviders([makeOAuthProvider('nous', 'Nous Portal')])
+    render(<Picker ctx={ctx} />)
+    fireEvent.click(screen.getByRole('button', { name: /Other providers/ }))
+
+    expect(screen.getAllByText('OpenRouter')).toHaveLength(1)
   })
 
   it('offers "choose later" on first run and persists the skip', () => {
@@ -99,7 +128,8 @@ describe('onboarding Picker', () => {
     render(<Picker ctx={ctx} />)
 
     expect(screen.getByText('Nous Portal')).toBeTruthy()
-    expect(screen.getByText('Recommended')).toBeTruthy()
+    // Nous Portal is no longer labelled "Recommended": Simmuse recommends bringing your own key.
+    expect(screen.queryByText('Recommended')).toBeNull()
     expect(screen.getByText('Fireworks AI')).toBeTruthy()
     cleanup()
 

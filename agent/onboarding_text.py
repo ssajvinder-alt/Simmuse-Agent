@@ -175,7 +175,7 @@ _HOW_TO_WORK = (
     "Real data only: this computer, their connected apps, the live web. Never mock or invent data.",
     "First reply: one line, then a tool call. At most two checks and one question before you start. Something "
     "visible within a minute, finished within five.",
-    "Save every file in ~/hermes-first-task/ and say where. No test files.",
+    "Save every file in ~/Simmuse/first-task/ and say where. No test files.",
     "Install or connect anything once, with exact ids. Never search the whole disk.",
     "Write the words they read with humanizer: short, plain, specific.",
 )

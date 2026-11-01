@@ -690,6 +690,8 @@ export function Picker({ ctx }: { ctx: OnboardingContext }) {
   return (
     <div className="grid gap-2">
       <div className="grid max-h-[60dvh] gap-2 overflow-y-auto p-1">
+        {/* Simmuse's suggestion for someone bringing their own key leads the list, always visible. */}
+        <OpenRouterProviderRow onClick={() => openKeyForm('OPENROUTER_API_KEY')} />
         {featured ? <FeaturedProviderRow onSelect={select} provider={featured} /> : null}
         {/* The no-account path: everything runs on this machine. Shipped
             behind the --local launch flag. (Fireworks moved into the
@@ -703,7 +705,6 @@ export function Picker({ ctx }: { ctx: OnboardingContext }) {
             {rest.map(p => (
               <ProviderRow key={p.id} onSelect={select} provider={p} />
             ))}
-            <OpenRouterProviderRow onClick={() => openKeyForm('OPENROUTER_API_KEY')} />
           </>
         ) : null}
       </div>
