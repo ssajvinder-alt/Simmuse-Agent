@@ -5,8 +5,9 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { getToolsets } from '@/api/toolsets'
 import { requestComposerSetDraft } from '@/app/chat/composer/focus'
 import { openSession } from '@/app/open-session'
+import { $projectScope, ALL_PROJECTS } from '@/store/project-scope'
 import type * as ProjectsStore from '@/store/projects'
-import { $projects, enterProject } from '@/store/projects'
+import { $projects, $projectTree, enterProject } from '@/store/projects'
 import { $currentModel, $gatewayState, $sessions } from '@/store/session'
 import type { ProjectInfo, SessionInfo, ToolsetInfo } from '@/types/hermes'
 
@@ -56,6 +57,8 @@ beforeEach(() => {
   vi.mocked(getToolsets).mockReset()
   $sessions.set([])
   $projects.set([])
+  $projectTree.set([])
+  $projectScope.set(ALL_PROJECTS)
   $gatewayState.set('open')
   $currentModel.set('Mock Model')
 })
@@ -301,4 +304,141 @@ it('does not ask for the tool list before the backend is connected', () => {
 
   expect(getToolsets).not.toHaveBeenCalled()
   expect(screen.getAllByRole('button').filter(b => b.hasAttribute('data-starter'))).toHaveLength(5)
+})
+
+// ── The three workflows from the launch brief ──
+
+it('research asks for a sourced report that keeps facts apart from suggestions, saves it, and does not guess without the web', () => {
+  const { prompt } = action('research')
+
+  expect(prompt).toContain('grounded-citations')
+  expect(prompt).toContain('numbered source link')
+
+  for (const section of ['Summary', 'Key findings', 'Where the sources disagree', 'My suggestions', 'Sources']) {
+    expect(prompt).toContain(section)
+  }
+
+  expect(prompt).toContain('not facts')
+  expect(prompt).toContain('Markdown file')
+  expect(prompt).toContain('full path')
+  expect(prompt).toContain('If you cannot reach the web, say so instead of guessing')
+  expect(prompt.endsWith('Topic: ')).toBe(true)
+})
+
+it('drafting asks about purpose, reader, tone and length, shows a preview, revises, and saves', () => {
+  const { prompt } = action('draft')
+
+  for (const asked of ['what it is for', 'who will read it', 'tone', 'length']) {
+    expect(prompt).toContain(asked)
+  }
+
+  expect(prompt).toContain('preview pane')
+  expect(prompt).toContain('revise')
+  expect(prompt).toContain('Markdown file')
+  expect(prompt).toContain('full path')
+})
+
+it('drafting only offers Word or PDF when the file is known to open correctly', () => {
+  expect(action('draft').prompt).toContain('Offer Word or PDF only if you can make a file that opens correctly')
+})
+
+it('continuing reads the project and recent work, reports briefly, and changes nothing until told to', () => {
+  const { prompt } = action('continue')
+
+  expect(prompt).toContain('project instructions')
+  expect(prompt).toContain('recent conversations')
+  expect(prompt).toContain('where I left off')
+  expect(prompt).toContain('one next step')
+  expect(prompt).toContain('Do not change anything until I say yes')
+})
+
+it('summarizing says which files were used and what could not be read', () => {
+  expect(action('summarize').prompt).toContain('Say which files you used')
+  expect(action('summarize').prompt).toContain('if you cannot read one')
+})
+
+it('puts no old product name in any starter prompt', () => {
+  for (const a of STARTER_ACTIONS) {
+    expect(`${a.label} ${a.hint} ${a.prompt}`).not.toMatch(/hermes/i)
+  }
+})
+
+// ── Home inside a project ──
+
+const tree = (id: string, label: string, sessionIds: string[]) =>
+  ({ id, label, path: `/p/${label}`, repos: [], sessionIds }) as never
+
+const MINE = session('mine', { title: 'Thesis chapter 2', last_active: NOW_S - 100 })
+const OTHER = session('other', { title: 'Holiday plans', last_active: NOW_S - 5 })
+
+it('says which project you are working in', () => {
+  $projectTree.set([tree('p_1', 'Thesis', ['mine'])])
+  $projectScope.set('p_1')
+
+  const { container } = render(<Home />)
+
+  expect(container.querySelector('[data-slot="home_project"]')?.textContent).toBe('Working in Thesis')
+})
+
+it('shows only the project’s own conversations inside a project', () => {
+  $projectTree.set([tree('p_1', 'Thesis', ['mine']), tree('p_2', 'Holiday', ['other'])])
+  $projectScope.set('p_1')
+  $sessions.set([MINE, OTHER])
+
+  const { container } = render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>
+  )
+
+  expect(container.querySelector('[data-recent-session="mine"]')).toBeTruthy()
+  expect(container.querySelector('[data-recent-session="other"]')).toBeNull()
+})
+
+it('"Continue previous work" reopens the latest conversation in the project, not the newest overall', () => {
+  $projectTree.set([tree('p_1', 'Thesis', ['mine']), tree('p_2', 'Holiday', ['other'])])
+  $projectScope.set('p_1')
+  $sessions.set([MINE, OTHER]) // OTHER is newer overall
+
+  render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>
+  )
+
+  fireEvent.click(screen.getByRole('button', { name: /Continue previous work/ }))
+
+  expect(vi.mocked(openSession).mock.calls[0][0]).toBe('mine')
+})
+
+it('a project with no conversations yet falls back to the "continue" prompt, not another project’s chat', () => {
+  $projectTree.set([tree('p_1', 'Thesis', []), tree('p_2', 'Holiday', ['other'])])
+  $projectScope.set('p_1')
+  $sessions.set([OTHER])
+
+  render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>
+  )
+
+  fireEvent.click(screen.getByRole('button', { name: /Continue previous work/ }))
+
+  expect(openSession).not.toHaveBeenCalled()
+  expect(requestComposerSetDraft).toHaveBeenCalledTimes(1)
+})
+
+it('shows everything, and no project line, when the project list does not know the scope yet', () => {
+  $projectTree.set([])
+  $projectScope.set('p_missing')
+  $sessions.set([MINE, OTHER])
+
+  const { container } = render(
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>
+  )
+
+  expect(container.querySelector('[data-slot="home_project"]')).toBeNull()
+  expect(container.querySelector('[data-recent-session="other"]')).toBeTruthy()
 })

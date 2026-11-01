@@ -10,7 +10,8 @@ import { sessionTitle } from '@/lib/chat-runtime'
 import { Clock, FileText, FolderOpen, Pencil, Search } from '@/lib/icons'
 import { relativeTime } from '@/lib/time'
 import { cn } from '@/lib/utils'
-import { $projects, enterProject } from '@/store/projects'
+import { $projectScope, ALL_PROJECTS } from '@/store/project-scope'
+import { $projectOwnerBySessionId, $projects, $projectTree, enterProject } from '@/store/projects'
 import { $currentModel, $gatewayState, $sessions } from '@/store/session'
 import type { SessionInfo, ToolsetInfo } from '@/types/hermes'
 
@@ -48,8 +49,15 @@ export const STARTER_ACTIONS: readonly StarterAction[] = [
     icon: Search,
     label: 'Research a topic',
     hint: 'A sourced report',
+    // Workflow 1: a sourced report. grounded-citations numbers every source from what was actually
+    // retrieved and flags claims that came from the model's own knowledge, which is how "what the
+    // sources say" stays apart from "what I suggest".
     prompt:
-      'Research this topic and write a short report with source links. Keep what the sources say separate from your own suggestions. Topic: ',
+      'Research this topic and write a sourced report. Use the grounded-citations skill so every fact has a ' +
+      'numbered source link. Structure it as: Summary, Key findings, Where the sources disagree, My suggestions ' +
+      '(marked as suggestions, not facts), Sources. Keep what the sources say separate from your own suggestions. ' +
+      'Save the report as a Markdown file in the working folder and tell me its full path. If you cannot reach ' +
+      'the web, say so instead of guessing. Topic: ',
     needs: { toolset: 'web', what: 'web access', configured: true }
   },
   {
@@ -57,7 +65,9 @@ export const STARTER_ACTIONS: readonly StarterAction[] = [
     icon: FileText,
     label: 'Summarize a document',
     hint: 'Key points from a file',
-    prompt: 'Summarize the document I attach. List the key points and anything that is unclear or missing.',
+    prompt:
+      'Summarize the document I attach. List the key points and anything that is unclear or missing. Say ' +
+      'which files you used, and tell me plainly if you cannot read one.',
     needs: { toolset: 'file', what: 'file access', configured: false }
   },
   {
@@ -65,8 +75,13 @@ export const STARTER_ACTIONS: readonly StarterAction[] = [
     icon: Pencil,
     label: 'Draft a report',
     hint: 'A first version to refine',
+    // Workflow 2: draft, revise, preview, save. Word and PDF are offered only when the file is verified
+    // to open correctly (the brief: never label an unsupported export as working).
     prompt:
-      'Help me draft a report. First ask what it is for and who will read it, then write a first version I can edit.'
+      'Help me draft a document. First ask what it is for, who will read it, the tone I want and a rough length. ' +
+      'Write a first version and open it in the preview pane. Then revise it as I ask (tone, structure, length). ' +
+      'When I am happy, save it as a Markdown file and tell me its full path. Offer Word or PDF only if you can ' +
+      'make a file that opens correctly.'
   },
   {
     id: 'plan',
@@ -80,7 +95,12 @@ export const STARTER_ACTIONS: readonly StarterAction[] = [
     icon: Clock,
     label: 'Continue previous work',
     hint: 'Pick up where you left off',
-    prompt: 'Remind me where I left off in my recent work and suggest the next step.'
+    // Workflow 3: reopen a project and carry on. Used when there is no earlier conversation to open;
+    // the project's own instructions and files are read from its folder.
+    prompt:
+      'Help me continue my work. Read my project instructions and the files in this folder, and look at my ' +
+      'recent conversations. Tell me in five lines or fewer where I left off, list what is unfinished, and ' +
+      'suggest one next step. Do not change anything until I say yes.'
   }
 ]
 
@@ -203,7 +223,22 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
   const connection = useStore($gatewayState)
   const model = useStore($currentModel)
 
-  const recent = useMemo(() => recentSessions(sessions), [sessions])
+  const scope = useStore($projectScope)
+  const owners = useStore($projectOwnerBySessionId)
+  const projectTree = useStore($projectTree)
+
+  // Inside a project, Home is about that project: its conversations, and "Continue" reopens its latest.
+  // An unknown scope (the project list is not loaded yet) falls back to everything.
+  const scopedProject = useMemo(
+    () => (scope === ALL_PROJECTS ? null : (projectTree.find(project => project.id === scope) ?? null)),
+    [projectTree, scope]
+  )
+
+  const recent = useMemo(
+    () => recentSessions(scopedProject ? sessions.filter(s => owners.get(s.id) === scopedProject.id) : sessions),
+    [owners, scopedProject, sessions]
+  )
+
   const recentProjects = useMemo(() => projects.filter(p => !p.archived).slice(0, RECENT_LIMIT), [projects])
   const status = setupStatus(connection, model)
   const latest = recent[0]
@@ -242,6 +277,12 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
 
         <h2 className="m-0 text-lg font-medium tracking-tight text-foreground">What would you like to work on?</h2>
         <p className="mt-1 mb-2 text-muted-foreground">Pick a starting point, or just type below.</p>
+
+        {scopedProject && (
+          <p className="mt-0 mb-2 text-xs text-muted-foreground" data-slot="home_project">
+            Working in <strong className="font-medium text-foreground">{scopedProject.label}</strong>
+          </p>
+        )}
 
         <p className="mb-5 flex items-center justify-center gap-2 text-xs text-muted-foreground" data-slot="home_status">
           <span aria-hidden className={cn('size-2 rounded-full', TONE_DOT[status.tone])} />
