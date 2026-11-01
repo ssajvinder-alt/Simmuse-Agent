@@ -33,7 +33,7 @@ The following is the complete skill definition that Simmuse loads when this skil
 Himalaya is a CLI email client that lets you manage emails from the terminal using IMAP, SMTP, Notmuch, or Sendmail backends.
 
 This skill is separate from the Simmuse Email gateway adapter. The gateway
-adapter lets people email the agent and uses Simmuse' built-in IMAP/SMTP
+adapter lets people email the agent and uses Simmuse's built-in IMAP/SMTP
 adapter; this skill lets the agent operate a mailbox from terminal tools and
 requires the external `himalaya` CLI.
 

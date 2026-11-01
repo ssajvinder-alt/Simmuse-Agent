@@ -6,7 +6,7 @@ description: "How Simmuse detects and responds to native JS dialogs and interact
 
 # Browser CDP Supervisor
 
-The CDP supervisor closes two long-standing gaps in Simmuse' browser tooling:
+The CDP supervisor closes two long-standing gaps in Simmuse's browser tooling:
 
 1. **Native JS dialogs** (`alert`/`confirm`/`prompt`/`beforeunload`) block the
    page's JS thread. Without supervision, the agent has no way to know a

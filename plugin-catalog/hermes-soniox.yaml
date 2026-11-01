@@ -6,7 +6,7 @@ description: >-
   languages and voices, automatic STT language detection, and Simmuse voice-bubble support.
   Disclosure — TTS sends reply text and synthesis settings to tts-rt.soniox.com; STT uploads audio,
   optional language hints, and optional prompt context to api.soniox.com, then best-effort deletes
-  the remote transcription and uploaded file. SONIOX_API_KEY is resolved through Simmuse' active-profile
+  the remote transcription and uploaded file. SONIOX_API_KEY is resolved through Simmuse's active-profile
   secret scope. No telemetry, shell commands, background processes, or stored credentials.
 maintainer: XimilalaXiang
 tier: community

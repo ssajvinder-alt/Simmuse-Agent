@@ -1,6 +1,6 @@
 """Build and launch plumbing for the browser-hosted Desktop workspace.
 
-The browser surface shares Simmuse' hardened dashboard server. This module owns
+The browser surface shares Simmuse's hardened dashboard server. This module owns
 only the separate renderer artifact and the one-way handoff into that server;
 it never creates a second HTTP/WebSocket stack. The renderer is compiled by the
 shared product builders (``apps/desktop/scripts/build-webapp.mjs``), whose

@@ -244,7 +244,7 @@ def test_plugin_backend_gets_only_its_handle_never_unlock_material(vault_home, p
     assert alpha.calls[1] == ("fill_context", (), {})
     assert all(c[1:] == ("alpha:1", (), {}) for c in alpha.calls if c[0] != "fill_context")
 
-    # A plugin may not drive Simmuse' master-password prompt: the user would be typing a password
+    # A plugin may not drive Simmuse's master-password prompt: the user would be typing a password
     # into a dialog the plugin labelled (here "1Password").
     assert _backend("gamma") is None
     prompts = []

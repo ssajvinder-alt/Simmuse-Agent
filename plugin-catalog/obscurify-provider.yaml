@@ -8,7 +8,7 @@ description: >-
   account-number sign-up (no email). The model list leaves out decision models and models under
   Simmuse' 64K context minimum, context windows come from the catalog, and reasoning effort is sent as
   `reasoning_effort`. Disclosure — registers one model provider at import and nothing else (no tools,
-  hooks, commands or threads); chat requests go to https://obscurify.ai/v1 through Simmuse' own client
+  hooks, commands or threads); chat requests go to https://obscurify.ai/v1 through Simmuse's own client
   with OBSCURIFY_API_KEY, which Simmuse reads; the plugin itself only fetches the public model catalog
   (GET https://obscurify.ai/v1/models, no credentials) at most once an hour per process, reads and
   writes no files and starts no processes. Usage is billed from the user's prepaid Obscurify.ai

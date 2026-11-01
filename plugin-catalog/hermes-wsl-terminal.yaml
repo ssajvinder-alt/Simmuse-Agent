@@ -3,7 +3,7 @@ repo: https://github.com/Yicheng-Mark/hermes-windows-plugins
 sha: 5bad3fb2baf04ce6befecfefce6d14f4c9c98934
 subdir: wsl-terminal
 description: >-
-  Run Simmuse' terminal tools inside an existing WSL distro on Windows: one bash -c per
+  Run Simmuse's terminal tools inside an existing WSL distro on Windows: one bash -c per
   command as the distro's default user, over the same files Windows sees at /mnt/<drive>, with
   no Docker Desktop, no image and no container to start or tear down. A host cwd is
   translated (C:\Users\me\proj becomes /mnt/c/Users/me/proj, \\wsl.localhost paths become the

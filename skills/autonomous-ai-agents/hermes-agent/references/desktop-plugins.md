@@ -127,7 +127,7 @@ The ONLY import surface is `@hermes/plugin-sdk` (plus `react` /
   folder handle plus a RELATIVE path (`list`, `stat`, `readText`,
   `readDataUrl`, `writeText(…, { exclusive })`, `rename`, `trash`) and resolve
   `{ ok, … }` / `{ ok: false, error }`; `..`, absolute paths, escaping
-  symlinks and Simmuse' own data are refused by the main process. Never call
+  symlinks and Simmuse's own data are refused by the main process. Never call
   `window.hermesDesktop` file methods from a plugin.
 - `ctx.os` — the curated OS door, attributed to your plugin:
   `ctx.os.notify({ title, body?, silent?, icon?, activate?, onActivate?, actions? })`

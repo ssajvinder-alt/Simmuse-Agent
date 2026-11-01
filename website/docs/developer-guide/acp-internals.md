@@ -6,7 +6,7 @@ description: "How the ACP adapter works: lifecycle, sessions, event bridge, appr
 
 # ACP Internals
 
-The ACP adapter wraps Simmuse' synchronous `AIAgent` in an async JSON-RPC stdio server.
+The ACP adapter wraps Simmuse's synchronous `AIAgent` in an async JSON-RPC stdio server.
 
 Key implementation files:
 
@@ -168,12 +168,12 @@ repair is session rotation, not another row.
 
 ACP does not implement its own auth store.
 
-Instead it reuses Simmuse' runtime resolver:
+Instead it reuses Simmuse's runtime resolver:
 
 - `acp_adapter/auth.py`
 - `hermes_cli/runtime_provider.py`
 
-So ACP advertises and uses the currently configured Simmuse provider/credentials. It also always advertises a terminal setup auth method (`hermes-setup`, args `--setup`) so first-run ACP clients can open Simmuse' interactive model/provider configuration before starting a normal ACP session.
+So ACP advertises and uses the currently configured Simmuse provider/credentials. It also always advertises a terminal setup auth method (`hermes-setup`, args `--setup`) so first-run ACP clients can open Simmuse's interactive model/provider configuration before starting a normal ACP session.
 
 ## Working directory binding
 

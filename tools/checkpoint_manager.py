@@ -1125,7 +1125,7 @@ class CheckpointManager:
         """Restore files to a checkpoint state.
 
         With ``safe=True`` (full-directory restores only), files the user
-        hand-edited after Simmuse' last write — per the agent-write ledger —
+        hand-edited after Simmuse's last write — per the agent-write ledger —
         are left untouched, and only Hermes-authored changes are reverted.
         The result gains ``skipped_user_edits`` listing the preserved paths,
         ``skipped_oversize`` listing paths kept because the size cap excluded

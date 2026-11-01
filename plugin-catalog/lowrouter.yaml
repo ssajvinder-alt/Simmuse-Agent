@@ -10,10 +10,10 @@ description: >-
   euros. LowRouter bills in EUR, so the plugin reports no USD cost and Simmuse shows it as unknown.
   Maintained by LowRouter. Disclosure — registers one model provider and nothing else (no tools,
   hooks, commands or threads). Prompts, tool schemas and LOWROUTER_API_KEY go to
-  https://api.lowrouter.ai/v1 (or the configured model.base_url) through Simmuse' client, and
+  https://api.lowrouter.ai/v1 (or the configured model.base_url) through Simmuse's client, and
   LowRouter forwards each request to the host serving the model. The plugin's own requests are
   GET /v1/models (cached for an hour per key and base URL) and GET /v1/credits on /usage, to the
-  same base URL with the same key, through Simmuse' open_credentialed_url. No files read or written,
+  same base URL with the same key, through Simmuse's open_credentialed_url. No files read or written,
   no processes.
 maintainer: carboniferio
 tier: community

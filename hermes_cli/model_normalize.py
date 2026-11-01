@@ -112,7 +112,7 @@ def _dots_to_hyphens(model_name: str) -> str:
 
 
 def _normalize_provider_alias(provider_name: str) -> str:
-    """Resolve provider aliases to Simmuse' canonical ids."""
+    """Resolve provider aliases to Simmuse's canonical ids."""
     raw = (provider_name or "").strip().lower()
     if not raw:
         return raw

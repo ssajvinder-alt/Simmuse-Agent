@@ -179,7 +179,7 @@ platforms:
           - excalidraw       # skill commands work here too
 ```
 
-`priority_mode` controls how your list combines with Simmuse' built-in priority list:
+`priority_mode` controls how your list combines with Simmuse's built-in priority list:
 
 - `prepend`: put your commands first, then Simmuse defaults
 - `append`: keep Simmuse defaults first, then your commands

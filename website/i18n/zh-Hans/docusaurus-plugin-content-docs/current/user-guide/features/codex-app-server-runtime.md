@@ -424,7 +424,7 @@ tool_timeout_sec = 600.0
         │   │  │    canva, ...)       │     │
         │   │  └─ hermes-tools ───────┼─────────────────┐
         │   │       (callback to     │     │           │
-        │   │        Simmuse' richer  │     │           │
+        │   │        Simmuse's richer  │     │           │
         │   │        tools)          │     │           │
         │   └─────────────────────────┘     │           │
         └──────────────────────────────────┘           │

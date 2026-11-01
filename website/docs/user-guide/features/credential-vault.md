@@ -185,12 +185,12 @@ against a compromised right one.
 | A program running as you, or a plugin running inside Simmuse | Can decrypt | Can still ask the keychain, or call the vault code directly |
 | An administrator / root, or malware with your privileges | Can decrypt | Can decrypt |
 
-Password-manager session tokens (1Password, Bitwarden) stay in Simmuse' memory
+Password-manager session tokens (1Password, Bitwarden) stay in Simmuse's memory
 only, are dropped after 30 idle minutes or on Lock, and are handed only to the
-single `op`/`bw` command that needs them, never to Simmuse' own environment, the
+single `op`/`bw` command that needs them, never to Simmuse's own environment, the
 terminal tool or any other child process. They are kept out of reach of a plain
 import, which stops casual access by other code in the process, but not a
-plugin determined to read Simmuse' memory.
+plugin determined to read Simmuse's memory.
 
 Plugins are the boundary that matters: a third-party plugin that runs inside
 the Simmuse process can do anything Simmuse can, including filling a saved login.

@@ -43,7 +43,7 @@ docs_url: https://github.com/nicolasestrem/hermes-model-switcher#readme
 version: "0.3.2"
 # Fresh 0.3.2 captures at the pinned commit, re-taken after the catalog-row
 # fix: Dashboard SDK fixture with the
-# plugin's real backend and Simmuse' own /api/model/* routers over an isolated
+# plugin's real backend and Simmuse's own /api/model/* routers over an isolated
 # lab home (provenance in docs/images/catalog-captures.json).
 screenshots:
   - https://raw.githubusercontent.com/nicolasestrem/hermes-model-switcher/d62530d906307154e16ed98bb9b4be10ea6fef56/docs/images/model-switcher-0.3.2-dashboard.png

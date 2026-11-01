@@ -34,17 +34,17 @@ export const enBoot = {
     // Plain causes for a local backend boot failure (`classifyBootFailure`);
     // the raw output stays behind "Show recent logs".
     causes: {
-      exitedEarly: "Simmuse' background service stopped right after starting.",
-      timedOut: "Simmuse' background service didn't answer in time.",
+      exitedEarly: "Simmuse's background service stopped right after starting.",
+      timedOut: "Simmuse's background service didn't answer in time.",
       permission: "Simmuse couldn't write to its data folder (permission problem).",
       diskFull: 'The disk is full, so Simmuse could not start.',
       portInUse: 'Another program is using the network port Simmuse needs.',
-      installMissing: "Part of Simmuse' installation is missing. Choose Repair install to put it back."
+      installMissing: "Part of Simmuse's installation is missing. Choose Repair install to put it back."
     },
     failure: {
       title: "Simmuse couldn't start",
       description:
-        "Simmuse' background service didn't come up. Try one of the recovery steps below. Nothing here deletes your chats or settings.",
+        "Simmuse's background service didn't come up. Try one of the recovery steps below. Nothing here deletes your chats or settings.",
       details: 'Details',
       remoteTitle: 'Remote gateway sign-in required',
       remoteDescription:
@@ -102,7 +102,7 @@ export const enBoot = {
       startAnyway: 'Start anyway…',
       confirmTitle: 'Start Simmuse while the update still holds it?',
       confirmBody:
-        "The leftover update process may still be changing Simmuse' files. Starting now can load a half-updated install, which may not work until you run the update again. Simmuse records this choice in its log and leaves the update marker in place.",
+        "The leftover update process may still be changing Simmuse's files. Starting now can load a half-updated install, which may not work until you run the update again. Simmuse records this choice in its log and leaves the update marker in place.",
       confirmKeepWaiting: 'Keep waiting',
       confirmStart: 'Start anyway',
       startAnywayRefused: 'What holds the install changed before Simmuse could start. Review it and try again.'

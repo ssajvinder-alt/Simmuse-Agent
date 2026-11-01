@@ -159,7 +159,7 @@ def status(server_name: str) -> Status | None:
             elif probe.endpoint.state is not CheckState.PRESENT:
                 state = "endpoint_unavailable"
             else:
-                # The app runs and its endpoint answers: the only thing missing is Simmuse' own
+                # The app runs and its endpoint answers: the only thing missing is Simmuse's own
                 # MCP connection to it. Telling the user to "start" an app that IS running is
                 # the wrong instruction (#119975).
                 state = "hermes_not_connected"

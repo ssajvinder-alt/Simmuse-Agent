@@ -5,7 +5,7 @@ description: >-
   Lightning AI as a Simmuse model provider (--provider lightning, lightning-ai, lightningai):
   OpenAI-compatible gateway at https://lightning.ai/api/v1, models fetched live from /models.
   Disclosure — registers one model provider at import and nothing else (no tools, hooks, commands
-  or threads); chat requests and the model list go to lightning.ai through Simmuse' own client with
+  or threads); chat requests and the model list go to lightning.ai through Simmuse's own client with
   LIGHTNING_API_KEY (or LIGHTNING_AI_API_KEY), optional LIGHTNING_BASE_URL overrides the endpoint;
   the plugin itself opens no connections, reads/writes no files and starts no processes.
 maintainer: dinosauria123

@@ -235,7 +235,7 @@ def test_hermes_exported_scratch_tmp_is_not_the_test_temp_root(tmp_path):
     """A Hermes-launched shell hands pytest TMPDIR=<home>/cache/scratch (tagged by
     HERMES_SCRATCH_DIR). With that home guarded, honoring it would put the session
     sandbox, basetemp and every tempfile default inside the guarded root; the
-    conftest must drop Simmuse' own export before anything allocates temp space."""
+    conftest must drop Simmuse's own export before anything allocates temp space."""
     home = tmp_path / "home"
     scratch = home / "cache" / "scratch"
     scratch.mkdir(parents=True)

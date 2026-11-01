@@ -378,7 +378,7 @@ def _looks_like_test_tempdir(path: str) -> bool:
 
 
 def _build_hermes_tools_mcp_entry() -> dict:
-    """Codex stdio entry launching Simmuse' own tool surface as an MCP server (web/vision/
+    """Codex stdio entry launching Simmuse's own tool surface as an MCP server (web/vision/
     image/skills/kanban call-backs).
 
     HERMES_HOME passes through only IF SET, read from os.environ (not get_hermes_home()): when
@@ -407,7 +407,7 @@ def _build_hermes_tools_mcp_entry() -> dict:
     env["HERMES_REDACT_SECRETS"] = env.get("HERMES_REDACT_SECRETS", "true")
     return {
         "command": sys.executable,
-        # -P: codex starts this in the user's workspace, which must not shadow Simmuse' own packages.
+        # -P: codex starts this in the user's workspace, which must not shadow Simmuse's own packages.
         "args": ["-P", "-m", "agent.transports.hermes_tools_mcp_server"],
         "env": env,
         # Generous timeouts — image_generate or delegate_task can take a while.
@@ -430,7 +430,7 @@ def migrate(
     ``discover_plugins`` spawns the live codex CLI (set False in tests); discovery is best-effort
     and never blocks the migration. ``default_permission_profile`` (default ":workspace"; built-ins
     carry a leading ":", user profiles do not; None leaves codex's read-only default) avoids an
-    approval prompt on every write. ``expose_hermes_tools`` registers Simmuse' own tool surface
+    approval prompt on every write. ``expose_hermes_tools`` registers Simmuse's own tool surface
     (agent/transports/hermes_tools_mcp_server.py, launched on demand by codex over stdio) as an MCP
     server so the codex subprocess can call back for tools it lacks.
     """

@@ -430,10 +430,10 @@ THREAT_PATTERNS = [
     (r'^allowed-tools\s*:',
      "allowed_tools_field", "low", "privilege_escalation", "skill declares allowed-tools (standard frontmatter; informational)"),
     # `sudo.request` / `sudo.respond` are gateway wire events (the masked sudo-password prompt), not an
-    # invocation: any client plugin that relays Simmuse' secure prompts has to name them, and a bare
+    # invocation: any client plugin that relays Simmuse's secure prompts has to name them, and a bare
     # `\bsudo\b` made every such plugin `caution`. A dotted event name is never a shell `sudo`.
     # ``sudo.request`` / ``sudo.respond`` / ``sudo.expire`` are gateway wire events (the masked
-    # sudo-password prompt lifecycle), not an invocation: any client plugin that relays Simmuse' secure
+    # sudo-password prompt lifecycle), not an invocation: any client plugin that relays Simmuse's secure
     # prompts has to name them, and a bare ``\bsudo\b`` made every such plugin ``caution``. A dotted
     # event name (``sudo.<verb>``) is never a shell ``sudo``.
     (r'\bsudo\b(?!\.\w)',

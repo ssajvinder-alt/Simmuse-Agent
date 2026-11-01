@@ -414,7 +414,7 @@ class PluginManifest:
     # ``{endonym, rtl}`` from the mapping form of a ``provides_locales`` entry.
     provides_locales: list[str] = field(default_factory=list)
     locale_metadata: dict[str, dict[str, Any]] = field(default_factory=dict)
-    # Dotted paths in Simmuse' own config sections the plugin reads (``memory.retaindb``), so
+    # Dotted paths in Simmuse's own config sections the plugin reads (``memory.retaindb``), so
     # ``hermes config get/set`` recognizes them while the plugin is active (hermes_cli/config_runtime_keys.py).
     config_keys: list[str] = field(default_factory=list)
 

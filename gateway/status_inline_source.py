@@ -1,7 +1,7 @@
 """Inline-source (``python -c <src> …``) command-line parsing for gateway process identity.
 
 Everything after ``-c`` is data for the inline program, not the process's own identity -- except
-Simmuse' own bootstraps, which run an entry point in-process and are mapped back to the equivalent
+Simmuse's own bootstraps, which run an entry point in-process and are mapped back to the equivalent
 ``python -m <module> <argv…>`` (see #107002).
 """
 
@@ -69,7 +69,7 @@ def command_line_runs_inline_source(tokens: list[str]) -> bool:
     return inline_source_flag_index(tokens) is not None
 
 
-# Simmuse' own inline bootstraps hand control to a Simmuse entry point IN this process, so the argv
+# Simmuse's own inline bootstraps hand control to a Simmuse entry point IN this process, so the argv
 # they run with is this process's own identity; every other ``-c`` program keeps its trailing argv
 # as data (#107002). Each pattern is one emitted source shape, anchored at both ends so a program
 # merely CARRYING a bootstrap command line (the restart watcher's respawn argv) never matches.

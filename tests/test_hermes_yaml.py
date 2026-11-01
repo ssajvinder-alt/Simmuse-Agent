@@ -1,4 +1,4 @@
-"""Contracts for Simmuse' shared YAML reader and writer."""
+"""Contracts for Simmuse's shared YAML reader and writer."""
 
 import io
 from concurrent.futures import ThreadPoolExecutor

@@ -1,10 +1,10 @@
 """OpenAI-shape bridge shared by Simmuse' ACP clients.
 
-ACP has no OpenAI-style ``tools``/``tool_calls`` channel, so Simmuse' tool schemas travel INTO the
+ACP has no OpenAI-style ``tools``/``tool_calls`` channel, so Simmuse's tool schemas travel INTO the
 prompt as text (:func:`render_tool_bridge_sections`) and calls are parsed back OUT of the response
 text (:func:`extract_tool_calls_from_text`). Clients differ only in WHICH tools they forward
 (``allowlist``): a CLI with no tools of its own forwards everything; an autonomous agent with its own
-read/edit/execute tools forwards only Simmuse' agent-level tools, since re-offering overlapping ones
+read/edit/execute tools forwards only Simmuse's agent-level tools, since re-offering overlapping ones
 makes Simmuse redo finished work.
 """
 

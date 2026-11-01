@@ -12,7 +12,7 @@ Simmuse integrates with Buzz three ways. Pick by where Simmuse runs and what you
 
 | | ① Desktop runtime | ② Relay bridge (ACP) | ③ Native gateway platform |
 |---|---|---|---|
-| **What it is** | Buzz Desktop spawns Simmuse locally as a managed harness | Buzz's `buzz-acp` bridges a channel to `hermes acp` over stdio | Simmuse' gateway joins Buzz as a first-class messaging platform |
+| **What it is** | Buzz Desktop spawns Simmuse locally as a managed harness | Buzz's `buzz-acp` bridges a channel to `hermes acp` over stdio | Simmuse's gateway joins Buzz as a first-class messaging platform |
 | **Simmuse runs** | On your desktop, launched by Buzz | On a server, launched by `buzz-acp` | In your own gateway, alongside Telegram/Discord/etc. |
 | **Best for** | Trying Simmuse inside Buzz Desktop with zero config | A hosted agent identity when Buzz owns the transport | Full Simmuse: memory, skills, approvals, cron, sessions |
 | **Inbound** | ACP stdio | ACP stdio (via relay WebSocket) | NIP-42-authenticated Nostr WebSocket (poll fallback) |
@@ -36,7 +36,7 @@ The spawned Simmuse uses the same config, credentials, memory, and skills as `he
 
 ## ③ Native gateway platform (recommended for full Simmuse)
 
-The bundled `buzz` platform plugin makes Buzz a normal Simmuse messaging platform — channels, DMs, mention gating, threaded replies, reactions, images, and cron delivery (`deliver=buzz`), with Simmuse' own approvals, memory, and session management intact. Inbound arrives over a persistent NIP-42-authenticated Nostr WebSocket (dependency-free BIP-340 signing) with automatic fallback to CLI polling; outbound goes through the `buzz` CLI.
+The bundled `buzz` platform plugin makes Buzz a normal Simmuse messaging platform — channels, DMs, mention gating, threaded replies, reactions, images, and cron delivery (`deliver=buzz`), with Simmuse's own approvals, memory, and session management intact. Inbound arrives over a persistent NIP-42-authenticated Nostr WebSocket (dependency-free BIP-340 signing) with automatic fallback to CLI polling; outbound goes through the `buzz` CLI.
 
 ```bash
 hermes gateway setup   # pick Buzz

@@ -1264,6 +1264,6 @@ def build_oauth_auth(server_name: str, server_url: str, oauth_config: dict | Non
         from tools.mcp_oauth_provider import HermesProviderMixin
 
         HermesOAuthClientProvider = type("HermesOAuthClientProvider", (HermesProviderMixin, _sdk_class("OAuthClientProvider")), {
-            "__doc__": "SDK provider plus Simmuse' token-endpoint fixes (see ``HermesProviderMixin``).",
+            "__doc__": "SDK provider plus Simmuse's token-endpoint fixes (see ``HermesProviderMixin``).",
             "__module__": __name__, "_hermes_logger": logger})
     return HermesOAuthClientProvider(server_url=server_url, **kwargs)

@@ -579,7 +579,7 @@ def _gateway_command_subcommand(command: str | None) -> str | None:
         return "run"
     if any(tokens[i] == "-m" and tokens[i + 1] == "gateway.run" for i in range(len(tokens) - 1)):
         return "run"
-    # Atomic Simmuse' bundled desktop runner shares HERMES_HOME with the CLI; without this,
+    # Atomic Simmuse's bundled desktop runner shares HERMES_HOME with the CLI; without this,
     # `gateway run --replace` does not recognise it as a running gateway, skips the
     # terminate-and-scoped-lock-handoff path, and collides with its still-held scoped locks
     # (e.g. the Discord bot-token lock). See #22418.

@@ -1958,7 +1958,7 @@ export { APPROVAL_RESPOND_TIMEOUT_MS } from '@hermes/shared'
 /** THE id minter: a v4 UUID on every origin. `crypto.randomUUID` exists only in secure contexts,
  *  so a Webapp opened over plain HTTP from another machine has none. */
 export { randomUuid } from '@hermes/shared'
-/** Simmuse' reasoning levels, so a plugin surfacing a thinking depth uses the
+/** Simmuse's reasoning levels, so a plugin surfacing a thinking depth uses the
  *  same scale as the rest of the app (labels: `reasoningEffortLabel`). */
 export {
   DEFAULT_REASONING_EFFORT,

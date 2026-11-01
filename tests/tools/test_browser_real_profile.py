@@ -627,7 +627,7 @@ class TestChannelIdentity:
 
 
 class TestSnapshotIsCredentialStore:
-    """The copied Cookies/Login Data must live inside Simmuse' secret lifecycle."""
+    """The copied Cookies/Login Data must live inside Simmuse's secret lifecycle."""
 
     def test_excluded_from_backup(self):
         import hermes_cli.backup as bk

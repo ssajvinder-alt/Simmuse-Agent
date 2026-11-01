@@ -1627,7 +1627,7 @@ slash:
   voice:
     description: "Ses modunu aç/kapat"
   wake:
-    description: "'Hey Simmuse' uyandırma sözcüğü dinleyicisini aç/kapat"
+    description: "'Hey Simmuse's uyandırma sözcüğü dinleyicisini aç/kapat"
   busy:
     description: "Simmuse çalışırken mesajların nasıl işleneceğini denetle"
   tools:

@@ -171,7 +171,7 @@ class AcpFake:
         return [r for r in self.records() if r["dir"] == "in" and (method is None or r["msg"].get("method") == method)]
 
     def main_prompts(self) -> list[dict[str, Any]]:
-        """Main-turn ``session/prompt`` records (those carrying Simmuse' tool bridge)."""
+        """Main-turn ``session/prompt`` records (those carrying Simmuse's tool bridge)."""
         return [r for r in self.inbound("session/prompt") if r.get("main")]
 
     def aux_prompts(self) -> list[dict[str, Any]]:

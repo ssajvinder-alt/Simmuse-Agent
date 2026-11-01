@@ -10,7 +10,7 @@ description: >-
   only on an unambiguous provider error or a measured window at 100 %, and the route never switches on its
   own: a policy decides whether the parent asks you, picks another route, or waits. Disclosure: a
   pre_tool_call hook blocks delegate_task spawns while routes are configured (list/steer/stop pass); an
-  api_request_error hook records quota errors in memory. Quota is read with Simmuse' fetch_account_usage
+  api_request_error hook records quota errors in memory. Quota is read with Simmuse's fetch_account_usage
   (Anthropic and OpenAI Codex) on /ohx quota and after a provider error. No other network egress, no files
   written.
 maintainer: TicoraX

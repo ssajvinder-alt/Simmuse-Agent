@@ -9,8 +9,8 @@ description: >-
   inference setup sends the project key in an authenticated GET /models to the configured Aixy
   gateway (https://api.aixy-gateway.com/v1 by default), rejects redirects, and asks before
   updating the selected Simmuse profile's provider and main model settings. The key is stored
-  through Simmuse' credential writer as AIXY_API_KEY; provider settings contain a variable
-  reference. Model requests send Simmuse' opaque conversation scope in X-Aixy-Session-ID for
+  through Simmuse's credential writer as AIXY_API_KEY; provider settings contain a variable
+  reference. Model requests send Simmuse's opaque conversation scope in X-Aixy-Session-ID for
   grouping in Aixy Activity. No inference requests are sent during setup. Optional MCP setup starts the
   installed Simmuse CLI as a child process for browser OAuth, credential storage and tool
   selection against the independent MCP endpoint (https://api.aixy-gateway.com/mcp by default).

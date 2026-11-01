@@ -364,7 +364,7 @@ every entry it overwrote or removed.
 ## Background review notifications (`display.memory_notifications`)
 
 After a turn, the background self-improvement review may quietly save a memory
-or update a skill. This is Simmuse' consent-aware learning loop: repeated
+or update a skill. This is Simmuse's consent-aware learning loop: repeated
 corrections and durable workflow lessons become compact memory entries or
 procedural skills, while `write_approval` can stage those writes for review
 before they affect future sessions. By default it surfaces a short

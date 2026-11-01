@@ -13,7 +13,7 @@ description: >-
   import and nothing else (no tools, hooks, commands or threads). Prompts, tool schemas and
   RUAPI_API_KEY go to https://www.ruapi.ai (/v1/messages and /v1/chat/completions) through Simmuse'
   own clients, and RuAPI forwards each request to the upstream vendor serving the model. The model
-  list is Simmuse' standard GET https://www.ruapi.ai/v1/models request with the key; the plugin makes
+  list is Simmuse's standard GET https://www.ruapi.ai/v1/models request with the key; the plugin makes
   no network requests of its own, adds no headers, sends no telemetry, reads or writes no files and
   stores no credentials.
 maintainer: RuAPI

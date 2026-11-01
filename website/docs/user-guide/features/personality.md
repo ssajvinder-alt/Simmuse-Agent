@@ -47,7 +47,7 @@ This keeps personality predictable.
 If Simmuse loaded `SOUL.md` from whatever directory you happened to launch it in, your personality could change unexpectedly between projects. By loading only from `HERMES_HOME`, the personality belongs to the Simmuse instance itself.
 
 That also makes it easier to teach users:
-- "Edit `~/.hermes/SOUL.md` to change Simmuse' default personality."
+- "Edit `~/.hermes/SOUL.md` to change Simmuse's default personality."
 
 ## Where to edit it
 

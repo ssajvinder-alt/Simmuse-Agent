@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 _STDERR_TAIL_LINES = 12  # stderr tail on generic errors: legible, yet enough for a config/auth diagnostic
 _TIER_UNKNOWN = object()  # thread resumed: the tier it carries is not known
 
-# Simmuse' tools.terminal.security_mode -> Codex permissions profile id.
+# Simmuse's tools.terminal.security_mode -> Codex permissions profile id.
 # Missing config -> workspace-write (Codex's own default).
 _HERMES_TO_CODEX_PERMISSION_PROFILE = {
     "auto": "workspace-write", "approval-required": "read-only-with-approval",
@@ -232,12 +232,12 @@ class CodexAppServerSession:
         self._model_provider = (model_provider or "").strip() or None
         # The tier this thread last received on turn/start; None = codex's own default, never overridden.
         self._service_tier_sent: Any = None
-        # Simmuse' composed system prompt (SOUL.md, memory, channel overrides). Sent ONCE per thread as
+        # Simmuse's composed system prompt (SOUL.md, memory, channel overrides). Sent ONCE per thread as
         # ``thread/start.developerInstructions``: codex keeps its own base instructions (tool guidance) and
         # inserts this as the first developer message of every model request. ``baseInstructions`` would
         # REPLACE codex's base and ``instructions`` is accepted but ignored (verified against codex 0.147).
         self._developer_instructions = developer_instructions
-        # Simmuse' prior transcript, appended to developerInstructions ONLY when a thread is started from
+        # Simmuse's prior transcript, appended to developerInstructions ONLY when a thread is started from
         # scratch: a resumed thread already holds the conversation (agent/codex_runtime_history_seed.py).
         self._history_seed = history_seed
         self._permission_profile = permission_profile or _HERMES_TO_CODEX_PERMISSION_PROFILE.get(
@@ -282,7 +282,7 @@ class CodexAppServerSession:
             wanted, self._resume_thread_id = self._resume_thread_id, None  # one attempt per stored id
             thread_id = self._resume_thread(wanted, params)
             # A resumed thread may carry a tier an earlier process selected (CLI ``/fast`` rebuilds the agent),
-            # so its first turn sends Simmuse' tier even when that is a clearing null.
+            # so its first turn sends Simmuse's tier even when that is a clearing null.
             self._service_tier_sent = _TIER_UNKNOWN
             logger.info("codex app-server thread resumed: id=%s cwd=%s", thread_id[:8], self._cwd)
         else:
@@ -696,7 +696,7 @@ class CodexAppServerSession:
             logger.warning("turn/interrupt timed out")
 
     def _handle_server_request(self, req: dict) -> None:
-        """Answer a codex server request (approval / elicitation) via Simmuse' approval flow.
+        """Answer a codex server request (approval / elicitation) via Simmuse's approval flow.
 
         Permission escalations are always declined (the user chose their profile in
         ~/.codex/config.toml); unknown methods get a JSON-RPC error so codex doesn't hang.

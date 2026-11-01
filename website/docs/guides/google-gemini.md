@@ -84,7 +84,7 @@ happens automatically; no MCP server or provider configuration change is needed.
 :::note Gemini 3 thought signatures
 For Gemini 3 tool use, Simmuse preserves the `thoughtSignature` values attached to function-call parts and replays them on the next tool turn. That covers the validation-critical path for multi-step agent workflows.
 
-Gemini 3 may also attach thought signatures to other response parts. Simmuse' native adapter is optimized for agent tool loops today, so it does not yet replay every non-tool-call signature with full part-level fidelity.
+Gemini 3 may also attach thought signatures to other response parts. Simmuse's native adapter is optimized for agent tool loops today, so it does not yet replay every non-tool-call signature with full part-level fidelity.
 :::
 
 ### Prefer the Native Endpoint
@@ -146,7 +146,7 @@ to `~/.hermes/.env` (or set `base_url` on the provider) once and restart.
 
 ## Available Models
 
-The `hermes model` picker shows Gemini models maintained in Simmuse' provider registry. Common choices include:
+The `hermes model` picker shows Gemini models maintained in Simmuse's provider registry. Common choices include:
 
 | Model | ID | Notes |
 |-------|----|-------|

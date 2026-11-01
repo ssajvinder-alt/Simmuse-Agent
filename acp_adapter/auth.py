@@ -45,7 +45,7 @@ def build_auth_methods() -> list[Any]:
         ))
     methods.append(TerminalAuthMethod(
         id=TERMINAL_SETUP_AUTH_METHOD_ID, name="Configure Simmuse provider", type="terminal", args=["--setup"],
-        description=("Open Simmuse' interactive model/provider setup in a terminal. "
+        description=("Open Simmuse's interactive model/provider setup in a terminal. "
                      "Use this when Simmuse has not been configured on this machine yet."),
     ))
     return methods

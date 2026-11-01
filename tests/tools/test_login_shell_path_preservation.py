@@ -111,7 +111,7 @@ def _exe(directory, name: str):
 
 @pytest.mark.platforms("posix")
 def test_dropped_spawn_path_dirs_return_after_the_login_path(tmp_path, monkeypatch):
-    """Any spawn-env dir a resetting profile dropped (not only Simmuse' own: the gateway's
+    """Any spawn-env dir a resetting profile dropped (not only Simmuse's own: the gateway's
     pm runtime, a ``docker run -e PATH=`` addition) comes back in parent order AFTER the
     login PATH, so a command the login PATH resolves keeps resolving to the same binary."""
     user_bin, extra_a, extra_b, rel_bin = (tmp_path / n for n in ("user-bin", "extra-a", "extra-b", "rel-bin"))

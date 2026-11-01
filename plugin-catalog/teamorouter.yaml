@@ -12,7 +12,7 @@ description: >-
   windows come from the same catalog. Maintained by TeamoRouter. Disclosure — registers two model
   providers at import and nothing else (no tools, hooks, commands or threads). Prompts, tool schemas
   and TEAMOROUTER_API_KEY go to https://api.teamorouter.com (/v1/messages and /v1/chat/completions)
-  through Simmuse' own clients, and TeamoRouter forwards each request to the upstream vendor serving
+  through Simmuse's own clients, and TeamoRouter forwards each request to the upstream vendor serving
   the model. The plugin's own request is GET https://api.teamorouter.com/v1/models/pricing, a public
   endpoint, sent without the key and cached for an hour. `teamorouter-openai` requests carry a fixed
   `X-Client-Source: hermes-teamorouter-plugin` header (via the profile's default_headers), used only

@@ -736,7 +736,7 @@ class TestWeixinPollLoopSyncBuf:
 class TestWeixinVoiceAlwaysDownloaded:
     """Regression tests for #27300: when WeChat (Weixin) returns a
     ``voice_item.text`` (Tencent Cloud's STT) we must still download
-    the raw audio and route it through Simmuse' own STT pipeline.
+    the raw audio and route it through Simmuse's own STT pipeline.
 
     Non-Chinese users currently see garbled transcriptions because the
     existing code short-circuits in two places: the voice download

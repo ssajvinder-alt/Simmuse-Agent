@@ -210,7 +210,7 @@ def ensure_import(extra: str) -> None:
         app_running = bool(getattr(get_app_or_none(), "is_running", False))
     if not app_running and sys.stdin.isatty() and sys.stdout.isatty():
         try:
-            answer = input(f"\nThis needs Simmuse' optional {extra!r} feature, which isn't installed yet.\n"
+            answer = input(f"\nThis needs Simmuse's optional {extra!r} feature, which isn't installed yet.\n"
                            "Install it now? [Y/n] ").strip().lower()
         except (EOFError, KeyboardInterrupt):
             answer = "n"

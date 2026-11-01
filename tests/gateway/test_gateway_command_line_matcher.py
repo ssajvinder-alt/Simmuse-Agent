@@ -151,7 +151,7 @@ def test_spawn_intent_ignores_inline_source_without_a_gateway_argv():
     assert spawn_intent('python -c "import time; time.sleep(1)" 14980') is None
 
 
-# Atomic Simmuse' bundled desktop runner (regression for #22418): it shares
+# Atomic Simmuse's bundled desktop runner (regression for #22418): it shares
 # HERMES_HOME with the CLI and must be recognised as a gateway so
 # ``gateway run --replace`` enters the replace/lock-handoff path instead of
 # colliding with the desktop runner's still-held scoped locks.
