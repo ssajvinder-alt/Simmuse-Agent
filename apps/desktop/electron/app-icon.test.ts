@@ -7,7 +7,7 @@ import { test } from 'vitest'
 
 import { appIconCandidates, decodingFileProbe, resolveAppIcon, shouldOverrideDockIcon } from './app-icon'
 
-// Regression: a packaged app.asar can contain a TRUNCATED apple-touch-icon.png
+// Regression: a packaged app.asar can contain a TRUNCATED simmuse-icon.png
 // (interrupted electron-builder run, partial copy). Electron's
 // BrowserWindow({ icon }) / app.dock.setIcon() decode synchronously and THROW
 // on undecodable bytes, which killed the main process inside createWindow()
@@ -17,14 +17,14 @@ import { appIconCandidates, decodingFileProbe, resolveAppIcon, shouldOverrideDoc
 test('resolveAppIcon skips an existing but undecodable candidate', () => {
   // First candidate "exists" (probe says true) but does not decode; second
   // decodes. The resolver must return the second, not the first.
-  const probe = (p: string) => p !== '/packaged/app.asar/public/apple-touch-icon.png'
+  const probe = (p: string) => p !== '/packaged/app.asar/public/simmuse-icon.png'
 
   const picked = resolveAppIcon(
-    ['/packaged/app.asar/public/apple-touch-icon.png', '/packaged/app.asar/dist/apple-touch-icon.png'],
+    ['/packaged/app.asar/public/simmuse-icon.png', '/packaged/app.asar/dist/simmuse-icon.png'],
     probe
   )
 
-  assert.equal(picked, '/packaged/app.asar/dist/apple-touch-icon.png')
+  assert.equal(picked, '/packaged/app.asar/dist/simmuse-icon.png')
 })
 
 test('resolveAppIcon returns undefined when every candidate fails the probe', () => {
@@ -61,7 +61,7 @@ test('resolving a packaged icon never probes a path inside app.asar', () => {
   const resources = path.join('/opt', 'Simmuse', 'resources')
   const appRoot = path.join(resources, 'app.asar')
   const unpackedPathFor = (p: string) => p.replace(/app\.asar(?=$|[\\/])/, 'app.asar.unpacked')
-  const unpackedIcon = path.join(unpackedPathFor(appRoot), 'dist', 'apple-touch-icon.png')
+  const unpackedIcon = path.join(unpackedPathFor(appRoot), 'dist', 'simmuse-icon.png')
 
   const resourcesIco = path.join(resources, 'icon.ico')
 
@@ -69,8 +69,8 @@ test('resolving a packaged icon never probes a path inside app.asar', () => {
   const shipped = new Set([
     resourcesIco,
     path.join(appRoot, 'assets', 'icon.ico'),
-    path.join(appRoot, 'public', 'apple-touch-icon.png'),
-    path.join(appRoot, 'dist', 'apple-touch-icon.png'),
+    path.join(appRoot, 'public', 'simmuse-icon.png'),
+    path.join(appRoot, 'dist', 'simmuse-icon.png'),
     unpackedIcon
   ])
 
@@ -103,9 +103,9 @@ test('appIconCandidates keeps the documented precedence ladder', () => {
   })
 
   assert.deepEqual(mac, [
-    path.join('/Applications/Hermes.app/Contents/Resources.unpacked', 'dist', 'apple-touch-icon.png'),
-    path.join('/Applications/Hermes.app/Contents/Resources', 'public', 'apple-touch-icon.png'),
-    path.join('/Applications/Hermes.app/Contents/Resources', 'dist', 'apple-touch-icon.png')
+    path.join('/Applications/Hermes.app/Contents/Resources.unpacked', 'dist', 'simmuse-icon.png'),
+    path.join('/Applications/Hermes.app/Contents/Resources', 'public', 'simmuse-icon.png'),
+    path.join('/Applications/Hermes.app/Contents/Resources', 'dist', 'simmuse-icon.png')
   ])
 
   // Windows prepends the two full-bleed .ico rungs ahead of the PNG ladder.
