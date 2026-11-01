@@ -6,12 +6,25 @@ setup prompt, AND `hermes tools`. These cover the third surface.
 
 from __future__ import annotations
 
+import pytest
 
 from hermes_cli.tools_config import (
     _configure_shared_metrics_interactive,
     _shared_metrics_menu_label,
     _shared_metrics_state,
 )
+
+
+@pytest.fixture(autouse=True)
+def _sharing_offered(monkeypatch):
+    """These tests cover how the toggle works. Simmuse ships with sharing switched off
+    (see test_sharing_not_offered.py), so each test switches it on here."""
+    for module in (
+        "hermes_cli.setup",
+        "hermes_cli.observability.shared_metrics_consent",
+        "hermes_cli.tools_config",
+    ):
+        monkeypatch.setattr(f"{module}.SHARING_OFFERED", True)
 
 
 def _config(**shared):

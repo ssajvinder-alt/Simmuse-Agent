@@ -22,6 +22,13 @@ _LOCAL_HOSTS = frozenset({"localhost", "127.0.0.1", "::1", "[::1]"})
 #: config file is edited by hand to turn ``send`` on.
 _NOUS_DOMAIN = "nousresearch.com"
 
+#: Whether any command-line surface (setup wizard, end-of-setup offer, pre-chat offer, tools
+#: menu row) invites the person to share usage metrics. False: the only upload address
+#: Simmuse ships with is Nous Research's, and it does not send them data. Flip it only
+#: together with an owner-controlled ``endpoint``. The desktop app has the same switch
+#: (``SHARED_METRICS_OFFERED`` in apps/desktop/src/store/shared-metrics.ts).
+SHARING_OFFERED = False
+
 # Module-level latch: the enabled/send mismatch is a static misconfiguration,
 # so it is reported once per process instead of on every hook fire.
 _warned_send_without_collection = False

@@ -4,9 +4,23 @@ from __future__ import annotations
 
 import argparse
 
+import pytest
+
 from hermes_cli.config import DEFAULT_CONFIG
 from hermes_cli.setup import setup_telemetry
 from hermes_cli.subcommands.setup import build_setup_parser
+
+
+@pytest.fixture(autouse=True)
+def _sharing_offered(monkeypatch):
+    """These tests cover how the offer works. Simmuse ships with it switched off
+    (see test_sharing_not_offered.py), so each test switches it on here."""
+    for module in (
+        "hermes_cli.setup",
+        "hermes_cli.observability.shared_metrics_consent",
+        "hermes_cli.tools_config",
+    ):
+        monkeypatch.setattr(f"{module}.SHARING_OFFERED", True)
 
 
 def test_shared_metrics_are_registered_disabled_by_default():

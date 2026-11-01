@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Callable
 
 from hermes_cli.curses_ui import MenuNavigationEvent, MenuNavigationStart
+from hermes_cli.observability.shared_metrics_send_config import SHARING_OFFERED
 # Config helpers are re-exported (tests patch them on this module). display_hermes_home is
 # imported lazily at call sites (stale-module safety during hermes update).
 from hermes_cli.config import (
@@ -528,6 +529,10 @@ _SEND_CONSENT_EXPLAINER = (
 
 def setup_telemetry(config: dict):
     """Turn shared metrics on (collect and send to Nous) or off: one answer sets both keys."""
+    if not SHARING_OFFERED:
+        # Simmuse does not send usage metrics to Nous Research, so there is nothing to ask.
+        print_info("Sharing usage metrics is not offered in Simmuse. Nothing is sent.")
+        return
     print_header("Shared Metrics")
     _info("Shared metrics contain only bounded counters: activity, session length,",
           "outcomes, error classes (with a fixed-list reason when a memory write or",
@@ -592,7 +597,7 @@ SETUP_SECTIONS = [
     ("terminal", "Terminal Backend", setup_terminal_backend),
     ("gateway", "Messaging Platforms (Gateway)", setup_gateway),
     ("tools", "Tools", setup_tools),
-    ("telemetry", "Shared Metrics", setup_telemetry),
+    *([("telemetry", "Shared Metrics", setup_telemetry)] if SHARING_OFFERED else []),
     ("agent", "Agent Settings", setup_agent_settings),
 ]
 

@@ -9,6 +9,7 @@ from typing import Dict, List, NoReturn, Optional, Set
 from hermes_cli.cli_output import print_info as _print_info
 from hermes_cli.colors import Colors, color
 from hermes_cli.config import cfg_get, load_config, save_config, get_env_value
+from hermes_cli.observability.shared_metrics_send_config import SHARING_OFFERED
 from hermes_cli.nous_subscription import (
     NousSubscriptionFeatures, apply_nous_managed_defaults, get_nous_subscription_features)
 from hermes_cli.platforms import PLATFORMS as _PLATFORMS_REGISTRY
@@ -1165,7 +1166,7 @@ def tools_command(args=None, first_install: bool = False, config: dict | None = 
 
     global_idx = _add_row("Configure all platforms (global)", len(platform_keys) > 1)
     reconfig_idx = _add_row("Reconfigure an existing tool's provider or API key")
-    metrics_idx = _add_row(_shared_metrics_menu_label(config))
+    metrics_idx = _add_row(_shared_metrics_menu_label(config), SHARING_OFFERED)
     mcp_idx = _add_row("Configure MCP server tools", bool(config.get("mcp_servers")))
     done_idx = _add_row("Done")
 
