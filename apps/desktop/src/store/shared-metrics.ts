@@ -79,6 +79,15 @@ export const $sharedMetricsConsent = atom<SharedMetricsConsent | null>(null)
 /** The "What is collected" details dialog, opened only by the user from the strip. */
 export const $sharedMetricsDetailsOpen = atom(false)
 
+/**
+ * Whether Simmuse invites anyone to share usage metrics (the first-run strip, its details
+ * dialog and the Settings > Privacy section). False: the only upload address the app ships
+ * with is Nous Research's, and Simmuse does not send them data; the backend refuses that
+ * address too (hermes_cli/observability/shared_metrics_send_config.py). Turn this back on
+ * only together with an owner-controlled endpoint.
+ */
+export const SHARED_METRICS_OFFERED = false
+
 /** The first-run offer is still unanswered for the focused profile. */
 export function sharedMetricsOfferPending(consent: SharedMetricsConsent | null): boolean {
   return consent?.decided === false

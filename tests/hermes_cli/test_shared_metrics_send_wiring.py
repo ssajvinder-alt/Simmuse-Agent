@@ -74,6 +74,9 @@ def runtime():
 
 
 def _config(**shared):
+    # Simmuse never uploads to the default (Nous Research) endpoint, so tests that exercise
+    # sending name a different one unless they set their own.
+    shared.setdefault("endpoint", "https://metrics.example.test/v1")
     return {"telemetry": {"shared_metrics": shared}}
 
 

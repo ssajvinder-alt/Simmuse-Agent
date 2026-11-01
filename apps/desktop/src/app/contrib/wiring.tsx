@@ -88,6 +88,7 @@ import {
   setBusy,
   setMessages
 } from '@/store/session'
+import { SHARED_METRICS_OFFERED } from '@/store/shared-metrics'
 import { reportPendingUpdateRun } from '@/store/shared-metrics'
 import { $archivedSessions } from '@/store/sidebar-archive'
 import { $titlebarAppActionsSide, titlebarAppActionsClusterCounts } from '@/store/titlebar-app-actions'
@@ -1283,7 +1284,7 @@ export function ContribWiring({ children }: { children: ReactNode }) {
         />
       )}
       {!isAuxiliaryWindow() && <OnboardingEnd />}
-      {!isAuxiliaryWindow() && (
+      {SHARED_METRICS_OFFERED && !isAuxiliaryWindow() && (
         <SharedMetricsConsentDialog
           enabled={gatewayState === 'open'}
           profile={activeGatewayProfile}
