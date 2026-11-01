@@ -77,6 +77,24 @@ FIRST_TASKS: tuple[FirstTask, ...] = (
                "graphic; open in the preview pane.",
         quality="Every name and number comes from the docs or this install. A few short lines per screen.",
         done="All three screens move and show real facts, and you said where the file is."),
+    # The guided first example for someone doing everyday work (research, writing, personal projects):
+    # always available, needs no app or plugin, and ends with a file they can find again. First among
+    # the always-available rows, so it is the one the build card leans toward.
+    FirstTask(
+        "plan", "Plan my week from three goals", _always, ("weekly-review-planning",),
+        goal="turn three goals they name into a one-week plan they can use, and save it where they can find it",
+        steps=(
+            "Ask in one clarify for their three goals for this week, with three concrete example goals they can "
+            "pick or reword. Never invent goals for them.",
+            "Break each goal into small steps and place them on the days of the week. Keep each day realistic: no "
+            "more than three things a day, and one rest day if they want it.",
+            "Show a first version in chat as a short table early, then change it once if they ask.",
+            "Save the final plan as a Markdown file, then tell them its full path and that they can ask you to "
+            "continue from it any time.",
+        ),
+        output="One Markdown file, week-plan.md, in ~/hermes-first-task/, with the same table shown in chat.",
+        quality="Only their three goals. Realistic days. Plain words, no jargon.",
+        done="The plan is shown and saved, and you said where the file is."),
     FirstTask(
         "games", "Tune my games for this PC", _plugin("nvidia-app"), ("nvidia-app:nvidia-app",),
         goal="optimise the games on this PC with NVIDIA App and show what changed",

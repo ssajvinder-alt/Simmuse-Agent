@@ -3,6 +3,7 @@ import { SIMMUSE_LINKS } from '@hermes/shared/simmuse-links'
 import { useStore } from '@nanostores/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+import { AiAccessNote } from '@/components/onboarding/ai-access-note'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Codicon } from '@/components/ui/codicon'
@@ -581,6 +582,7 @@ function Header() {
     <div className="bg-(--ui-chat-bubble-background) px-5 pt-5 pb-1">
       <h2 className="text-[0.9375rem] font-semibold tracking-tight">{t.onboarding.headerTitle}</h2>
       <p className="mt-1 max-w-xl text-[0.8125rem] leading-5 text-(--ui-text-tertiary)">{t.onboarding.headerDesc}</p>
+      <AiAccessNote />
     </div>
   )
 }
