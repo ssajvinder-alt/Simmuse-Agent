@@ -69,6 +69,7 @@ import { openExternalLink } from '@/lib/external-link'
 import { triggerHaptic } from '@/lib/haptics'
 import {
   AudioLines,
+  Download,
   GitForkIcon,
   Loader2Icon,
   MoreHorizontal,
@@ -77,6 +78,7 @@ import {
   VolumeXIcon,
   XIcon
 } from '@/lib/icons'
+import { saveResponseAsMarkdown } from '@/lib/markdown-save'
 import { extractPreviewTargets } from '@/lib/preview-targets'
 import { markAssistantIdSpoken } from '@/lib/spoken-reply'
 import { $touchPointer } from '@/lib/touch-interaction'
@@ -1387,6 +1389,12 @@ const AssistantActionBar: FC<MessageActionProps & { durationS?: number }> = ({
     />
   )
 
+  // Save the reply as a Markdown file the person names and places (system "Save as" dialog).
+  const saveResponse = () => {
+    triggerHaptic('selection')
+    void saveResponseAsMarkdown(fullResponseAvailable ? getFullResponseText() : getMessageText())
+  }
+
   return (
     <div className="relative flex w-full shrink-0 items-center justify-end gap-1.5">
       {durationS !== undefined && (
@@ -1422,6 +1430,9 @@ const AssistantActionBar: FC<MessageActionProps & { durationS?: number }> = ({
           {fullResponseAvailable && (
             <CopyButton appearance="icon" buttonSize="icon" label={copy.copyFullResponse} text={getFullResponseText} />
           )}
+          <TooltipIconButton onClick={saveResponse} tooltip="Save as Markdown">
+            <Download className="size-3.5" />
+          </TooltipIconButton>
           <ReadAloudButton action={readAloud} />
           <TooltipIconButton disabled={reloadDisabled} onClick={reload} tooltip={copy.refresh}>
             <RefreshCwIcon className="size-3.5" />
@@ -1450,6 +1461,12 @@ const AssistantActionBar: FC<MessageActionProps & { durationS?: number }> = ({
                       text={getFullResponseText}
                     />
                   )}
+                  {renderActionItem(kit, {
+                    iconNode: <Download className="size-3.5" />,
+                    key: 'save-markdown',
+                    label: 'Save as Markdown',
+                    onSelect: saveResponse
+                  })}
                   {renderActionItem(kit, {
                     iconNode: <AudioLines className="size-3.5" />,
                     key: 'read-aloud',
