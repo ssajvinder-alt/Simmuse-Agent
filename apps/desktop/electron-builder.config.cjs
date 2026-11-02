@@ -130,7 +130,14 @@ module.exports = {
       to: 'install-stamp.json'
     },
     ...(['bundled', 'store'].includes(process.env.HERMES_DESKTOP_VARIANT || '')
-      ? [{ from: 'build/agent-payload', to: 'agent-payload' }]
+      ? [{
+          from: 'build/agent-payload',
+          to: 'agent-payload',
+          // MSIX reserves `[Content_Types].xml` for the package itself, so MakeAppx rejects a payload file
+          // of that name (0x8007007b). The only ones are the docx skill's unzipped template parts. Git's
+          // `[` test binary and the contributor e-mail stubs also carry names MSIX rejects and nothing uses them.
+          filter: ['**/*', '!**/[[]Content_Types[]].xml', '!**/[[].exe', '!**/contributors/emails/**']
+        }]
       : []),
     {
       from: 'assets/icon.ico',
