@@ -133,10 +133,17 @@ module.exports = {
       ? [{
           from: 'build/agent-payload',
           to: 'agent-payload',
-          // MSIX reserves `[Content_Types].xml` for the package itself, so MakeAppx rejects a payload file
-          // of that name (0x8007007b). The only ones are the docx skill's unzipped template parts. Git's
-          // `[` test binary and the contributor e-mail stubs also carry names MSIX rejects and nothing uses them.
-          filter: ['**/*', '!**/[[]Content_Types[]].xml', '!**/[[].exe', '!**/contributors/emails/**']
+          // MSIX reserves `[Content_Types].xml`, `_rels/` and `.rels` for the package itself, so MakeAppx rejects
+          // payload files of those names (0x8007007b). The only ones are the docx package's unzipped
+          // `default-docx-template` (found by bisecting the real mapping). Git's `[` test binary and the
+          // contributor e-mail stubs also carry names MSIX rejects and nothing uses them.
+          filter: [
+            '**/*',
+            '!**/default-docx-template/**',
+            '!**/[[]Content_Types[]].xml',
+            '!**/[[].exe',
+            '!**/contributors/emails/**'
+          ]
         }]
       : []),
     {
