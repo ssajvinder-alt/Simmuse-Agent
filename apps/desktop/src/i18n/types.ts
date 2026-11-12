@@ -36,6 +36,7 @@ import type { SharedMetricsTranslations } from './types_shared_metrics'
 import type { ThemePickerCopy } from './types_theme_picker'
 import type { UninstallSectionTranslations } from './types_uninstall_section'
 import type { UpdateChannelCopy } from './types_update_channel'
+import type { WorkspaceFolderTranslations } from './types_workspace_folder'
 
 /** The locales compiled into the app (`TRANSLATIONS`). */
 export type BundledLocale = 'en' | 'zh' | 'zh-hant' | 'ja' | 'ar' | 'ru' | 'fr' | 'de' | 'es'
@@ -104,6 +105,7 @@ export interface Translations extends NoticeTranslations {
   }
   connectors: ConnectorCardTranslations
   permissions: PermissionsTranslations
+  workspaceFolder: WorkspaceFolderTranslations
   catalog: CatalogTranslations
   connectorsPage: {
     title: string

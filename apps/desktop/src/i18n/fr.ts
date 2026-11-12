@@ -26,6 +26,7 @@ import { frProjects } from './fr_projects'
 import { frSharedMetrics } from './fr_shared_metrics'
 import { frThemePicker } from './fr_theme_picker'
 import { frUpdateChannel } from './fr_update_channel'
+import { frWorkspaceFolder } from './fr_workspace_folder'
 import { introFr } from './intro-fr'
 
 export const frOverrides = {
@@ -34,6 +35,7 @@ export const frOverrides = {
   intro: introFr,
   connectors: frConnectorCard,
   permissions: frPermissions,
+  workspaceFolder: frWorkspaceFolder,
   connectorsPage: {
     title: 'Connecteurs',
     searchPlaceholder: (count: number) => `Rechercher parmi ${count} applications`,

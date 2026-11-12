@@ -32,6 +32,7 @@ import { enSharedMetrics } from './en_shared_metrics'
 import { enThemePicker } from './en_theme_picker'
 import { enUninstallSection } from './en_uninstall_section'
 import { enUpdateChannel } from './en_update_channel'
+import { enWorkspaceFolder } from './en_workspace_folder'
 import type { Translations } from './types'
 
 export const en: Translations = {
@@ -43,6 +44,7 @@ export const en: Translations = {
   intro: { stock: {}, custom: () => [] },
   connectors: enConnectorCard,
   permissions: enPermissions,
+  workspaceFolder: enWorkspaceFolder,
 
   catalog: enCatalog,
   // `connectors.*` above stays the onboarding and chat vocabulary; these are the page's own, and the two are not shared.

@@ -16,6 +16,7 @@ import { $currentModel, $gatewayState, $sessions } from '@/store/session'
 import type { SessionInfo, ToolsetInfo } from '@/types/hermes'
 
 import { Wordmark } from './wordmark'
+import { WorkspaceFolderCard } from './workspace-folder-card'
 
 type StarterAction = {
   id: string
@@ -298,6 +299,8 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
           <span aria-hidden className={cn('size-2 rounded-full', TONE_DOT[status.tone])} />
           <span>{status.text}</span>
         </p>
+
+        <WorkspaceFolderCard className="relative mb-4" />
 
         <ul className="m-0 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2">
           {visibleActions.map(action => (

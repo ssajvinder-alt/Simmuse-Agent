@@ -20,6 +20,8 @@ vi.mock('@/app/chat/composer/focus', () => ({
 vi.mock('@/app/open-session', () => ({ openSession: vi.fn() }))
 
 vi.mock('@/api/toolsets', () => ({ getToolsets: vi.fn() }))
+// The folder card has its own tests and needs the config query; Home's tests are about starters and recents.
+vi.mock('./workspace-folder-card', () => ({ WorkspaceFolderCard: () => null }))
 
 vi.mock('@/store/projects', async importOriginal => ({
   ...(await importOriginal<typeof ProjectsStore>()),

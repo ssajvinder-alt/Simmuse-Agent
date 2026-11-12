@@ -25,6 +25,7 @@ import { deProjects } from './de_projects'
 import { deSharedMetrics } from './de_shared_metrics'
 import { deThemePicker } from './de_theme_picker'
 import { deUpdateChannel } from './de_update_channel'
+import { deWorkspaceFolder } from './de_workspace_folder'
 import { defineLocale, type TranslationOverrides } from './define-locale'
 import { introDe } from './intro-de'
 
@@ -34,6 +35,7 @@ export const deOverrides = {
   intro: introDe,
   connectors: deConnectorCard,
   permissions: dePermissions,
+  workspaceFolder: deWorkspaceFolder,
   connectorsPage: {
     title: 'Konnektoren',
     searchPlaceholder: (count: number) => `${count} Apps durchsuchen`,
