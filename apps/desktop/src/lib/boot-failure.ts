@@ -1,4 +1,4 @@
-import collapseBold from '@nous-research/ui/fonts/Collapse-Bold.woff2?url'
+import wordmarkBold from '../fonts/JetBrainsMono-Bold.woff2?url'
 
 import { isTransparentWindow } from './transparent-windows'
 
@@ -29,7 +29,7 @@ async function loadWordmarkFont(): Promise<void> {
   }
 
   try {
-    const face = new FontFace('Collapse', `url("${collapseBold}")`, { weight: '700', display: 'swap' })
+    const face = new FontFace('JetBrains Mono', `url("${wordmarkBold}")`, { weight: '700', display: 'swap' })
     document.fonts.add(face)
     await face.load()
   } catch {
@@ -80,7 +80,7 @@ export function showBootFailure(error: unknown, reload: () => void = () => locat
   wordmark.setAttribute('aria-hidden', 'true')
   Object.assign(wordmark.style, {
     color: palette?.accent ?? 'currentColor',
-    fontFamily: 'Collapse, system-ui, sans-serif',
+    fontFamily: '"JetBrains Mono", ui-monospace, system-ui, sans-serif',
     fontSize: 'clamp(2.5rem, 9vw, 6rem)',
     fontWeight: '700',
     letterSpacing: '0.08em',

@@ -1,6 +1,7 @@
-import collapseBold from '@nous-research/ui/fonts/Collapse-Bold.woff2?url'
 import { within } from '@testing-library/dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+
+import wordmarkBold from '../fonts/JetBrainsMono-Bold.woff2?url'
 
 import { showBootFailure } from './boot-failure'
 import { bootRenderer } from './ui-preferences/boot'
@@ -106,7 +107,7 @@ it('shows a decorative wordmark above the accessible heading without app CSS', (
   expect(wordmark.nextElementSibling).toBe(alert)
   expect(alert.contains(heading)).toBe(true)
   expect(within(root).getByRole('main').getAttribute('lang')).toBe('en')
-  expect(wordmark.style.fontFamily).toBe('Collapse, system-ui, sans-serif')
+  expect(wordmark.style.fontFamily).toBe('"JetBrains Mono", ui-monospace, system-ui, sans-serif')
   expect(wordmark.style.fontWeight).toBe('700')
   expect(wordmark.style.letterSpacing).toBe('0.08em')
   expect(wordmark.style.lineHeight).toBe('0.9')
@@ -182,7 +183,7 @@ it.each([
   expect(button.style.borderTopColor).toBe('currentcolor')
 })
 
-it('registers the bundled Collapse face without waiting to show recovery', () => {
+it('registers the bundled wordmark face without waiting to show recovery', () => {
   const face = { load: vi.fn(() => new Promise(() => {})) }
 
   const FontFace = vi.fn(function () {
@@ -195,7 +196,7 @@ it('registers the bundled Collapse face without waiting to show recovery', () =>
 
   showBootFailure(new Error('CSS failed'), vi.fn())
 
-  expect(FontFace).toHaveBeenCalledWith('Collapse', `url("${collapseBold}")`, { weight: '700', display: 'swap' })
+  expect(FontFace).toHaveBeenCalledWith('JetBrains Mono', `url("${wordmarkBold}")`, { weight: '700', display: 'swap' })
   expect(add).toHaveBeenCalledWith(face)
   expect(face.load).toHaveBeenCalledOnce()
   expect(within(root).getByRole('button', { name: 'Reload' })).toBeTruthy()
