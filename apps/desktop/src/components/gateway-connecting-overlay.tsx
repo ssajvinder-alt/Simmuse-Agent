@@ -2,6 +2,7 @@ import type { ConnectionState } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { useEffect, useRef, useState } from 'react'
 
+import { MusingOrb } from '@/components/musing-orb'
 import { Button } from '@/components/ui/button'
 import { DecodeText } from '@/components/ui/decode-text'
 import { prefersReducedMotion } from '@/hooks/use-media-query'
@@ -98,17 +99,15 @@ function ConnectingOverlayView({ decoding, onExit, phase }: ConnectingOverlayVie
       {onExit ? (
         <SlowSetupStart onExit={onExit} />
       ) : (
-        <DecodeText
-          active={decoding}
+        <div
           className={cn(
-            'pl-[0.4em] text-(--theme-primary) transition duration-300 ease-out',
+            'flex items-center gap-3 text-(--theme-primary) transition duration-300 ease-out',
             leaving ? 'translate-y-2 opacity-0 saturate-0' : 'translate-y-0 opacity-100 saturate-100'
           )}
-          cursor
-          loop
-          prefix={3}
-          text={TEXT}
-        />
+        >
+          <DecodeText active={decoding} className="pl-[0.4em]" loop prefix={3} text={TEXT} />
+          <MusingOrb />
+        </div>
       )}
     </div>
   )
