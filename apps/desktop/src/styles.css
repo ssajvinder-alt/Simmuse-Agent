@@ -486,11 +486,10 @@
     --dt-spacing-mul: 1;
 
     --radius: 0.75rem;
-    /* Effective value everywhere: the chat backdrop used to force 0.2 onto the
-       root element at runtime (an ungated leva slider default), so this 0.6
-       only ever applied to the windows that don't mount the backdrop. Pinned
-       to the value the app actually renders at. */
-    --radius-scalar: 0.2;
+    /* Corner softness for every surface and control (see --radius-sm … --radius-4xl).
+       0.2 was the flat, near-square upstream look; 0.55 gives the rounder, more
+       polished corners modern apps use (md ≈ 6px, xl ≈ 9px, 2xl ≈ 13px). */
+    --radius-scalar: 0.55;
 
     /* Space under last message vs overlay composer — driven by the measured composer DOCK height (see
        composer/index.tsx), which covers the micro-action strip, the status stack, the composer, and the

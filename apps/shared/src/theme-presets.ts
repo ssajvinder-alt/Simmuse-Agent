@@ -461,6 +461,7 @@ export const THEME_PRESET_PALETTES = {
       input: '#202024',
       ring: '#ff7a1a',
       midground: '#ff7a1a',
+      composerRing: '#ff7a1a',
       destructive: '#e5484d',
       destructiveForeground: '#fef2f2',
       sidebarBackground: '#070708',
