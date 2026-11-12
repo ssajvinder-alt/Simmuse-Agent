@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { en } from '@/i18n/en'
 import { $interfaceMode } from '@/store/interface-mode'
@@ -13,6 +13,11 @@ import { AppearanceSettings } from './appearance-settings'
 // #65173: the file browser's open/closed default was only reachable through
 // ⌘J and a persistence chain nobody could see. Settings now states it, and it
 // is the same state the titlebar toggle writes — two views, one answer.
+
+// The file browser is a pane Simple keeps closed, so the setting is only live in Advanced.
+beforeEach(() => {
+  act(() => $interfaceMode.set('advanced'))
+})
 
 afterEach(() => {
   cleanup()

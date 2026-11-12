@@ -7,8 +7,8 @@ import type { ToolViewMode } from '@/store/tool-view'
 import { isBrowserWindow, isHudWindow, isSecondaryWindow } from '@/store/windows'
 
 // Interface mode: does this window show the machinery, or just the
-// conversation? Two answers. ADVANCED is the app as it has always been — every
-// preference the user set, honoured. SIMPLE is chat-first: the standing
+// conversation? Two answers. ADVANCED is the full app — every
+// preference the user set, honoured. SIMPLE (Simmuse's default) is chat-first: the standing
 // developer instrumentation (statusbar, profile rail, terminal / files / review
 // panes, technical tool payloads, the artifacts / scheduled-jobs rows) rests
 // out of the way. Mode changes what is SHOWN, never what Simmuse can do: every
@@ -39,14 +39,15 @@ export type InterfaceMode = 'advanced' | 'simple'
 /** Picker order — the quiet option first. */
 export const INTERFACE_MODES: readonly InterfaceMode[] = ['simple', 'advanced']
 
-export const DEFAULT_INTERFACE_MODE: InterfaceMode = 'advanced'
+export const DEFAULT_INTERFACE_MODE: InterfaceMode = 'simple'
 
 const INTERFACE_MODE_STORAGE_KEY = 'hermes.desktop.interfaceMode.v1'
 
-// Advanced is the ABSENCE of a mode: encoded as "no key" so a user who never
-// touched the picker never gains a record, and clearing the key means Advanced.
+// The default mode is the ABSENCE of a mode: encoded as "no key" so a user who never
+// touched the picker never gains a record, and clearing the key means the default.
+// Only the non-default answer is ever stored, so a stored 'advanced' is a real choice.
 const modeCodec: Codec<InterfaceMode> = {
-  decode: raw => (raw === 'simple' ? 'simple' : DEFAULT_INTERFACE_MODE),
+  decode: raw => (raw === 'advanced' || raw === 'simple' ? raw : DEFAULT_INTERFACE_MODE),
   encode: mode => (mode === DEFAULT_INTERFACE_MODE ? null : mode)
 }
 

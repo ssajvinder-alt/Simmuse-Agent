@@ -165,9 +165,8 @@ it.each(['advanced', 'simple'] as const)(
     window.localStorage.setItem('hermes.desktop.layoutPreset.active', 'custom')
     window.localStorage.setItem('hermes.desktop.hiddenStripTabs.v1', '["bots"]')
 
-    if (initialMode === 'simple') {
-      window.localStorage.setItem('hermes.desktop.interfaceMode.v1', 'simple')
-    }
+    // Simple is the default (no record), so Advanced has to be stored to be the starting mode.
+    window.localStorage.setItem('hermes.desktop.interfaceMode.v1', initialMode)
 
     const { mode, tree, panes, layout } = await boot()
     expect(mode.$interfaceMode.get()).toBe(initialMode)

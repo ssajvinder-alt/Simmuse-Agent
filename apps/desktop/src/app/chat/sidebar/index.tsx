@@ -228,17 +228,18 @@ const SIDEBAR_NAV: SidebarNavItem[] = [
     label: '',
     icon: props => <Codicon name="comment" {...props} />,
     route: MESSAGING_ROUTE,
-    keybindActionId: 'nav.messaging'
+    keybindActionId: 'nav.messaging',
+    // Chat-app connections (Telegram, Discord, ...) are beyond what an individual's first session needs.
+    tier: 'advanced'
   },
-  // Artifacts and Scheduled jobs are outputs of running Simmuse the developer
-  // way; Capabilities and Messaging are how anyone sets it up.
+  // Artifacts holds the saved reports and drafts, so Simple keeps it. Scheduled jobs are an
+  // outcome of running Simmuse the developer way and rest in Advanced.
   {
     id: 'artifacts',
     label: '',
     icon: props => <Codicon name="files" {...props} />,
     route: ARTIFACTS_ROUTE,
-    keybindActionId: 'nav.artifacts',
-    tier: 'advanced'
+    keybindActionId: 'nav.artifacts'
   },
   {
     id: 'cron',
