@@ -2,7 +2,7 @@
 name: hermes-agent
 description: "Use, configure, theme, extend, and orchestrate Simmuse Agent."
 version: 3.2.0
-author: Simmuse Agent + Teknium
+author: Hermes Agent + Teknium
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

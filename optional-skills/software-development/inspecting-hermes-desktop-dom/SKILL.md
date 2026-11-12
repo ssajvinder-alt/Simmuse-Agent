@@ -2,7 +2,7 @@
 name: inspecting-hermes-desktop-dom
 description: "Read the live Simmuse desktop DOM/CSS over CDP."
 version: 1.0.0
-author: Simmuse Agent
+author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

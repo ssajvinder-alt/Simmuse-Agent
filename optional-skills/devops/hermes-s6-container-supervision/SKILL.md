@@ -2,7 +2,7 @@
 name: hermes-s6-container-supervision
 description: Modify or debug s6 services in the Simmuse Docker image.
 version: 1.0.0
-author: Simmuse Agent
+author: Hermes Agent
 license: MIT
 platforms: [linux]
 environments: [s6]

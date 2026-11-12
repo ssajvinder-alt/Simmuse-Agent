@@ -2,7 +2,7 @@
 name: agent-merge-conflict-arbiter
 description: "Neutral arbiter for merge conflicts between two agents."
 version: 1.0.0
-author: Simmuse Agent
+author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

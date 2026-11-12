@@ -2,7 +2,7 @@
 name: honcho
 description: Configure and troubleshoot Honcho memory for Simmuse.
 version: 2.0.0
-author: Simmuse Agent
+author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

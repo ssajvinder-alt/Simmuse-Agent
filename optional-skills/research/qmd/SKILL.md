@@ -2,7 +2,7 @@
 name: qmd
 description: Hybrid local search over notes, docs, and transcripts.
 version: 1.0.0
-author: Simmuse Agent + Teknium
+author: Hermes Agent + Teknium
 license: MIT
 platforms: [macos, linux]
 metadata:

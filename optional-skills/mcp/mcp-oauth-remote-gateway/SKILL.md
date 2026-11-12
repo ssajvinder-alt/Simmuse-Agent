@@ -2,7 +2,7 @@
 name: mcp-oauth-remote-gateway
 description: Manual OAuth for remote MCP servers on headless gateways.
 version: 1.0.0
-author: Ben Barclay (benbarclay), Simmuse Agent
+author: Ben Barclay (benbarclay), Hermes Agent
 license: MIT
 platforms: [linux, macos]
 metadata:

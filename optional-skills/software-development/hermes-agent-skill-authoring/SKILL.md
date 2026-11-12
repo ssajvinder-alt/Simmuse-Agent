@@ -2,7 +2,7 @@
 name: hermes-agent-skill-authoring
 description: "Author in-repo SKILL.md files: frontmatter and structure."
 version: 2.0.0
-author: Simmuse Agent
+author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -58,7 +58,7 @@ Repo-standard shape (all fields expected, even where the validator doesn't enfor
 name: my-skill-name               # lowercase, hyphens, ≤64 chars (MAX_NAME_LENGTH)
 description: Concise capability statement, under sixty chars.
 version: 0.1.0                    # semver; new skills start at 0.1.0
-author: Real Name (github-handle), Simmuse Agent
+author: Real Name (github-handle), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]   # audit, don't guess — see Platform Gating
 metadata:

@@ -796,7 +796,7 @@ def fetch_nous_models(
     model_ids: list[str] = []
     for item in data:
         model_id = item.get("id") if isinstance(item, dict) else None
-        # Simmuse models aren't reliable for agentic tool-calling
+        # Hermes models aren't reliable for agentic tool-calling
         if _nonempty_str(model_id) and "hermes" not in model_id.lower():
             model_ids.append(model_id.strip())
     model_ids.sort(key=_model_priority)
