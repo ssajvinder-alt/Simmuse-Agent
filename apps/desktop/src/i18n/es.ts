@@ -18,6 +18,7 @@ import { esModelSettings } from './es_model_settings'
 import { esNotices } from './es_notices'
 import { esNotifications } from './es_notifications'
 import { esOnboarding } from './es_onboarding'
+import { esPermissions } from './es_permissions'
 import { esPluginPreviewAccess } from './es_plugin_preview_access'
 import { esPluginUpdate } from './es_plugin_update'
 import { esPreviewWeb } from './es_preview_web'
@@ -32,6 +33,7 @@ export const esOverrides = {
   firstRun: esFirstRun,
   intro: introEs,
   connectors: esConnectorCard,
+  permissions: esPermissions,
   connectorsPage: {
     title: 'Conectores',
     searchPlaceholder: (count: number) => `Buscar entre ${count} apps`,

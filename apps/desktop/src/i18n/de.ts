@@ -17,6 +17,7 @@ import { deModelSettings } from './de_model_settings'
 import { deNotices } from './de_notices'
 import { deNotifications } from './de_notifications'
 import { deOnboarding } from './de_onboarding'
+import { dePermissions } from './de_permissions'
 import { dePluginPreviewAccess } from './de_plugin_preview_access'
 import { dePluginUpdate } from './de_plugin_update'
 import { dePreviewWeb } from './de_preview_web'
@@ -32,6 +33,7 @@ export const deOverrides = {
   firstRun: deFirstRun,
   intro: introDe,
   connectors: deConnectorCard,
+  permissions: dePermissions,
   connectorsPage: {
     title: 'Konnektoren',
     searchPlaceholder: (count: number) => `${count} Apps durchsuchen`,

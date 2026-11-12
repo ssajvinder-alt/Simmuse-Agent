@@ -18,6 +18,7 @@ import { frModelSettings } from './fr_model_settings'
 import { frNotices } from './fr_notices'
 import { frNotifications } from './fr_notifications'
 import { frOnboarding } from './fr_onboarding'
+import { frPermissions } from './fr_permissions'
 import { frPluginPreviewAccess } from './fr_plugin_preview_access'
 import { frPluginUpdate } from './fr_plugin_update'
 import { frPreviewWeb } from './fr_preview_web'
@@ -32,6 +33,7 @@ export const frOverrides = {
   firstRun: frFirstRun,
   intro: introFr,
   connectors: frConnectorCard,
+  permissions: frPermissions,
   connectorsPage: {
     title: 'Connecteurs',
     searchPlaceholder: (count: number) => `Rechercher parmi ${count} applications`,
