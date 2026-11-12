@@ -264,7 +264,9 @@ DEFAULT_CONFIG = {
         # provider or get a last-chance text fallback); "text" = always pre-analyze with
         # vision_analyze and prepend the description. vision_analyze stays a tool regardless.
         "image_input_mode": "auto",
-        "disabled_toolsets": [],
+        # Simmuse switches whole-screen control off by default; it can see and click anything on the PC.
+        # A person who wants it removes "computer_use" here (Settings > Computer use, or config.yaml).
+        "disabled_toolsets": ["computer_use"],
         # Model name (any reasonable spelling) -> effort level; overrides agent.reasoning_effort
         # when the current model matches. Edit in config.yaml (no CLI support: dots in keys).
         "reasoning_overrides": {},
@@ -1660,7 +1662,9 @@ DEFAULT_CONFIG = {
         # channel — a pending approval there just blocks for the full timeout with nobody to answer (#37284,
         # #87509): deny    — block the command instantly and let the agent find another way (default, safe;
         # mirrors cron_mode deny) approve — auto-approve all dangerous commands on unattended platforms
-        "mode": "smart",
+        # Simmuse ships "manual": every dangerous command asks the person first. "smart" lets a second
+        # model auto-approve commands it judges low-risk, which is too much trust for a first-time user.
+        "mode": "manual",
         "timeout": 300,
         "discord_prompt_timeout": 300,  # Discord buttons stay clickable (min 30 s, cap MAX_SAFE_TIMEOUT_S)
         "cron_mode": "deny",

@@ -6,6 +6,20 @@ const ALLOWED_KEYS = new Set([
   'HERMES_SHARED_AUTH_DIR', 'HERMES_PREVIEW_FULL_CONNECTORS'
 ])
 
+// Simmuse's own defaults, baked into every desktop bundle. The data-directory suffix keeps Simmuse's
+// state (`%LOCALAPPDATA%\hermes-simmuse`) beside, never inside, a Hermes install on the same machine.
+// Like any default it fills only an absent key, so an explicit runtime value still wins.
+export const PRODUCT_BUNDLE_ENV = Object.freeze({ HERMES_DATA_DIR_SUFFIX: '-simmuse' })
+
+/** The JSON the bundled banner applies: the product defaults, then anything the build asked for
+ * (`HERMES_BUNDLE_ENV_JSON`), which may override them or clear them with null.
+ * @param {string} raw @returns {string} */
+export function bundleEnvironmentJson(raw) {
+  const requested = JSON.parse(raw || '{}')
+  validateBundleEnvironment(requested)
+  return JSON.stringify({ ...PRODUCT_BUNDLE_ENV, ...requested })
+}
+
 /** Validate a bundle environment object: plain object of identifiers to
  * strings (defaults) or null (clears). Shared by the banner writer and the
  * smoke driver's stamp reader.
