@@ -147,7 +147,7 @@ test.each([
       const current: ProductIdentity = await identityForVariant(variant)
       assert.equal(current.channel, expectedChannel)
       assert.equal(current.cliName, expectedCli)
-      assert.equal(current.windowsExecutableName, expectedCli)
+      assert.equal(current.windowsExecutableName, expectedCli.replace(/^hermes/, 'simmuse'))
       assert.equal(current.artifactNamePascal, stable.artifactNamePascal)
       assert.deepEqual(current, await identityForVariant(variant))
 

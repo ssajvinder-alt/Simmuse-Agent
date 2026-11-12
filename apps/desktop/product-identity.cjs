@@ -71,7 +71,9 @@ const identity = {
   channel: store || buildCommit ? null : light ? (canary ? 'light-canary' : 'light') : (canary ? 'canary' : 'latest'),
   appNamePascal: `${name.pascal}${pascalSuffix}`,
   artifactNamePascal: name.pascal,
-  windowsExecutableName: kebabSuffix ? cliName : displayName,
+  // The visible program file (Task Manager, shortcuts). Suffixed builds need a name of their own so
+  // installs stay side by side; it is Simmuse-branded, while `cliName` keeps the internal command name.
+  windowsExecutableName: kebabSuffix ? `${light ? 'simmuse-light' : 'simmuse'}${kebabSuffix}` : displayName,
   cliName,
   msixAppIdWithOrg: `Simmuse.${name.pascal}${pascalSuffix}`,
   ...(store
