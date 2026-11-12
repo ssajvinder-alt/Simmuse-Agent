@@ -4,14 +4,14 @@ import { useTheme } from './context'
 
 // Old names land on a shipped theme so muscle memory works. `gold`/`hermes`
 // only ever meant the classic gold look, so they reach Classic Simmuse; `default`
-// stays Nous because it is also the stock config value, which Desktop reads as
+// stays the Desktop default because it is also the stock config value, which Desktop reads as
 // "the Desktop default" everywhere else (boot, backend sync, setTheme).
 const ALIASES: Record<string, string> = {
   ares: 'ember',
-  default: 'nous',
+  default: 'simmuse',
   gold: 'classic',
   hermes: 'classic',
-  'nous-light': 'nous'
+  'nous-light': 'simmuse'
 }
 
 export function useSkinCommand() {

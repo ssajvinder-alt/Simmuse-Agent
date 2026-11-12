@@ -399,6 +399,21 @@ export const midnightTheme: DesktopTheme = {
   }
 }
 
+/**
+ * Simmuse — the product's own identity: true black with one hot-orange accent.
+ * Always dark: the one palette fills both slots (as a single-mode skin does), so a
+ * light OS setting never synthesizes a white variant. Font stacks are the
+ * bundled/system ones, so nothing is fetched from the network.
+ */
+export const simmuseTheme: DesktopTheme = {
+  name: 'simmuse',
+  label: 'Simmuse',
+  description: 'True black with a hot-orange accent',
+  ...THEME_PRESET_PALETTES.simmuse,
+  darkColors: THEME_PRESET_PALETTES.simmuse.colors,
+  typography: DEFAULT_TYPOGRAPHY
+}
+
 export const emberTheme: DesktopTheme = {
   name: 'ember',
   label: 'Ember',
@@ -442,6 +457,7 @@ export const slateTheme: DesktopTheme = {
 }
 
 export const BUILTIN_THEMES: Record<string, DesktopTheme> = {
+  simmuse: simmuseTheme,
   nous: nousTheme,
   github: githubTheme,
   catppuccin: catppuccinTheme,
@@ -459,7 +475,7 @@ export const BUILTIN_THEMES: Record<string, DesktopTheme> = {
 export const BUILTIN_THEME_LIST = Object.values(BUILTIN_THEMES)
 
 /** Skin used when nothing is persisted or the persisted name is retired. */
-export const DEFAULT_SKIN_NAME = 'nous'
+export const DEFAULT_SKIN_NAME = 'simmuse'
 
 /** Names that no longer resolve to a skin of their own. A stored pick of one
  *  falls back to DEFAULT_SKIN_NAME, and a cached backend theme under one is

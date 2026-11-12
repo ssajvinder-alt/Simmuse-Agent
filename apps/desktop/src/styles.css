@@ -4239,3 +4239,36 @@ html[data-hermes-desktop-host='browser'] [data-slot='sidebar-container'] {
   background: none;
   color: var(--err-ink);
 }
+
+/* -------------------------------------------------------------------------- */
+/* Home screen: an accent glow, the "AI workspace" pill and starter-card hover */
+/* All colours derive from the theme's `--midground`, so every theme gets its  */
+/* own accent and nothing here is a literal.                                   */
+/* -------------------------------------------------------------------------- */
+
+.home-glow {
+  /* Centred in the box and fully transparent before its edges, so no rectangle shows. */
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, color-mix(in srgb, var(--midground) 24%, transparent), transparent 100%);
+}
+
+.home-pill {
+  background: color-mix(in srgb, var(--midground) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--midground) 28%, transparent);
+}
+
+[data-slot='aui_home'] [data-starter] {
+  background: color-mix(in srgb, var(--card) 80%, transparent);
+  box-shadow: inset 0 0 0 1px var(--ui-stroke-tertiary);
+  transition:
+    box-shadow 140ms,
+    background-color 140ms;
+}
+
+/* Hover paints instantly; only the return eases (DESIGN.md, Motion). */
+[data-slot='aui_home'] [data-starter]:hover {
+  background: color-mix(in srgb, var(--midground) 7%, var(--card));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--midground) 60%, transparent),
+    0 6px 28px -10px color-mix(in srgb, var(--midground) 50%, transparent);
+  transition: none;
+}

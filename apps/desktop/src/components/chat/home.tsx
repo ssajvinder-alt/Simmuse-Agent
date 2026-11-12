@@ -272,10 +272,20 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
       className="pointer-events-auto flex w-full min-w-0 flex-col items-center px-0.5 py-6 text-center sm:px-6 lg:px-8"
       data-slot="aui_home"
     >
-      <div className="w-full min-w-0 max-w-2xl">
-        <Wordmark className="mb-4 text-muted-foreground" text="SIMMUSE" />
+      <div className="relative w-full min-w-0 max-w-2xl">
+        <div aria-hidden className="home-glow pointer-events-none absolute inset-x-0 -top-24 h-72" />
 
-        <h2 className="m-0 text-lg font-medium tracking-tight text-foreground">What would you like to work on?</h2>
+        <p
+          className="relative mx-auto mb-5 flex w-fit items-center gap-2 rounded-full px-3 py-1 text-[0.68rem] font-medium tracking-[0.14em] text-muted-foreground uppercase home-pill"
+          data-slot="home_pill"
+        >
+          <span aria-hidden className="size-1.5 rounded-full bg-midground" />
+          AI workspace
+        </p>
+
+        <Wordmark className="relative mb-5 dark:text-midground" text="SIMMUSE" />
+
+        <h2 className="relative m-0 text-xl font-medium tracking-tight text-foreground">What would you like to work on?</h2>
         <p className="mt-1 mb-2 text-muted-foreground">Pick a starting point, or just type below.</p>
 
         {scopedProject && (
@@ -299,7 +309,7 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
                 type="button"
                 variant="outline"
               >
-                <action.icon aria-hidden className="size-4 text-muted-foreground" />
+                <action.icon aria-hidden className="size-4 text-midground" />
                 <span className="flex min-w-0 flex-col">
                   <span className="text-sm">{action.label}</span>
                   <span className="text-xs font-normal text-muted-foreground">
