@@ -15,8 +15,9 @@ import { $gatewayState } from '@/store/session'
 import { isMainWindow } from '@/store/windows'
 
 // Decode mechanics live in the shared <DecodeText> primitive
-// (components/ui/decode-text.tsx). "CONN" stays legible via prefix={4}.
-const TEXT = 'CONNECTING'
+// (components/ui/decode-text.tsx). "MUS" stays legible via prefix={3}.
+// The startup word is Simmuse's own: it is shown while the app connects, so it is branding, not a status.
+const TEXT = 'MUSING'
 
 // Exit choreography (ms): text fades down + out, hold, then the overlay fades.
 const TEXT_OUT_MS = 360
@@ -105,7 +106,7 @@ function ConnectingOverlayView({ decoding, onExit, phase }: ConnectingOverlayVie
           )}
           cursor
           loop
-          prefix={4}
+          prefix={3}
           text={TEXT}
         />
       )}
