@@ -142,7 +142,13 @@ module.exports = {
             '!**/default-docx-template/**',
             '!**/[[]Content_Types[]].xml',
             '!**/[[].exe',
-            '!**/contributors/emails/**'
+            '!**/contributors/emails/**',
+            // Optional skills ship inactive, but a research-and-writing app has no use for these groups and
+            // `security/godmode` is a set of model-jailbreak templates. They stay in the source tree (they
+            // are upstream content); only the installer leaves them out.
+            ...['security', 'blockchain', 'payments', 'gaming', 'smart-home', 'health', 'yuanbao'].map(
+              group => `!**/optional-skills/${group}/**`
+            )
           ]
         }]
       : []),
