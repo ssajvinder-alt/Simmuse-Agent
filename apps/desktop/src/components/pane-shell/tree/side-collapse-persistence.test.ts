@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { LAYOUT_KEYS } from '@/lib/layout-persistence'
+import { clearStorageKeepingAdvanced } from '@/test/seed-advanced-mode'
 
 /** Re-import real stores over the same storage, as a page refresh does. The
  * workspace is available; Files keeps its own toggle, independent of its side. */
@@ -44,7 +45,7 @@ async function boot() {
 
 describe('side visibility survives a page refresh independently of Files', () => {
   beforeEach(() => {
-    window.localStorage.clear()
+    clearStorageKeepingAdvanced()
     window.history.replaceState(null, '', '/')
     vi.resetModules()
   })

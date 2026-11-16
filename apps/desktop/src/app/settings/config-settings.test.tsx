@@ -1,3 +1,5 @@
+import '@/test/seed-advanced-mode'
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { cleanup, render, screen } from '@testing-library/react'
 import { atom } from 'nanostores'
@@ -81,6 +83,21 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
+// Settings → Safety now opens with Simmuse's plain-language permissions panel, which has its own
+// switch ("Controlling the whole screen"). These cases are about the config field's switch.
+const findConfigSwitch = () =>
+  vi.waitFor(() => {
+    const el = screen
+      .queryAllByRole('switch')
+      .find(candidate => candidate.getAttribute('aria-label') !== 'Controlling the whole screen')
+
+    if (!el) {
+      throw new Error('config switch not rendered yet')
+    }
+
+    return el
+  })
+
 function renderConfigSettings(activeSectionId = 'safety') {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   const importInputRef = createRef<HTMLInputElement>()
@@ -105,7 +122,7 @@ describe('ConfigSettings autosave', () => {
     try {
       renderConfigSettings()
 
-      const toggle = await screen.findByRole('switch')
+      const toggle = await findConfigSwitch()
 
       // Edit: flip checkpoints.enabled on, let the debounced autosave fire.
       toggle.click()
@@ -144,7 +161,7 @@ describe('ConfigSettings autosave', () => {
 
       await vi.waitFor(() => expect(getHermesConfigRecord).toHaveBeenCalledWith('nash'))
 
-      ;(await screen.findByRole('switch')).click()
+      ;(await findConfigSwitch()).click()
       await vi.advanceTimersByTimeAsync(700)
 
       await vi.waitFor(() => expect(saveHermesConfig).toHaveBeenCalledWith({ checkpoints: { enabled: true } }, 'nash'))

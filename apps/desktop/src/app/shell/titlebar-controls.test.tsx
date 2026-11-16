@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import '@/test/seed-advanced-mode'
+
 import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { useEffect } from 'react'
 import { MemoryRouter, useNavigate } from 'react-router'

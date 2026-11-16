@@ -1,3 +1,5 @@
+import '@/test/seed-advanced-mode'
+
 import type { ThreadMessage } from '@assistant-ui/react'
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it } from 'vitest'

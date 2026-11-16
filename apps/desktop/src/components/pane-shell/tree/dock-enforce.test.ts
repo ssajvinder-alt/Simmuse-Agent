@@ -1,5 +1,7 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { clearStorageKeepingAdvanced } from '@/test/seed-advanced-mode'
+
 // Enforced dock invariants: a pane whose dock hint carries `enforce: true`
 // (Bot Mode's Bots pane) re-homes onto its center anchor at EVERY boot's
 // first adoption pass — persisted layouts otherwise pin the stale stacked
@@ -43,7 +45,7 @@ describe('enforced dock (stacked Bots pane → sessions-zone tab, every boot)', 
   })
 
   beforeEach(() => {
-    window.localStorage.clear()
+    clearStorageKeepingAdvanced()
     vi.resetModules()
   })
 

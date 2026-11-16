@@ -8,10 +8,12 @@ import './floating-panes'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 
+import { clearStorageKeepingAdvanced } from '@/test/seed-advanced-mode'
+
 afterEach(cleanup)
 
 it.each([false, true])('restores floating geometry and collapse with keep-alive=%s', async keepAlive => {
-  window.localStorage.clear()
+  clearStorageKeepingAdvanced()
   vi.resetModules()
   window.localStorage.setItem('hermes.desktop.floatingPanes.v1', JSON.stringify({ card: { x: 37, y: 71 } }))
   const { registry } = await import('@/contrib/registry')
