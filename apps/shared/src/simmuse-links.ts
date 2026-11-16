@@ -21,8 +21,8 @@ export const SIMMUSE_LINKS = {
   docsBringYourOwnEndpoint: 'https://docs.simmuse.example/bring-your-own-endpoint',
   docsSharedMetrics: 'https://docs.simmuse.example/shared-metrics',
   community: 'https://community.simmuse.example',
-  issues: 'https://support.simmuse.example/issues',
-  releases: 'https://downloads.simmuse.example/releases',
-  download: 'https://downloads.simmuse.example',
+  issues: 'mailto:sajuraiteam@gmail.com?subject=Simmuse%20support',
+  releases: 'https://drive.google.com/drive/folders/153E0Gg4sFwf5Q3Kekv2vLGPEMp-ofQAk',
+  download: 'https://drive.google.com/drive/folders/153E0Gg4sFwf5Q3Kekv2vLGPEMp-ofQAk',
   commitBase: 'https://source.simmuse.example/commit'
 } as const
