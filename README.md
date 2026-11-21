@@ -236,6 +236,10 @@ for activation, daily use, dependency changes, and leaving the environment.
 
 ---
 
+## Code signing policy
+
+Free code signing provided by [SignPath.io](https://about.signpath.io/), certificate by [SignPath Foundation](https://signpath.org/). See the [code signing policy](CODE_SIGNING_POLICY.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
