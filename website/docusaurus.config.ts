@@ -8,8 +8,9 @@ const config: Config = {
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-agent.nousresearch.com',
-  baseUrl: '/docs/',
+  // GitHub Pages project site; DOCS_SITE_URL / DOCS_BASE_URL override for other hosts.
+  url: process.env.DOCS_SITE_URL ?? 'https://ssajvinder-alt.github.io',
+  baseUrl: process.env.DOCS_BASE_URL ?? '/Simmuse-Agent/docs/',
 
   organizationName: 'ssajvinder-alt',
   projectName: 'Simmuse-Agent',
