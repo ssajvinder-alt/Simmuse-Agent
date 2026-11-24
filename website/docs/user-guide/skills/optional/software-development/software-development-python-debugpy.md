@@ -17,7 +17,7 @@ Debug Python: pdb REPL + debugpy remote (DAP).
 | Source | Optional — install with `hermes skills install official/software-development/python-debugpy` |
 | Path | `optional-skills/software-development/python-debugpy` |
 | Version | `1.0.0` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos |
 | Tags | `debugging`, `python`, `pdb`, `debugpy`, `breakpoints`, `dap`, `post-mortem` |

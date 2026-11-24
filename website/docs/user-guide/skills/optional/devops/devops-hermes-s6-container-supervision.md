@@ -1,12 +1,12 @@
 ---
-title: "Simmuse S6 Container Supervision — Modify or debug s6 services in the Simmuse Docker image"
-sidebar_label: "Simmuse S6 Container Supervision"
+title: "Hermes S6 Container Supervision — Modify or debug s6 services in the Simmuse Docker image"
+sidebar_label: "Hermes S6 Container Supervision"
 description: "Modify or debug s6 services in the Simmuse Docker image"
 ---
 
 {/* This page is auto-generated from the skill's SKILL.md by website/scripts/generate-skill-docs.py. Edit the source SKILL.md, not this page. */}
 
-# Simmuse S6 Container Supervision
+# Hermes S6 Container Supervision
 
 Modify or debug s6 services in the Simmuse Docker image.
 
@@ -17,7 +17,7 @@ Modify or debug s6 services in the Simmuse Docker image.
 | Source | Optional — install with `hermes skills install official/devops/hermes-s6-container-supervision` |
 | Path | `optional-skills/devops/hermes-s6-container-supervision` |
 | Version | `1.0.0` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Platforms | linux |
 | Tags | `docker`, `s6`, `supervision`, `gateway`, `profiles` |

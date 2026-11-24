@@ -17,7 +17,7 @@ Delegate coding to xAI Grok Build CLI (features, PRs).
 | Source | Optional — install with `hermes skills install official/autonomous-ai-agents/grok` |
 | Path | `optional-skills/autonomous-ai-agents/grok` |
 | Version | `0.1.1` |
-| Author | Matt Maximo (MattMaximo), Simmuse Agent |
+| Author | Matt Maximo (MattMaximo), Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `Coding-Agent`, `Grok`, `xAI`, `Code-Review`, `Refactoring`, `Automation` |

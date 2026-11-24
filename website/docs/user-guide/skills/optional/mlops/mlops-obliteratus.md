@@ -17,7 +17,7 @@ OBLITERATUS: abliterate LLM refusals (diff-in-means).
 | Source | Optional — install with `hermes skills install official/mlops/obliteratus` |
 | Path | `optional-skills/mlops/obliteratus` |
 | Version | `2.0.0` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Dependencies | `obliteratus`, `torch`, `transformers`, `bitsandbytes`, `accelerate`, `safetensors` |
 | Platforms | linux, macos |
