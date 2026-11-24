@@ -1,7 +1,7 @@
 """Fake Google AI Studio ``generateContent`` / ``streamGenerateContent`` endpoint behind a real
 TLS boundary.
 
-Hermes routes to its native Gemini adapter only for the real Google host
+Simmuse routes to its native Gemini adapter only for the real Google host
 (``generativelanguage.googleapis.com``), so the fake is reached the way any corporate egress
 proxy would be: an HTTPS ``CONNECT`` proxy on loopback that terminates TLS for the Google host
 with a leaf certificate signed by a throwaway CA. The child trusts that CA through the standard

@@ -4,6 +4,7 @@ import Link from "@docusaurus/Link";
 import { useHistory } from "@docusaurus/router";
 import RouteLink, { useKnownRoute } from "../../components/RouteLink";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import siteConfig from "@generated/docusaurus.config";
 import styles from "./styles.module.css";
 
 import {
@@ -33,8 +34,8 @@ import { pickFeatured } from "../../../../apps/shared/src/catalog-featured";
 
 // Routes Docusaurus serves the static API JSON from. `baseUrl` is `/docs/`,
 // `static/api/` ends up at `/docs/api/` — same pattern as the Skills Hub.
-const PLUGINS_URL = "/docs/api/plugins.json";
-const META_URL = "/docs/api/plugins-meta.json";
+const PLUGINS_URL = `${siteConfig.baseUrl}api/plugins.json`;
+const META_URL = `${siteConfig.baseUrl}api/plugins-meta.json`;
 /** Mirrors the `max-width: 600px` blocks in styles.module.css. */
 const MOBILE_PANEL_QUERY = "(max-width: 600px)";
 
@@ -253,10 +254,10 @@ function PluginCard({
           <a
             className={styles.pickBtn}
             href={desktopInstallLink(plugin.name)}
-            title="Opens the Install Plugin dialog in Hermes Desktop at the reviewed version. No app? Use the install command below."
+            title="Opens the Install Plugin dialog in Simmuse Desktop at the reviewed version. No app? Use the install command below."
             onClick={(e) => e.stopPropagation()}
           >
-            Open in Hermes Desktop
+            Open in Simmuse Desktop
           </a>
         )}
 
@@ -367,7 +368,7 @@ function buildSearchHaystack(p: CatalogPlugin): string {
 
 export default function PluginCatalogPage() {
   // Picker embed mode (?embed=picker): the page is iframed by a host app
-  // (Hermes desktop's Capabilities > Plugins tab) as a one-click catalog
+  // (Simmuse desktop's Capabilities > Plugins tab) as a one-click catalog
   // picker. Site chrome is hidden via CSS and every card gains an
   // "+ Add to this Agent" button that posts
   //   { type: 'hermes-plugin-pick', name, repo, sha, subdir, tier,
@@ -552,13 +553,13 @@ export default function PluginCatalogPage() {
   return (
     <Layout
       title="Plugin Catalog"
-      description="Give Hermes new powers: reviewed plugins you can install in one click"
+      description="Give Simmuse new powers: reviewed plugins you can install in one click"
     >
       <div className={`${styles.page} ${pickerMode ? styles.pickerMode : ""}`}>
         <header className={styles.hero}>
           <div className={styles.heroGlow} />
           <div className={styles.heroContent}>
-            <p className={styles.heroEyebrow}>Hermes Agent</p>
+            <p className={styles.heroEyebrow}>Simmuse Agent</p>
             <h1 className={styles.heroTitle}>Plugin Catalog</h1>
             <nav className={styles.crossNav} aria-label="Catalog pages">
               <Link className={styles.crossNavLink} to="/skills">
@@ -569,7 +570,7 @@ export default function PluginCatalogPage() {
               </span>
             </nav>
             <p className={styles.heroSub}>
-              Give Hermes new powers. Memory, voice, messaging, browsing, Desktop panes and more,
+              Give Simmuse new powers. Memory, voice, messaging, browsing, Desktop panes and more,
               built by the community.
               {loadError && (
                 <span style={{ color: "#f87171", marginLeft: 8 }}>
@@ -782,7 +783,7 @@ export default function PluginCatalogPage() {
               <div className={styles.emptyIcon}>{"\u{1F331}"}</div>
               <h3 className={styles.emptyTitle}>The catalog is just getting started</h3>
               <p className={styles.emptyDesc}>
-                The plugin catalog is a curated, human-reviewed list of Hermes
+                The plugin catalog is a curated, human-reviewed list of Simmuse
                 plugins — each entry pinned to an exact commit. Want yours listed?
                 Submissions are open.
               </p>

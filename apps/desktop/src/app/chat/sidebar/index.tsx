@@ -160,6 +160,7 @@ import { filterSessionsByProfileScope } from './profile-scope'
 import { ProfileRail } from './profile-switcher'
 import { ProjectDialog } from './project-dialog'
 import { filterToSessionBearingProjects, resolveLiveProjectFilter } from './project-filter'
+import { ProjectInstructionsDialog } from './project-instructions-dialog'
 import {
   excludeProjectSessions,
   orderProjectsByIds,
@@ -227,17 +228,18 @@ const SIDEBAR_NAV: SidebarNavItem[] = [
     label: '',
     icon: props => <Codicon name="comment" {...props} />,
     route: MESSAGING_ROUTE,
-    keybindActionId: 'nav.messaging'
+    keybindActionId: 'nav.messaging',
+    // Chat-app connections (Telegram, Discord, ...) are beyond what an individual's first session needs.
+    tier: 'advanced'
   },
-  // Artifacts and Scheduled jobs are outputs of running Hermes the developer
-  // way; Capabilities and Messaging are how anyone sets it up.
+  // Artifacts holds the saved reports and drafts, so Simple keeps it. Scheduled jobs are an
+  // outcome of running Simmuse the developer way and rest in Advanced.
   {
     id: 'artifacts',
     label: '',
     icon: props => <Codicon name="files" {...props} />,
     route: ARTIFACTS_ROUTE,
-    keybindActionId: 'nav.artifacts',
-    tier: 'advanced'
+    keybindActionId: 'nav.artifacts'
   },
   {
     id: 'cron',
@@ -1119,7 +1121,7 @@ export function ChatSidebar({
   const [scopedRepoWorktrees] = useRepoWorktreeMap(scopedRepoPaths, inEnteredProject)
 
   // Re-probe worktree lanes on out-of-band git changes the renderer can't see.
-  // A turn can `git worktree add/remove` in the terminal (e.g. you ask Hermes to
+  // A turn can `git worktree add/remove` in the terminal (e.g. you ask Simmuse to
   // "remove that worktree"), and the window never blurs during an in-app chat,
   // so nothing would otherwise re-run the visual probe. Re-sync when a working
   // session settles (its turn finished) or the window refocuses (an external
@@ -2064,6 +2066,7 @@ export function ChatSidebar({
         )}
       </SidebarContent>
       <ProjectDialog />
+      <ProjectInstructionsDialog />
       {/* One mount for the whole app. The header of WorktreeDialog tells why. */}
       <WorktreeDialog />
     </Sidebar>

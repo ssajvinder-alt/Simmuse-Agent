@@ -2,6 +2,7 @@
 // Loaded once at collection, outside every hook's budget: vi.resetModules() keeps each module's
 // transformed code, so the fresh copy a test imports only re-evaluates it. Without this each
 // host's hook pays the cold transform of the whole graph and times out on a loaded runner.
+import '@/test/seed-advanced-mode'
 import '@/app/chat/sidebar'
 import '@/app/shell/hooks/use-statusbar-items'
 import '@/components/pane-shell/tree/model'
@@ -36,6 +37,8 @@ async function importHost(webapp: boolean) {
     ;(window as SurfaceWindow).__HERMES_UI_SURFACE__ = 'webapp'
   }
 
+  // afterEach clears storage; these cases are about the stored preference, which Simple shadows.
+  localStorage.setItem('hermes.desktop.interfaceMode.v1', 'advanced')
   vi.resetModules()
 
   const [{ ChatSidebar }, { SidebarProvider }, { useStatusbarItems }, { group }, { $layoutTree }, prefs] =

@@ -467,7 +467,7 @@ seed_one "SOUL.md" "docker/SOUL.md"
 #
 # OPERATOR-PROVIDED KEYS WIN: if the container environment already carries
 # API_SERVER_KEY (documented `docker run -e API_SERVER_KEY=...` flow), do
-# not generate one. Hermes loads $HERMES_HOME/.env with override=True, so
+# not generate one. Simmuse loads $HERMES_HOME/.env with override=True, so
 # a generated key written here would silently SHADOW the operator's env
 # key and 401 every client still using the supplied credential.
 if [ -n "${API_SERVER_KEY:-}" ]; then
@@ -772,7 +772,7 @@ fi
 # The image's Dockerfile pm-provisions pinned full Chromium into
 # $HERMES_RUNTIME_DIR (/opt/hermes/tools) at BUILD time and bakes the
 # resolved binary path into /etc/hermes/chromium-executable-path (the layout
-# differs per arch, so it is resolved at build time, not hard-coded). Hermes
+# differs per arch, so it is resolved at build time, not hard-coded). Simmuse
 # reads that file itself (hermes_cli/browser_runtime.py) when pm's facts are
 # hidden, so nothing is exported here: the hook only says, once per boot,
 # when the baked path no longer names a runnable binary (a custom build that

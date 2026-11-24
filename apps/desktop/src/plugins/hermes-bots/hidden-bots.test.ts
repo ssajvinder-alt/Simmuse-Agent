@@ -77,7 +77,7 @@ async function loadModules() {
 // first makes it time out under a loaded runner.
 beforeAll(async () => {
   await loadModules()
-}, 60_000)
+}, 180_000)
 
 beforeEach(() => {
   vi.clearAllMocks()

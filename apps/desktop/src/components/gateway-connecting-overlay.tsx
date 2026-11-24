@@ -2,6 +2,7 @@ import type { ConnectionState } from '@hermes/shared'
 import { useStore } from '@nanostores/react'
 import { useEffect, useRef, useState } from 'react'
 
+import { MusingOrb } from '@/components/musing-orb'
 import { Button } from '@/components/ui/button'
 import { DecodeText } from '@/components/ui/decode-text'
 import { prefersReducedMotion } from '@/hooks/use-media-query'
@@ -15,8 +16,9 @@ import { $gatewayState } from '@/store/session'
 import { isMainWindow } from '@/store/windows'
 
 // Decode mechanics live in the shared <DecodeText> primitive
-// (components/ui/decode-text.tsx). "CONN" stays legible via prefix={4}.
-const TEXT = 'CONNECTING'
+// (components/ui/decode-text.tsx). "MUS" stays legible via prefix={3}.
+// The startup word is Simmuse's own: it is shown while the app connects, so it is branding, not a status.
+const TEXT = 'MUSING'
 
 // Exit choreography (ms): text fades down + out, hold, then the overlay fades.
 const TEXT_OUT_MS = 360
@@ -97,17 +99,15 @@ function ConnectingOverlayView({ decoding, onExit, phase }: ConnectingOverlayVie
       {onExit ? (
         <SlowSetupStart onExit={onExit} />
       ) : (
-        <DecodeText
-          active={decoding}
+        <div
           className={cn(
-            'pl-[0.4em] text-(--theme-primary) transition duration-300 ease-out',
+            'flex items-center gap-3 text-(--theme-primary) transition duration-300 ease-out',
             leaving ? 'translate-y-2 opacity-0 saturate-0' : 'translate-y-0 opacity-100 saturate-100'
           )}
-          cursor
-          loop
-          prefix={4}
-          text={TEXT}
-        />
+        >
+          <DecodeText active={decoding} className="pl-[0.4em]" loop prefix={3} text={TEXT} />
+          <MusingOrb />
+        </div>
       )}
     </div>
   )

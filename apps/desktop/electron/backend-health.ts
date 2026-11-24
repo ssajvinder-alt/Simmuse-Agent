@@ -1,3 +1,4 @@
+import { SIMMUSE_LINKS } from '../../shared/src/simmuse-links'
 // A cold backend boot (plugin discovery + route mounting at web_server import
 // time) can take 45-60s on slower hardware. A 45s deadline makes first-boot
 // readiness a coin flip: every lost race tears down a healthy-but-slow backend
@@ -58,7 +59,7 @@ export const REMOTE_SESSION_EXPIRED_MESSAGE =
   'Your remote gateway session has expired. Open Settings → Gateway and click "Sign in" again.'
 
 export const REMOTE_UNSIGNED_OAUTH_MESSAGE =
-  'Remote Hermes gateway uses OAuth, but you are not signed in. ' +
+  'Remote Simmuse gateway uses OAuth, but you are not signed in. ' +
   'Open Settings → Gateway and click "Sign in", or switch back to Local.'
 
 /**
@@ -150,7 +151,7 @@ export function makeNousCloudBackendDownError(baseUrl: string, error: unknown): 
       `(HTTP ${serverError.statusCode}: server-side fault). ` +
       'Check https://portal.nousresearch.com for backend status, ' +
       'or switch to Local mode in Settings → Gateway. ' +
-      'You can also reach out on Discord at discord.gg/NousResearch ' +
+      `You can also reach out to the community at ${SIMMUSE_LINKS.community} ` +
       'for immediate assistance. ' +
       `Original detail: ${detail}`
   ) as any
@@ -164,7 +165,7 @@ export function makeNousCloudBackendDownError(baseUrl: string, error: unknown): 
 }
 
 /**
- * True when the backend URL points at a Nous-managed Hermes Cloud instance
+ * True when the backend URL points at a Nous-managed Simmuse Cloud instance
  * (e.g. ares-3009.agents.nousresearch.com). These are Fly.io-hosted machines
  * the user cannot restart themselves — a 503 from one means the server is down
  * and the recovery path is Portal/Discord/wait.
@@ -305,7 +306,7 @@ export async function waitForHermesReady(baseUrl: string, options: HermesReadyOp
       }
 
       if (options.alreadyBound && isConnectionRefusedError(error)) {
-        throw new Error(`Hermes backend did not become ready: ${(error as Error).message}`)
+        throw new Error(`Simmuse backend did not become ready: ${(error as Error).message}`)
       }
 
       // An explicitly missing route means the backend predates /api/health.
@@ -338,5 +339,5 @@ export async function waitForHermesReady(baseUrl: string, options: HermesReadyOp
     throw cloudError
   }
 
-  throw new Error(`Hermes backend did not become ready: ${detail}`)
+  throw new Error(`Simmuse backend did not become ready: ${detail}`)
 }

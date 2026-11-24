@@ -58,7 +58,8 @@ def _write_config(home, yaml_text: str | None) -> None:
 
 # (config yaml, expected mode, expected timeout)
 CASES = [
-    pytest.param(None, "smart", 300, id="unset-defaults"),
+    # Simmuse's shipped default is "manual" (every dangerous command asks first); see config_defaults.py.
+    pytest.param(None, "manual", 300, id="unset-defaults"),
     pytest.param(
         "approvals:\n  mode: manual\n", "manual", 300, id="global-manual"
     ),

@@ -35,7 +35,7 @@ import { $freeTierRoute, $freeTierStatus, freeTierStripPending } from '@/store/f
 import { $interfaceMode, shownInMode, type Tiered } from '@/store/interface-mode'
 import { $previewStatusBySession, dismissPreviewArtifact } from '@/store/preview-status'
 import { $sessionControlBySession, refreshSessionControl } from '@/store/session-control'
-import { $sharedMetricsConsent, sharedMetricsOfferPending } from '@/store/shared-metrics'
+import { $sharedMetricsConsent, SHARED_METRICS_OFFERED, sharedMetricsOfferPending } from '@/store/shared-metrics'
 import { $threadScrolledUpBySession } from '@/store/thread-scroll'
 import { $retainedTodosBySession } from '@/store/todos'
 import { openSessionInNewWindow } from '@/store/windows'
@@ -66,7 +66,7 @@ const GROUP_ICON: Record<StatusGroup['type'], string> = {
 }
 
 // Goals and todos are the plan the user is following; subagents and background
-// processes are how Hermes is executing it. Simple mode shows the plan only.
+// processes are how Simmuse is executing it. Simple mode shows the plan only.
 const GROUP_TIER: Record<StatusGroup['type'], Tiered> = {
   goal: {},
   todo: {},
@@ -146,7 +146,9 @@ export function ComposerStatusStack({ onSubmit, queue, sessionId }: ComposerStat
   const freeTierNotice = ownsFreeTierNotice && freeTierStripPending(freeTierStatus, freeTierRoute)
   // Same single owner, one offer at a time: the metrics question waits for the free-tier notice.
   const sharedMetricsConsent = useStore($sharedMetricsConsent)
-  const sharedMetricsOffer = ownsFreeTierNotice && !freeTierNotice && sharedMetricsOfferPending(sharedMetricsConsent)
+
+  const sharedMetricsOffer =
+    SHARED_METRICS_OFFERED && ownsFreeTierNotice && !freeTierNotice && sharedMetricsOfferPending(sharedMetricsConsent)
 
   const isStructuredSupported = controlEntry?.capability === 'supported'
 

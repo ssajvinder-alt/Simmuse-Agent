@@ -1,24 +1,24 @@
 #!/bin/sh
-# Hermes process supervisor: one per Hermes process, reaping the process groups it owns once it dies.
+# Simmuse process supervisor: one per Simmuse process, reaping the process groups it owns once it dies.
 #
 # Usage: sh process_supervisor.sh <parent-pgid>, spawned with start_new_session=True and stdin a
-# pipe whose only write end Hermes holds (hermes_cli/process_identity.py, "owner-death supervisor").
+# pipe whose only write end Simmuse holds (hermes_cli/process_identity.py, "owner-death supervisor").
 # stdin carries one command per line:
-#     register <pgid>     reap this process group when Hermes dies
-#     unregister <pgid>   stop reaping it (Hermes stopped that child itself)
-# EOF means Hermes is gone, by any cause including SIGKILL and the OOM killer: SIGTERM every group
+#     register <pgid>     reap this process group when Simmuse dies
+#     unregister <pgid>   stop reaping it (Simmuse stopped that child itself)
+# EOF means Simmuse is gone, by any cause including SIGKILL and the OOM killer: SIGTERM every group
 # still registered, wait up to 3 s, SIGKILL the survivors, exit. A clean exit is the same EOF, so a
-# child Hermes never unregistered dies with it either way.
+# child Simmuse never unregistered dies with it either way.
 #
-# POSIX sh, not Python: Hermes keeps this process resident for its whole life, and an idle sh costs
-# about 0.5 MB USS where an idle interpreter costs about 8 MB. It must also never import Hermes:
-# it runs after Hermes may already be dead.
+# POSIX sh, not Python: Simmuse keeps this process resident for its whole life, and an idle sh costs
+# about 0.5 MB USS where an idle interpreter costs about 8 MB. It must also never import Simmuse:
+# it runs after Simmuse may already be dead.
 #
 # Malformed lines are skipped: a corrupt line must not cost the reaping guarantee for every other
-# group. Groups that are never a valid target (pgid <= 1, our own, Hermes's own) are refused at
-# registration, so a caller bug costs one unreaped child, never the Hermes process tree.
+# group. Groups that are never a valid target (pgid <= 1, our own, Simmuse's own) are refused at
+# registration, so a caller bug costs one unreaped child, never the Simmuse process tree.
 # Residual risk: groups are reaped by number, so a registered group that exits on its own can have
-# its pgid recycled before Hermes prunes it; Hermes prunes empty groups on every registration change.
+# its pgid recycled before Simmuse prunes it; Simmuse prunes empty groups on every registration change.
 
 trap '' INT HUP  # a dying parent's SIGINT/SIGHUP must not preempt the reap: EOF is the only signal
 parent=$1

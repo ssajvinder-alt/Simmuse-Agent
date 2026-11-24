@@ -92,14 +92,6 @@
    (this variant) flatten everything into one shared scroll. See ChatSidebar. */
 @custom-variant compact (@media (max-height: 768px));
 
-@font-face {
-  font-family: 'Collapse';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../../../node_modules/@nous-research/ui/dist/fonts/Collapse-Bold.woff2') format('woff2');
-}
-
 /* JetBrains Mono — bundled terminal font (Apache-2.0) so bold/italic share the
    regular face's metrics instead of squeezing against a system fallback. */
 @font-face {
@@ -494,11 +486,10 @@
     --dt-spacing-mul: 1;
 
     --radius: 0.75rem;
-    /* Effective value everywhere: the chat backdrop used to force 0.2 onto the
-       root element at runtime (an ungated leva slider default), so this 0.6
-       only ever applied to the windows that don't mount the backdrop. Pinned
-       to the value the app actually renders at. */
-    --radius-scalar: 0.2;
+    /* Corner softness for every surface and control (see --radius-sm … --radius-4xl).
+       0.2 was the flat, near-square upstream look; 0.55 gives the rounder, more
+       polished corners modern apps use (md ≈ 6px, xl ≈ 9px, 2xl ≈ 13px). */
+    --radius-scalar: 0.55;
 
     /* Space under last message vs overlay composer — driven by the measured composer DOCK height (see
        composer/index.tsx), which covers the micro-action strip, the status stack, the composer, and the
@@ -1195,7 +1186,7 @@
   display: none;
 }
 
-/* Hermes speaks first here: no user bubble sits above the opening assistant
+/* Simmuse speaks first here: no user bubble sits above the opening assistant
    turn, so the first painted row would press against the pane chrome. The
    utility class on the row pulls the top pad 0.5rem ABOVE the titlebar; give
    the air back, and only in this thread. */
@@ -2003,7 +1994,7 @@ body.guest-pointer-lock :is(webview, iframe) {
    something a class-merge or a missed scan can quietly drop, leaving the
    wordmark rendered in body text. */
 .wordmark {
-  font-family: 'Collapse', var(--font-sans);
+  font-family: 'JetBrains Mono', var(--font-mono);
   font-weight: 700;
   line-height: 0.9;
   text-transform: uppercase;
@@ -4238,4 +4229,37 @@ html[data-hermes-desktop-host='browser'] [data-slot='sidebar-container'] {
 .aui-error-details .aui-error-details-link:hover {
   background: none;
   color: var(--err-ink);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Home screen: an accent glow, the "AI workspace" pill and starter-card hover */
+/* All colours derive from the theme's `--midground`, so every theme gets its  */
+/* own accent and nothing here is a literal.                                   */
+/* -------------------------------------------------------------------------- */
+
+.home-glow {
+  /* Centred in the box and fully transparent before its edges, so no rectangle shows. */
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, color-mix(in srgb, var(--midground) 24%, transparent), transparent 100%);
+}
+
+.home-pill {
+  background: color-mix(in srgb, var(--midground) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--midground) 28%, transparent);
+}
+
+[data-slot='aui_home'] [data-starter] {
+  background: color-mix(in srgb, var(--card) 80%, transparent);
+  box-shadow: inset 0 0 0 1px var(--ui-stroke-tertiary);
+  transition:
+    box-shadow 140ms,
+    background-color 140ms;
+}
+
+/* Hover paints instantly; only the return eases (DESIGN.md, Motion). */
+[data-slot='aui_home'] [data-starter]:hover {
+  background: color-mix(in srgb, var(--midground) 7%, var(--card));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--midground) 60%, transparent),
+    0 6px 28px -10px color-mix(in srgb, var(--midground) 50%, transparent);
+  transition: none;
 }

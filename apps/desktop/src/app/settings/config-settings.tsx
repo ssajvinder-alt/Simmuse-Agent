@@ -32,6 +32,7 @@ import { notify, notifyError } from '@/store/notifications'
 import { normalizeProfileKey } from '@/store/profile'
 import { repoDiscoveryPolicyFromConfig, repoDiscoveryPolicySignature, scanAndRecordRepos } from '@/store/projects'
 import { $settingsRequestProfile } from '@/store/settings-scope'
+import { SHARED_METRICS_OFFERED } from '@/store/shared-metrics'
 import type { ConfigFieldSchema, HermesConfigRecord } from '@/types/hermes'
 
 import { hermesConfigCacheWriter, useHermesConfigRecord } from '../hooks/use-config-record'
@@ -59,6 +60,7 @@ import { MemoryLayersSlot } from './memory/memory-layers'
 import { ProviderConfigPanel } from './memory/provider-config-panel'
 import { ModelSettings, ModelSettingsSkeleton } from './model-settings'
 import { OnboardingSettings } from './onboarding-settings'
+import { PermissionsPanel } from './permissions-panel'
 import { EmptyState, ListRow, SettingsContent, SettingsSkeleton, ToggleRow } from './primitives'
 import { SettingsProfileScope } from './profile-scope'
 import { QuickEntrySettings } from './quick-entry-settings'
@@ -327,7 +329,8 @@ function ConfigSettingsInner({
 
   const showDesktopSettings = activeSectionId === 'advanced' && (subpage === undefined || subpage === 'desktop')
   const showAttachments = activeSectionId === 'chat' && (subpage === undefined || subpage === 'attachments')
-  const showSharedMetrics = activeSectionId === 'safety' && subpage === 'privacy'
+  const showSharedMetrics = SHARED_METRICS_OFFERED && activeSectionId === 'safety' && subpage === 'privacy'
+  const showPermissions = activeSectionId === 'safety' && (subpage === undefined || subpage === 'approvals')
 
   // Deep-link target from the command palette (?field=<key>): scroll the row
   // into view and flash it, then drop the param so it doesn't re-fire.
@@ -471,6 +474,7 @@ function ConfigSettingsInner({
       {/* Device-local desktop prefs (not config.yaml) — they live here since
           keeping the machine awake and the global Quick Entry chord are both
           power-user, this-computer-only knobs. */}
+      {showPermissions && <PermissionsPanel profile={scopeProfile} />}
       {showDesktopSettings && (
         <>
           <ListRow

@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { clearStorageKeepingAdvanced } from '@/test/seed-advanced-mode'
+
 // Ground-truth repro for "hiding the sidebar doesn't persist on reload": drive
 // the REAL stores, then re-import them (fresh module state reading persisted
 // localStorage) to simulate a ⌃R reload. `bind` mirrors the controller wiring.
@@ -19,7 +21,7 @@ const reload = () => vi.resetModules() // fresh modules; localStorage is the car
 
 describe('sidebar collapse persistence', () => {
   beforeEach(() => {
-    window.localStorage.clear()
+    clearStorageKeepingAdvanced()
     vi.resetModules()
   })
 
@@ -64,7 +66,7 @@ describe('sidebar collapse persistence', () => {
 
   it('explicit open restores hidden strip tabs and minimized groups only on that physical side', async () => {
     for (const flipped of [false, true]) {
-      window.localStorage.clear()
+      clearStorageKeepingAdvanced()
       reload()
       const { layout, tree, bind } = await loadStores()
       const { findGroup, group, split } = await import('@/components/pane-shell/tree/model')
@@ -115,7 +117,7 @@ describe('sidebar collapse persistence', () => {
 
   it('recovers the minimized physical side after reload without changing its active tab', async () => {
     for (const flipped of [false, true]) {
-      window.localStorage.clear()
+      clearStorageKeepingAdvanced()
       reload()
       const s1 = await loadStores()
       const { group, split } = await import('@/components/pane-shell/tree/model')

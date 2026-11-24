@@ -25,6 +25,23 @@ const orderOf = (p: OAuthProvider) => PROVIDER_ORDER[p.id] ?? 99
 export const sortProviders = (providers: OAuthProvider[]) =>
   [...providers].sort((a, b) => orderOf(a) - orderOf(b) || a.name.localeCompare(b.name))
 
+/** Nous Portal is one provider among several, run by Nous Research, not part of Simmuse. English only:
+ *  the translated `onboarding.featuredPitch` calls it "the recommended way to run Simmuse", which is
+ *  no longer true (Simmuse recommends bringing your own provider key, OpenRouter first). */
+export const NOUS_PORTAL_PITCH = 'A Nous Research service: one subscription, 300+ frontier models. Sign in with a Nous account.'
+
+/** The "Recommended" tag, in the same style the featured row used to carry. */
+export function RecommendedTag() {
+  const { t } = useI18n()
+
+  return (
+    <span className="inline-flex items-center gap-1.5 bg-primary px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
+      <span aria-hidden="true" className="dither inline-block size-2 shrink-0" />
+      {t.onboarding.recommended}
+    </span>
+  )
+}
+
 export function FeaturedProviderRow({
   onSelect,
   provider
@@ -53,15 +70,10 @@ export function FeaturedProviderRow({
             <FreeTierTag />
           ) : loggedIn ? (
             <ConnectedTag />
-          ) : (
-            <span className="inline-flex items-center gap-1.5 bg-primary px-2 py-0.5 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-primary-foreground">
-              <span aria-hidden="true" className="dither inline-block size-2 shrink-0" />
-              {t.onboarding.recommended}
-            </span>
-          )}
+          ) : null}
         </div>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          {freeTier ? t.freeTier.providerRowPitch : t.onboarding.featuredPitch}
+          {freeTier ? t.freeTier.providerRowPitch : NOUS_PORTAL_PITCH}
         </p>
       </div>
       <ChevronRight className="size-4 shrink-0 text-primary transition group-hover:translate-x-0.5" />
@@ -95,11 +107,24 @@ const PROVIDER_ROW_CLASS =
   'group flex w-full items-center justify-between gap-3 rounded-[6px] px-3 py-2.5 text-left transition-colors hover:bg-(--ui-control-hover-background)'
 
 /** Quick-key row for API-key providers (Fireworks leads the expanded list after Nous, OpenRouter further down). */
-export function KeyProviderRow({ onClick, pitch, title }: { onClick: () => void; pitch: string; title: string }) {
+export function KeyProviderRow({
+  onClick,
+  pitch,
+  recommended = false,
+  title
+}: {
+  onClick: () => void
+  pitch: string
+  recommended?: boolean
+  title: string
+}) {
   return (
     <RowButton className={PROVIDER_ROW_CLASS} onClick={onClick}>
       <div className="min-w-0">
-        <span className="text-[length:var(--conversation-text-font-size)] font-semibold">{title}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-[length:var(--conversation-text-font-size)] font-semibold">{title}</span>
+          {recommended ? <RecommendedTag /> : null}
+        </div>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">{pitch}</p>
       </div>
       <ChevronRight className="size-4 text-muted-foreground transition group-hover:text-foreground" />
@@ -123,10 +148,11 @@ export function LocalModelsProviderRow({ onClick }: { onClick: () => void }) {
   )
 }
 
+/** Simmuse's suggested starting point for someone bringing their own provider key. */
 export function OpenRouterProviderRow({ onClick }: { onClick: () => void }) {
   const { t } = useI18n()
 
-  return <KeyProviderRow onClick={onClick} pitch={t.onboarding.openRouterPitch} title="OpenRouter" />
+  return <KeyProviderRow onClick={onClick} pitch={t.onboarding.openRouterPitch} recommended title="OpenRouter" />
 }
 
 export function ProviderRow({

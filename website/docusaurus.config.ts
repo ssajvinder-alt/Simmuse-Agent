@@ -4,15 +4,16 @@ import type * as Preset from '@docusaurus/preset-classic';
 import relativeDocLinks from './src/remark/relativeDocLinks';
 
 const config: Config = {
-  title: 'Hermes Agent',
+  title: 'Simmuse Agent',
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-agent.nousresearch.com',
-  baseUrl: '/docs/',
+  // GitHub Pages project site; DOCS_SITE_URL / DOCS_BASE_URL override for other hosts.
+  url: process.env.DOCS_SITE_URL ?? 'https://ssajvinder-alt.github.io',
+  baseUrl: process.env.DOCS_BASE_URL ?? '/Simmuse-Agent/docs/',
 
-  organizationName: 'NousResearch',
-  projectName: 'hermes-agent',
+  organizationName: 'ssajvinder-alt',
+  projectName: 'Simmuse-Agent',
 
   onBrokenLinks: 'warn',
 
@@ -83,7 +84,7 @@ const config: Config = {
         docs: {
           routeBasePath: '/',  // Docs at the root of /docs/
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/NousResearch/hermes-agent/edit/main/website/',
+          editUrl: 'https://github.com/ssajvinder-alt/Simmuse-Agent/edit/main/website/',
           // Relative `.md` links (readable on GitHub, #114428) must also resolve
           // across the zh-Hans fallback boundary; see src/remark/relativeDocLinks.js.
           beforeDefaultRemarkPlugins: [[relativeDocLinks, {siteDir: __dirname}]],
@@ -123,9 +124,9 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'Hermes Agent',
+      title: 'Simmuse Agent',
       logo: {
-        alt: 'Hermes Agent',
+        alt: 'Simmuse Agent',
         src: 'img/logo.png',
         srcDark: 'img/logo-dark.png',
       },
@@ -147,7 +148,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://hermes-agent.nousresearch.com/',
+          href: 'https://github.com/ssajvinder-alt/Simmuse-Agent/releases',
           label: 'Download',
           position: 'left',
         },
@@ -156,18 +157,8 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://hermes-agent.nousresearch.com',
-          label: 'Home',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/NousResearch/hermes-agent',
+          href: 'https://github.com/ssajvinder-alt/Simmuse-Agent',
           label: 'GitHub',
-          position: 'right',
-        },
-        {
-          href: 'https://discord.gg/NousResearch',
-          label: 'Discord',
           position: 'right',
         },
       ],
@@ -187,21 +178,20 @@ const config: Config = {
         {
           title: 'Community',
           items: [
-            { label: 'Discord', href: 'https://discord.gg/NousResearch' },
-            { label: 'GitHub Issues', href: 'https://github.com/NousResearch/hermes-agent/issues' },
+            { label: 'GitHub Issues', href: 'https://github.com/ssajvinder-alt/Simmuse-Agent/issues' },
             { label: 'Skills Hub', href: 'https://agentskills.io' },
           ],
         },
         {
           title: 'More',
           items: [
-            { label: 'Desktop Download', href: 'https://hermes-agent.nousresearch.com/' },
-            { label: 'GitHub', href: 'https://github.com/NousResearch/hermes-agent' },
-            { label: 'Nous Research', href: 'https://nousresearch.com' },
+            { label: 'Desktop Download', href: 'https://github.com/ssajvinder-alt/Simmuse-Agent/releases' },
+            { label: 'GitHub', href: 'https://github.com/ssajvinder-alt/Simmuse-Agent' },
+            { label: 'Based on Hermes Agent', href: 'https://github.com/NousResearch/hermes-agent' },
           ],
         },
       ],
-      copyright: `Built by <a href="https://nousresearch.com">Nous Research</a> · MIT License · ${new Date().getFullYear()}`,
+      copyright: `Simmuse Agent, based on <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> by Nous Research · MIT License · ${new Date().getFullYear()}`,
     },
     prism: {
       theme: prismThemes.github,

@@ -24,7 +24,7 @@ async function probeChild(nativeDeps) {
     const timer = setTimeout(() => {
       terminal.kill()
       reject(new Error('Prepared Electron PTY timed out'))
-    }, 10000)
+    }, 30000)
     terminal.onData(data => { output += data })
     terminal.onExit(({ exitCode }) => {
       clearTimeout(timer)
@@ -55,8 +55,11 @@ export function probePreparedNative({ source, nativeDeps, packaging, out, native
   if (extract.error || extract.status !== 0) throw new Error(`Electron extraction failed: ${extract.error?.message || extract.stderr}`)
   const executable = new Map([['win32', 'electron.exe'], ['darwin', 'Electron.app/Contents/MacOS/Electron'], ['linux', 'electron']]).get(process.platform)
   if (!executable) throw new Error(`Unsupported native probe platform: ${process.platform}`)
+  // A just-unpacked Electron is slow to start the first time: antivirus scans it, and a memory-starved
+  // machine pages it in. Measured at 13-19 s here, so 15 s failed a healthy build. 60 s still catches a
+  // real hang; a wrong result still fails at once.
   const child = spawnSync(path.join(work, executable), [fileURLToPath(import.meta.url), '--child', admitted], {
-    cwd: work, encoding: 'utf8', timeout: 15000, killSignal: 'SIGKILL',
+    cwd: work, encoding: 'utf8', timeout: 60000, killSignal: 'SIGKILL',
     env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }, stdio: ['ignore', 'pipe', 'pipe'],
   })
   if (child.error || child.status !== 0) throw new Error(`Prepared Electron PTY admission failed: ${child.error?.message || child.stderr}`)

@@ -1,4 +1,4 @@
-import collapseBold from '@nous-research/ui/fonts/Collapse-Bold.woff2?url'
+import wordmarkBold from '../fonts/JetBrainsMono-Bold.woff2?url'
 
 import { isTransparentWindow } from './transparent-windows'
 
@@ -29,7 +29,7 @@ async function loadWordmarkFont(): Promise<void> {
   }
 
   try {
-    const face = new FontFace('Collapse', `url("${collapseBold}")`, { weight: '700', display: 'swap' })
+    const face = new FontFace('JetBrains Mono', `url("${wordmarkBold}")`, { weight: '700', display: 'swap' })
     document.fonts.add(face)
     await face.load()
   } catch {
@@ -39,7 +39,7 @@ async function loadWordmarkFont(): Promise<void> {
 
 // Keep this independent of the app graph: its JavaScript or CSS may have failed to load.
 export function showBootFailure(error: unknown, reload: () => void = () => location.reload()): void {
-  console.error('Hermes failed to load', error)
+  console.error('Simmuse failed to load', error)
 
   const root = document.getElementById('root')
 
@@ -76,11 +76,11 @@ export function showBootFailure(error: unknown, reload: () => void = () => locat
   })
 
   const wordmark = document.createElement('p')
-  wordmark.textContent = 'HERMES AGENT'
+  wordmark.textContent = 'SIMMUSE'
   wordmark.setAttribute('aria-hidden', 'true')
   Object.assign(wordmark.style, {
     color: palette?.accent ?? 'currentColor',
-    fontFamily: 'Collapse, system-ui, sans-serif',
+    fontFamily: '"JetBrains Mono", ui-monospace, system-ui, sans-serif',
     fontSize: 'clamp(2.5rem, 9vw, 6rem)',
     fontWeight: '700',
     letterSpacing: '0.08em',
@@ -91,7 +91,7 @@ export function showBootFailure(error: unknown, reload: () => void = () => locat
 
   // English is intentional: i18n lives in the app graph that failed to load.
   const heading = document.createElement('h1')
-  heading.textContent = 'Hermes couldn’t load'
+  heading.textContent = 'Simmuse couldn’t load'
   heading.style.cssText = 'color: inherit; font-size: 1.125rem; font-weight: 600; margin: 0'
 
   const message = document.createElement('p')

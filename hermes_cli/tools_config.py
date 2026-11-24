@@ -1,4 +1,4 @@
-"""Unified tool configuration for Hermes Agent."""
+"""Unified tool configuration for Simmuse Agent."""
 
 import json as _json
 import logging
@@ -9,6 +9,7 @@ from typing import Dict, List, NoReturn, Optional, Set
 from hermes_cli.cli_output import print_info as _print_info
 from hermes_cli.colors import Colors, color
 from hermes_cli.config import cfg_get, load_config, save_config, get_env_value
+from hermes_cli.observability.shared_metrics_send_config import SHARING_OFFERED
 from hermes_cli.nous_subscription import (
     NousSubscriptionFeatures, apply_nous_managed_defaults, get_nous_subscription_features)
 from hermes_cli.platforms import PLATFORMS as _PLATFORMS_REGISTRY
@@ -319,7 +320,7 @@ TOOL_CATEGORIES = {
     "x_search": {
         "name": "X (Twitter) Search", "setup_title": "Select xAI Credential Source",
         "setup_note": (
-            "Hermes routes X searches through xAI's built-in x_search Responses tool for read-only public X "
+            "Simmuse routes X searches through xAI's built-in x_search Responses tool for read-only public X "
             "discovery. Use the xurl skill for authenticated X API reads and account actions. Both credential "
             "sources hit the same https://api.x.ai/v1/responses endpoint — pick whichever you already have. "
             "SuperGrok OAuth is preferred when both are set (uses your subscription quota instead of API spend)."
@@ -342,7 +343,7 @@ TOOL_CATEGORIES = {
         "providers": [
             _row("Local Browser", "★ recommended · free", "Headless Chromium, no API key needed", browser_provider="local",
                  browser_engine="auto", post_setup="chromium"),
-            _row("Lightpanda", "free · local · no Chromium", "Zig headless browser spawned by Hermes, text-only (no screenshots)",
+            _row("Lightpanda", "free · local · no Chromium", "Zig headless browser spawned by Simmuse, text-only (no screenshots)",
                  browser_provider="local", browser_engine="lightpanda", post_setup="lightpanda"),
             # Browser Use hosts its own Chromium, so the local-Chromium install and readiness gate must not
             # apply (with "chromium" this row read "needs setup" forever on machines without a local build).
@@ -582,7 +583,7 @@ def _get_platform_tools(config: dict, platform: str, *, include_default_mcp_serv
     # YAML may parse bare numeric names (``12306:``) as int; normalise so sorted() never mixes types.
     toolset_names = [str(ts) for ts in toolset_names]
 
-    # Expand legacy toolset aliases.  Older Hermes versions and clients used
+    # Expand legacy toolset aliases.  Older Simmuse versions and clients used
     # bare ``"hermes"`` as a composite toolset covering both the CLI and the
     # API-server surface.  Modern code expects ``"hermes-cli"`` (and
     # ``"hermes-api-server"`` for the HTTP endpoint), so configs persisted
@@ -1144,7 +1145,7 @@ def tools_command(args=None, first_install: bool = False, config: dict | None = 
     if getattr(args, "summary", False):
         _print_tools_summary(config, enabled_platforms)
         return
-    print(color("☤ Hermes Tool Configuration", Colors.CYAN, Colors.BOLD))
+    print(color("☤ Simmuse Tool Configuration", Colors.CYAN, Colors.BOLD))
     print(color("  Enable or disable tools per platform.", Colors.DIM))
     print(color("  Tools that need API keys will be configured when enabled.", Colors.DIM))
     print(color("  Guide: https://hermes-agent.nousresearch.com/docs/user-guide/features/tools", Colors.DIM))
@@ -1165,7 +1166,7 @@ def tools_command(args=None, first_install: bool = False, config: dict | None = 
 
     global_idx = _add_row("Configure all platforms (global)", len(platform_keys) > 1)
     reconfig_idx = _add_row("Reconfigure an existing tool's provider or API key")
-    metrics_idx = _add_row(_shared_metrics_menu_label(config))
+    metrics_idx = _add_row(_shared_metrics_menu_label(config), SHARING_OFFERED)
     mcp_idx = _add_row("Configure MCP server tools", bool(config.get("mcp_servers")))
     done_idx = _add_row("Done")
 

@@ -1,6 +1,6 @@
 // The desktop product identity — THE single source for every name-shaped
-// value a variant owns. HERMES_DESKTOP_VARIANT=light builds "Hermes
-// Light", the remote-only client; everything else is full "Hermes".
+// value a variant owns. HERMES_DESKTOP_VARIANT=light builds "Simmuse
+// Light", the remote-only client; everything else is full "Simmuse".
 //
 // Consumed at build time by electron-builder.config.cjs (packaging
 // identity). electron/product-identity.ts is the typed runtime accessor.
@@ -9,16 +9,16 @@
 'use strict'
 
 const variants = {
-  '': { display: 'Hermes', kebab: 'hermes', pascal: 'Hermes' },
+  '': { display: 'Simmuse', kebab: 'simmuse', pascal: 'Simmuse' },
   light: {
-    display: 'Hermes Light',
-    kebab: 'hermes-light',
-    pascal: 'HermesLight'
+    display: 'Simmuse Light',
+    kebab: 'simmuse-light',
+    pascal: 'SimmuseLight'
   },
   bundled: {
-    display: 'Hermes Agent',
-    kebab: 'hermes-bundled',
-    pascal: 'HermesBundled'
+    display: 'Simmuse Agent',
+    kebab: 'simmuse-bundled',
+    pascal: 'SimmuseBundled'
   }
 }
 
@@ -66,14 +66,16 @@ const identity = {
   store,
   light,
   displayName,
-  appId: `com.nousresearch.${name.kebab}${kebabSuffix}`,
+  appId: `com.simmuse.${name.kebab}${kebabSuffix}`,
   // Store and commit builds do not publish a release feed.
   channel: store || buildCommit ? null : light ? (canary ? 'light-canary' : 'light') : (canary ? 'canary' : 'latest'),
   appNamePascal: `${name.pascal}${pascalSuffix}`,
   artifactNamePascal: name.pascal,
-  windowsExecutableName: kebabSuffix ? cliName : displayName,
+  // The visible program file (Task Manager, shortcuts). Suffixed builds need a name of their own so
+  // installs stay side by side; it is Simmuse-branded, while `cliName` keeps the internal command name.
+  windowsExecutableName: kebabSuffix ? `${light ? 'simmuse-light' : 'simmuse'}${kebabSuffix}` : displayName,
   cliName,
-  msixAppIdWithOrg: `NousResearch.${name.pascal}${pascalSuffix}`,
+  msixAppIdWithOrg: `Simmuse.${name.pascal}${pascalSuffix}`,
   ...(store
     ? {
         storeMsix: {

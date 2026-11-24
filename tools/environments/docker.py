@@ -115,7 +115,7 @@ _sandbox_dir_name = sanitize_task_id_for_path
 
 
 def _get_active_profile_name() -> str:
-    """Active Hermes profile name (the container key's own lookup), or ``"default"`` on error. Resolved
+    """Active Simmuse profile name (the container key's own lookup), or ``"default"`` on error. Resolved
     at container-create time so a container stays tagged with its creator even if the process switches
     profiles."""
     return home_profile_name()

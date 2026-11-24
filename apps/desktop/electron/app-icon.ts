@@ -14,7 +14,7 @@ import { nativeImage } from 'electron'
  * `createWindow()` and took the whole app down mid-session: the window never
  * appeared, running turns lost their renderer, and the desktop log showed
  * `Uncaught exception: Error: Failed to load image from path
- * '.../app.asar/public/apple-touch-icon.png' at createWindow`.
+ * '.../app.asar/public/simmuse-icon.png' at createWindow`.
  *
  * This helper makes icon resolution fail-soft: a candidate that exists but does
  * not decode is skipped like a missing one, so the app falls through to the
@@ -81,16 +81,16 @@ export function appIconCandidates(opts: {
     // The unpacked on-disk copy first (dist/** is asarUnpack'ed), as resolveWebDist() does: statting
     // any path inside app.asar goes through Electron's asar fs.Stats shim, which emits Node's DEP0180
     // on every packaged launch (#96857). In a dev tree unpackedPathFor is the identity.
-    path.join(unpackedPathFor(appRoot), 'dist', 'apple-touch-icon.png'),
-    path.join(appRoot, 'public', 'apple-touch-icon.png'),
-    path.join(appRoot, 'dist', 'apple-touch-icon.png')
+    path.join(unpackedPathFor(appRoot), 'dist', 'simmuse-icon.png'),
+    path.join(appRoot, 'public', 'simmuse-icon.png'),
+    path.join(appRoot, 'dist', 'simmuse-icon.png')
   ]
 }
 
 /**
  * Whether to replace the macOS Dock icon at runtime with `app.dock.setIcon()`.
  *
- * A packaged `.app` already carries the Hermes icon in its bundle
+ * A packaged `.app` already carries the Simmuse icon in its bundle
  * (electron-builder `build.icon`). Overriding it with a flat PNG at runtime
  * hides that bundle icon for the life of the process, so macOS 26 can't apply
  * the Clear/Tinted Liquid Glass styles to it (#73195). Only a dev run needs the

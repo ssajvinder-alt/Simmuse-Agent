@@ -10,7 +10,7 @@ from agent.onboarding_text import reminder
 
 MAC = Facts(os="macos", arch="arm64", machine_kind="Mac")
 PC = Facts(os="windows", arch="amd64", machine_kind="PC", nvidia_platform="discrete")
-ALWAYS = ["notes", "explain", "youtube", "watch", "site", "repo"]
+ALWAYS = ["plan", "notes", "explain", "youtube", "watch", "site", "repo"]
 
 
 def ids(facts: Facts, **picks) -> list[str]:
@@ -32,7 +32,7 @@ def test_a_plugin_row_needs_its_plugin_installed(plugin, row):
 def test_brief_and_week_need_an_app_connected_this_run_and_mac_helpers_need_macos():
     assert {"brief", "week"} <= set(ids(PC, connected=["gmail"]))
     assert ids(PC, connected=[]) == ALWAYS
-    assert ids(MAC) == ["mac", *ALWAYS]
+    assert ids(MAC) == ["plan", "mac", *ALWAYS[1:]]
 
 
 def test_a_task_reminder_opens_with_its_skills_and_drops_a_bundled_skill_this_install_lacks():
@@ -68,13 +68,15 @@ def test_every_catalog_row_is_a_full_prompt():
         assert task.goal and task.output and task.quality and task.done and 2 <= len(task.steps) <= 6, task.id
 
 
-def test_how_hermes_works_reads_the_docs_and_builds_three_screens():
+def test_how_simmuse_works_uses_this_install_reads_no_website_and_builds_three_screens():
     text = reminder("build_hermes", new_record(MAC), MAC)
 
     assert text.split("\n")[1] == ("Load these skills with skill_view first: hermes-agent, claude-design, p5js, "
                                    "humanizer.")
-    assert "https://hermes-agent.nousresearch.com/docs" in text and "web_extract" in text
-    assert all(f"Screen {n}" in text for n in (1, 2, 3)) and "~/hermes-first-task/" in text
+    # Simmuse does not send the first task to another company's website.
+    assert "nousresearch" not in text.lower() and "web_extract" not in text
+    assert "Read no website" in text and "from this install" in text
+    assert all(f"Screen {n}" in text for n in (1, 2, 3)) and "~/Simmuse/first-task/" in text
 
 
 @pytest.mark.parametrize("facts", [MAC, PC, Facts(os="linux"), Facts(os="linux", facts_source="remote")],
@@ -111,3 +113,26 @@ def test_every_too_long_label_is_named_with_its_length_in_one_refusal():
                         {"id": "repo", "label": "Map one of my repos"}], MAC, {"connected": ["slack"]})
     assert f'"{long_a}" is {len(long_a)} characters; the limit is 32' in error
     assert f'"{long_b}" is {len(long_b)} characters' in error
+
+
+def test_plan_my_week_is_the_first_always_available_row_on_every_machine():
+    """The guided first example: no plugin, app or OS needed, and ahead of every other row that fits."""
+    for facts in (MAC, PC, Facts(os="linux"), Facts(os="linux", facts_source="remote")):
+        assert ids(facts)[0] == "plan"
+    assert ids(PC, connected=["gmail"], installed=["blender"])[0] == "plan"
+
+
+def test_plan_my_week_asks_for_three_goals_and_saves_a_file_it_names():
+    text = reminder("build_plan", new_record(MAC), MAC)
+
+    assert text.startswith('They picked "Plan my week from three goals". Your job: ')
+    assert "three goals" in text and "Never invent goals" in text
+    assert "week-plan.md" in text and "~/Simmuse/first-task/" in text
+    assert "you said where the file is" in text
+    assert "Load these skills with skill_view first: weekly-review-planning, humanizer." in text
+
+
+def test_plan_my_week_skill_exists_in_the_repo():
+    from pathlib import Path
+
+    assert (Path(__file__).resolve().parents[2] / "skills" / "productivity" / "weekly-review-planning").is_dir()

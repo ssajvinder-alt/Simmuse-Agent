@@ -1,3 +1,4 @@
+import { SIMMUSE_LINKS } from '@hermes/shared/simmuse-links'
 import { useStore } from '@nanostores/react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -101,7 +102,7 @@ export function SidebarLoadErrorState({ onRetry }: { onRetry: () => void }) {
 }
 
 const SESSION_STORAGE_RECOVERY_URL =
-  'https://hermes-agent.nousresearch.com/docs/user-guide/session-storage-recovery#when-the-three-steps-do-not-work'
+  SIMMUSE_LINKS.docsRecovery
 
 interface SidebarStorageCorruptNoticeProps {
   openRecoveryGuide?: (url: string) => void

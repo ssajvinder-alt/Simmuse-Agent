@@ -16,9 +16,32 @@ DEFAULT_ENDPOINT = "https://telemetry.nousresearch.com/v1/telemetry"
 
 _LOCAL_HOSTS = frozenset({"localhost", "127.0.0.1", "::1", "[::1]"})
 
+#: Simmuse never uploads usage metrics to Nous Research. Packages stay on this computer
+#: unless ``endpoint`` points somewhere else the owner controls (including loopback, which
+#: the tests use). This is the one gate every send goes through, so it holds even if a
+#: config file is edited by hand to turn ``send`` on.
+_NOUS_DOMAIN = "nousresearch.com"
+
+#: Whether any command-line surface (setup wizard, end-of-setup offer, pre-chat offer, tools
+#: menu row) invites the person to share usage metrics. False: the only upload address
+#: Simmuse ships with is Nous Research's, and it does not send them data. Flip it only
+#: together with an owner-controlled ``endpoint``. The desktop app has the same switch
+#: (``SHARED_METRICS_OFFERED`` in apps/desktop/src/store/shared-metrics.ts).
+SHARING_OFFERED = False
+
 # Module-level latch: the enabled/send mismatch is a static misconfiguration,
 # so it is reported once per process instead of on every hook fire.
 _warned_send_without_collection = False
+_warned_nous_upload_disabled = False
+
+
+def _endpoint_is_nous(endpoint: str) -> bool:
+    """True when ``endpoint`` is on Nous Research's domain (the upstream ingest)."""
+    try:
+        host = (urlparse(endpoint).hostname or "").lower()
+    except ValueError:
+        return False
+    return host == _NOUS_DOMAIN or host.endswith("." + _NOUS_DOMAIN)
 
 
 @dataclass(frozen=True)
@@ -50,7 +73,7 @@ def resolve_send_config(config: dict | None) -> SendConfig:
     ``send`` is False whenever transmission cannot legitimately happen, so callers never
     have to re-check the combination.
     """
-    global _warned_send_without_collection
+    global _warned_send_without_collection, _warned_nous_upload_disabled
 
     raw = config if isinstance(config, dict) else {}
     telemetry = raw.get("telemetry")
@@ -77,6 +100,15 @@ def resolve_send_config(config: dict | None) -> SendConfig:
     if not isinstance(endpoint, str) or not endpoint.strip():
         endpoint = DEFAULT_ENDPOINT
     endpoint = endpoint.strip()
+
+    if send_requested and _endpoint_is_nous(endpoint):
+        if not _warned_nous_upload_disabled:
+            _warned_nous_upload_disabled = True
+            logger.warning(
+                "Shared metrics upload to Nous Research is disabled in Simmuse; "
+                "usage metrics stay on this computer."
+            )
+        return SendConfig(enabled=enabled, send=False, endpoint=endpoint)
 
     if send_requested and not _endpoint_is_safe(endpoint):
         logger.error(

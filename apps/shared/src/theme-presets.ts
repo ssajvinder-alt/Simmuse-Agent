@@ -1,5 +1,5 @@
 /**
- * Raw palette table for every built-in Hermes theme preset — the single source
+ * Raw palette table for every built-in Simmuse theme preset — the single source
  * of truth shared by the desktop app (which layers OKLCH synthesis, terminal
  * palettes and typography on top) and the web dashboard (which projects each
  * preset down to its 3-slot background/midground/foreground model via
@@ -436,6 +436,38 @@ export const THEME_PRESET_PALETTES = {
       sidebarBorder: '#12123a',
       userBubble: '#14143a',
       userBubbleBorder: '#242466'
+    }
+  },
+  // Simmuse's own look: true black surfaces with a single hot-orange accent. Neutrals stay
+  // cool-neutral so the orange is the only colour that moves; orange on black is ~8:1 and
+  // black ink on the orange fill is ~8:1, so both text and buttons clear WCAG AA.
+  simmuse: {
+    colors: {
+      background: '#0a0a0b',
+      foreground: '#f3efea',
+      card: '#111113',
+      cardForeground: '#f3efea',
+      muted: '#17171a',
+      mutedForeground: '#9a948d',
+      popover: '#141416',
+      popoverForeground: '#f3efea',
+      primary: '#ff7a1a',
+      primaryForeground: '#140a02',
+      secondary: '#1c1c20',
+      secondaryForeground: '#e4ded7',
+      accent: '#26160a',
+      accentForeground: '#ffb77a',
+      border: '#26262b',
+      input: '#202024',
+      ring: '#ff7a1a',
+      midground: '#ff7a1a',
+      composerRing: '#ff7a1a',
+      destructive: '#e5484d',
+      destructiveForeground: '#fef2f2',
+      sidebarBackground: '#070708',
+      sidebarBorder: '#1c1c20',
+      userBubble: '#1d1209',
+      userBubbleBorder: '#4a2a12'
     }
   },
   ember: {

@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { expect, test } from 'vitest'
 
-import { applyBundleEnvironment, environmentDefaultsBanner } from './bundle-env.mjs'
+import { applyBundleEnvironment, bundleEnvironmentJson, environmentDefaultsBanner } from './bundle-env.mjs'
 
 test('explicit clears beat inherited homes and prevent Windows registry fallback before spawning', async () => {
   const root = mkdtempSync(join(tmpdir(), 'hermes-bundle-clear-'))
@@ -92,4 +92,24 @@ test('baked defaults precede imported module initialization and reach children w
   } finally {
     rmSync(root, { recursive: true, force: true })
   }
+})
+
+test('every bundle keeps Simmuse data beside Hermes by default, and a build may still override it', () => {
+  // No request: the product's own data-folder suffix is baked in.
+  expect(JSON.parse(bundleEnvironmentJson('{}'))).toEqual({ HERMES_DATA_DIR_SUFFIX: '-simmuse' })
+  expect(JSON.parse(bundleEnvironmentJson(''))).toEqual({ HERMES_DATA_DIR_SUFFIX: '-simmuse' })
+
+  // A request overrides it (or clears it) and adds its own allowed keys.
+  expect(JSON.parse(bundleEnvironmentJson('{"HERMES_DATA_DIR_SUFFIX":"-test","HERMES_PREVIEW_FULL_CONNECTORS":"1"}'))).toEqual({
+    HERMES_DATA_DIR_SUFFIX: '-test', HERMES_PREVIEW_FULL_CONNECTORS: '1'
+  })
+  expect(JSON.parse(bundleEnvironmentJson('{"HERMES_DATA_DIR_SUFFIX":null}'))).toEqual({ HERMES_DATA_DIR_SUFFIX: null })
+
+  // The default fills only an absent key, so an explicit runtime value wins.
+  const baked = JSON.parse(bundleEnvironmentJson('{}'))
+  expect(applyBundleEnvironment({}, baked).HERMES_DATA_DIR_SUFFIX).toBe('-simmuse')
+  expect(applyBundleEnvironment({ HERMES_DATA_DIR_SUFFIX: '-mine' }, baked).HERMES_DATA_DIR_SUFFIX).toBe('-mine')
+
+  // Disallowed keys are still rejected.
+  expect(() => bundleEnvironmentJson('{"NODE_OPTIONS":"--x"}')).toThrow()
 })

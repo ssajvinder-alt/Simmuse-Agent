@@ -7,6 +7,8 @@ const loadStore = () => import('./statusbar-prefs')
 describe('statusbar whole-bar visibility', () => {
   beforeEach(() => {
     window.localStorage.clear()
+    // These cases are about the stored preference; Simple shadows it, so run in Advanced.
+    window.localStorage.setItem('hermes.desktop.interfaceMode.v1', 'advanced')
     vi.resetModules()
   })
 

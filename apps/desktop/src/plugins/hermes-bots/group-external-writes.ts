@@ -1,7 +1,7 @@
 /**
  * Mirror of what a member said and heard OUTSIDE the room engine. (#93813)
  *
- * A member's hidden per-group session is an ordinary Hermes session, so other
+ * A member's hidden per-group session is an ordinary Simmuse session, so other
  * writers legitimately append to it: the user resuming it from the CLI
  * (`hermes -p <bot> chat --resume "Group: <room> · <thread>"`), a cron job, the
  * agent's own tools. Those rows reach the transcript but never the room log,

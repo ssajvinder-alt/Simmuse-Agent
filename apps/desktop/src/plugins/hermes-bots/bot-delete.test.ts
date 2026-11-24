@@ -1,5 +1,5 @@
 /**
- * Deleting a bot deletes its Hermes profile, then everything plugin-local
+ * Deleting a bot deletes its Simmuse profile, then everything plugin-local
  * that would otherwise leave stale appearance/unread data behind.
  *
  * `host.deleteProfile` is preferred whenever the Desktop build ships it: it
@@ -106,7 +106,7 @@ async function loadModules() {
 // first makes it time out under a loaded runner.
 beforeAll(async () => {
   await loadModules()
-}, 60_000)
+}, 180_000)
 
 beforeEach(() => {
   vi.clearAllMocks()

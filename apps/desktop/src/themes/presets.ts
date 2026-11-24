@@ -30,7 +30,7 @@ import type { DesktopTheme, DesktopThemeTypography } from './types'
 export const EMOJI_FALLBACK = '"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", emoji'
 
 const SYSTEM_SANS =
-  '"Segoe WPC", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif, ' +
+  '"Segoe UI Variable Text", "Segoe WPC", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif, ' +
   EMOJI_FALLBACK
 
 // Keep the bundled JetBrains Mono first in every mono fallback chain. Several
@@ -46,13 +46,13 @@ const SYSTEM_MONO =
 export const DEFAULT_TYPOGRAPHY: DesktopThemeTypography = { fontSans: SYSTEM_SANS, fontMono: SYSTEM_MONO }
 
 /**
- * Nous — the canonical Hermes desktop identity, forked from the GitHub VS Code
+ * Nous — the canonical Simmuse desktop identity, forked from the GitHub VS Code
  * theme (github.github-vscode-theme). Light is GitHub Light Default, dark is
  * GitHub Dark Default, both converted through the same path a Marketplace
  * install takes, so the palette here is byte-identical to importing the
  * extension yourself.
  *
- * Typography stays Hermes's own: a VS Code theme carries no font opinion, and
+ * Typography stays Simmuse's own: a VS Code theme carries no font opinion, and
  * these are the stacks every skin has been rendering with.
  */
 /**
@@ -117,7 +117,7 @@ export const githubTheme: DesktopTheme = {
 /** Catppuccin — Latte in light, Mocha in dark (Catppuccin.catppuccin-vsc). */
 
 /**
- * Nous — the canonical Hermes desktop identity: GitHub's chrome carrying Nous
+ * Nous — the canonical Simmuse desktop identity: GitHub's chrome carrying Nous
  * blue. Forked from github.github-vscode-theme (Light Default / Dark Default),
  * with only the accent family re-seeded; every neutral is upstream's.
  *
@@ -369,7 +369,7 @@ const CLASSIC_LIGHT_SKIN_COLORS = {
 const classicPalette = (colors: Record<string, string>) => skinToDesktopTheme({ name: 'classic', colors })!.colors
 
 /**
- * Classic Hermes — the CLI's stock `default` skin (gold on navy), offered as a
+ * Classic Simmuse — the CLI's stock `default` skin (gold on navy), offered as a
  * Desktop pick under its OWN id. Never `default`: stock config ships
  * `display.skin: default`, and Desktop reads that as "no pick" (→ nous), so a
  * user only ever gets Classic by choosing it (#76579). Both palettes go through
@@ -378,7 +378,7 @@ const classicPalette = (colors: Record<string, string>) => skinToDesktopTheme({ 
  */
 export const classicTheme: DesktopTheme = {
   name: 'classic',
-  label: 'Classic Hermes',
+  label: 'Classic Simmuse',
   description: "Gold on navy, the CLI's original look",
   colors: classicPalette(CLASSIC_LIGHT_SKIN_COLORS),
   darkColors: classicPalette(CLASSIC_DARK_SKIN_COLORS)
@@ -397,6 +397,21 @@ export const midnightTheme: DesktopTheme = {
     fontMono: `"JetBrains Mono", ${SYSTEM_MONO}`,
     fontUrl: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap'
   }
+}
+
+/**
+ * Simmuse — the product's own identity: true black with one hot-orange accent.
+ * Always dark: the one palette fills both slots (as a single-mode skin does), so a
+ * light OS setting never synthesizes a white variant. Font stacks are the
+ * bundled/system ones, so nothing is fetched from the network.
+ */
+export const simmuseTheme: DesktopTheme = {
+  name: 'simmuse',
+  label: 'Simmuse',
+  description: 'True black with a hot-orange accent',
+  ...THEME_PRESET_PALETTES.simmuse,
+  darkColors: THEME_PRESET_PALETTES.simmuse.colors,
+  typography: DEFAULT_TYPOGRAPHY
 }
 
 export const emberTheme: DesktopTheme = {
@@ -442,6 +457,7 @@ export const slateTheme: DesktopTheme = {
 }
 
 export const BUILTIN_THEMES: Record<string, DesktopTheme> = {
+  simmuse: simmuseTheme,
   nous: nousTheme,
   github: githubTheme,
   catppuccin: catppuccinTheme,
@@ -459,10 +475,10 @@ export const BUILTIN_THEMES: Record<string, DesktopTheme> = {
 export const BUILTIN_THEME_LIST = Object.values(BUILTIN_THEMES)
 
 /** Skin used when nothing is persisted or the persisted name is retired. */
-export const DEFAULT_SKIN_NAME = 'nous'
+export const DEFAULT_SKIN_NAME = 'simmuse'
 
 /** Names that no longer resolve to a skin of their own. A stored pick of one
  *  falls back to DEFAULT_SKIN_NAME, and a cached backend theme under one is
  *  dropped (the reverted #130015 build cached the CLI `default` skin as a
- *  second "Classic Hermes"). */
+ *  second "Classic Simmuse"). */
 export const RETIRED_SKINS = new Set(['nous-light', 'default', 'gold'])

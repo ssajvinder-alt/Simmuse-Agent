@@ -175,7 +175,7 @@ THREAT_PATTERNS = [
     (r'\$HOME/\.docker|\~/\.docker',
      "docker_dir_access", "high", "exfiltration", "references Docker config (may contain registry creds)"),
     (r'\$HOME/\.hermes/\.env|\~/\.hermes/\.env',
-     "hermes_env_access", "critical", "exfiltration", "directly references Hermes secrets file"),
+     "hermes_env_access", "critical", "exfiltration", "directly references Simmuse secrets file"),
     # `cat <secrets-file>` reads credentials; `cat >`/`cat >>` WRITES one (setup heredocs) — not exfil.
     (r'cat\s+(?!>)[^\n]*(\.env|credentials|\.netrc|\.pgpass|\.npmrc|\.pypirc)',
      "read_secrets_file", "critical", "exfiltration", "reads known secrets file"),
@@ -430,10 +430,10 @@ THREAT_PATTERNS = [
     (r'^allowed-tools\s*:',
      "allowed_tools_field", "low", "privilege_escalation", "skill declares allowed-tools (standard frontmatter; informational)"),
     # `sudo.request` / `sudo.respond` are gateway wire events (the masked sudo-password prompt), not an
-    # invocation: any client plugin that relays Hermes' secure prompts has to name them, and a bare
+    # invocation: any client plugin that relays Simmuse's secure prompts has to name them, and a bare
     # `\bsudo\b` made every such plugin `caution`. A dotted event name is never a shell `sudo`.
     # ``sudo.request`` / ``sudo.respond`` / ``sudo.expire`` are gateway wire events (the masked
-    # sudo-password prompt lifecycle), not an invocation: any client plugin that relays Hermes' secure
+    # sudo-password prompt lifecycle), not an invocation: any client plugin that relays Simmuse's secure
     # prompts has to name them, and a bare ``\bsudo\b`` made every such plugin ``caution``. A dotted
     # event name (``sudo.<verb>``) is never a shell ``sudo``.
     (r'\bsudo\b(?!\.\w)',
@@ -468,11 +468,11 @@ THREAT_PATTERNS = [
     (r'AGENTS\.md|CLAUDE\.md|\.cursorrules|\.clinerules',
      "agent_config_ref", "low", "persistence", "references agent config files (informational; only modification intent is scored)"),
     (_prose_modify_re(_HERMES_CONFIG_FILES),
-     "hermes_config_mod", "high", "persistence", "modification language aimed at Hermes configuration files (verify intent)"),
+     "hermes_config_mod", "high", "persistence", "modification language aimed at Simmuse configuration files (verify intent)"),
     (_shell_write_re(_HERMES_CONFIG_FILES),
-     "hermes_config_mod_shell", "critical", "persistence", "shell write (redirect/sed -i/tee/cp/mv) targeting Hermes configuration files"),
+     "hermes_config_mod_shell", "critical", "persistence", "shell write (redirect/sed -i/tee/cp/mv) targeting Simmuse configuration files"),
     (r'\.hermes/config\.yaml|\.hermes/SOUL\.md',
-     "hermes_config_ref", "low", "persistence", "references Hermes configuration files (informational; only modification intent is scored)"),
+     "hermes_config_ref", "low", "persistence", "references Simmuse configuration files (informational; only modification intent is scored)"),
     (_prose_modify_re(_OTHER_AGENT_CONFIG_FILES),
      "other_agent_config_mod", "high", "persistence", "modifies other agents' configuration files"),
     (_shell_write_re(_OTHER_AGENT_CONFIG_FILES),

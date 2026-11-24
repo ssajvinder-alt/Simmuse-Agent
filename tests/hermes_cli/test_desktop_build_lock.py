@@ -175,7 +175,7 @@ def test_gui_releases_lock_before_packaged_electron_handoff(tmp_path, monkeypatc
     desktop_dir = root / "apps" / "desktop"
 
     if sys.platform == "darwin":
-        executable = desktop_dir / "release" / "mac-arm64" / "Hermes.app" / "Contents" / "MacOS" / "Hermes"
+        executable = desktop_dir / "release" / "mac-arm64" / "Hermes.app" / "Contents" / "MacOS" / "Simmuse"
     elif sys.platform == "win32":
         executable = desktop_dir / "release" / "win-unpacked" / "Hermes.exe"
     else:
@@ -184,7 +184,7 @@ def test_gui_releases_lock_before_packaged_electron_handoff(tmp_path, monkeypatc
     executable.write_text("", encoding="utf-8")
 
     monkeypatch.setattr("hermes_cli.main.PROJECT_ROOT", root, raising=False)
-    # The lock is checkout-keyed via the profile-common Hermes root; pin it so
+    # The lock is checkout-keyed via the profile-common Simmuse root; pin it so
     # the holder and the handoff probe agree regardless of the runner's home.
     monkeypatch.setenv("HERMES_HOME", str(tmp_path / "hermes-home"))
     # The fake executable has no Electron sandbox helper; the platform launch

@@ -1,4 +1,4 @@
-"""Hermes scope cwd export through the real NeMo Relay ATOF plugin."""
+"""Simmuse scope cwd export through the real NeMo Relay ATOF plugin."""
 
 from __future__ import annotations
 

@@ -11,6 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { registry as contributionRegistry } from '@/contrib/registry'
 import { reactRoot } from '@/test/react-root'
+import { clearStorageKeepingAdvanced } from '@/test/seed-advanced-mode'
 
 import type { FloatingPanes as FloatingPanesComponent } from './floating-panes'
 
@@ -59,7 +60,7 @@ function registerHud(data: Record<string, unknown>) {
 describe('FloatingPanes (live DOM)', () => {
   beforeEach(async () => {
     vi.resetModules()
-    window.localStorage.clear()
+    clearStorageKeepingAdvanced()
     registry = (await import('@/contrib/registry')).registry
     FloatingPanes = (await import('./floating-panes')).FloatingPanes
     resizeWindow(1440, 900)

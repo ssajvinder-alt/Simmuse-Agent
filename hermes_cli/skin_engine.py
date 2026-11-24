@@ -1,4 +1,4 @@
-"""Hermes skin/theme engine — the theme SDK for every surface."""
+"""Simmuse skin/theme engine — the theme SDK for every surface."""
 
 import logging
 from dataclasses import dataclass, field
@@ -58,11 +58,11 @@ def _wings(*glyphs) -> list[list[str]]:
 
 # Branding shared by every Hermes-named built-in (mono/daylight override help_header).
 _HERMES_BRANDING: dict[str, str] = _branding(
-    "Hermes", "☤", "Goodbye! ☤", prompt="❯", help_header="(^_^)? Available Commands")
+    "Simmuse", "☤", "Goodbye! ☤", prompt="❯", help_header="(^_^)? Available Commands")
 
 _BUILTIN_SKINS: dict[str, dict[str, Any]] = {
     "default": {
-        "name": "default", "description": "Classic Hermes — gold and kawaii",
+        "name": "default", "description": "Classic Simmuse — gold and kawaii",
         # Dark-authored; values match the TUI's DARK_THEME so both render the same gold.
         "colors": {
             "banner_border": "#CD7F32", "banner_title": "#FFD700", "banner_accent": "#FFBF00",

@@ -880,7 +880,7 @@ def _names_launch_profile(profile: str) -> bool:
 def _derive_chat_session_id(system_prompt: Optional[str], first_user_message: str,
                             profile: Optional[str] = None) -> str:
     """Stable session id from the system prompt + first user message (constant across all
-    turns of an Open WebUI-style conversation), so one Hermes session/sandbox is reused.
+    turns of an Open WebUI-style conversation), so one Simmuse session/sandbox is reused.
     A routed ``/p/<profile>/`` prefix namespaces the seed: the id keys process-wide state
     (session store, per-session sandbox), so two profiles opening with identical text must not
     collide (#123989). Default/standalone ids are unchanged so live conversations survive, and
@@ -2368,7 +2368,7 @@ class APIServerAdapter(OpenAICompatRoutesMixin, BasePlatformAdapter):
             "runtime": {
                 "mode": "server_agent", "tool_execution": "server", "split_runtime": False,
                 "description": (
-                    "The API server creates a server-side Hermes AIAgent; "
+                    "The API server creates a server-side Simmuse AIAgent; "
                     "tools execute on the API-server host unless a future "
                     "explicit split-runtime mode is enabled.")},
             "features": features,
@@ -2519,7 +2519,7 @@ class APIServerAdapter(OpenAICompatRoutesMixin, BasePlatformAdapter):
 
     @_require_auth
     async def _handle_list_sessions(self, request: web.Request) -> web.Response:
-        """GET /api/sessions — list persisted Hermes sessions."""
+        """GET /api/sessions — list persisted Simmuse sessions."""
         db = await self._ensure_session_db_async()
         if db is None:
             return self._session_db_unavailable()
@@ -2573,7 +2573,7 @@ class APIServerAdapter(OpenAICompatRoutesMixin, BasePlatformAdapter):
 
     @_require_auth
     async def _handle_create_session(self, request: web.Request) -> web.Response:
-        """POST /api/sessions -- create an empty Hermes session row. Existence check, insert and
+        """POST /api/sessions -- create an empty Simmuse session row. Existence check, insert and
         title handling run as ONE off-loop write so concurrent same-id creates can't both 201."""
         body, err = await self._read_json_body(request)
         if err:

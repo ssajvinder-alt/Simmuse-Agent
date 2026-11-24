@@ -50,7 +50,7 @@ Containers: Pillow for multi-size .ico and .icns.
 
 Dependencies:
     Pillow and resvg-py are core runtime dependencies; run this file with a
-    Hermes runtime interpreter (scripts/generate-icons.mjs uses HERMES_PYTHON).
+    Simmuse runtime interpreter (scripts/generate-icons.mjs uses HERMES_PYTHON).
 
 Outputs (99 files):
   assets/icon-master.svg                              generated light master
@@ -108,7 +108,7 @@ try:
     import resvg_py
 except ImportError:
     sys.exit(
-        "resvg-py is missing: run the generator with a Hermes runtime interpreter\n"
+        "resvg-py is missing: run the generator with a Simmuse runtime interpreter\n"
         "  (HERMES_PYTHON=<hermes venv python> node scripts/generate-icons.mjs)"
     )
 
@@ -789,8 +789,67 @@ def build_logo_image(art: IconArt, dark: bool = False) -> Image.Image:
     return render_svg(svg, (W, H))
 
 
+# Simmuse's own mark (scripts/simmuse_mark.py) replaces the inherited girl artwork in every raster
+# icon. Two committed masters feed all of them: the full 1024px mark, and a flat 256px mark used at
+# 48px and below, where the fine detail would blur. Commit/canary badges are not drawn on it.
+MARK_KINDS = frozenset(
+    {"png", "png_mac", "png_dark", "png_white", "png_dark_white", "girl_light", "girl_dark",
+     "ico", "ico_dark", "icns", "icns_dark", "wide"}
+)
+MARK_FLAT_MAX = 48
+_MARKS: dict[Path, tuple[Image.Image, Image.Image]] = {}
+
+
+def _mark_masters(source: Path) -> tuple[Image.Image, Image.Image]:
+    if source not in _MARKS:
+        _MARKS[source] = (
+            Image.open(source / "assets/simmuse-mark.png").convert("RGBA"),
+            Image.open(source / "assets/simmuse-mark-flat.png").convert("RGBA"),
+        )
+    return _MARKS[source]
+
+
+def mark_at(source: Path, size: int) -> Image.Image:
+    full, flat = _mark_masters(source)
+    return (flat if size <= MARK_FLAT_MAX else full).resize((size, size), Image.LANCZOS)
+
+
+def mark_bytes(source: Path, kind: str, arg: object) -> bytes:
+    buf = io.BytesIO()
+    if kind in ("png", "png_dark", "girl_light", "girl_dark"):
+        save_png(mark_at(source, arg), buf)
+    elif kind == "png_mac":
+        inner = round(arg * 0.805)  # macOS keeps a margin around the tile
+        canvas = Image.new("RGBA", (arg, arg), (0, 0, 0, 0))
+        canvas.alpha_composite(mark_at(source, inner), ((arg - inner) // 2, (arg - inner) // 2))
+        save_png(canvas, buf)
+    elif kind in ("png_white", "png_dark_white"):
+        canvas = Image.new("RGBA", (arg, arg), "#ffffff" if kind == "png_white" else DARK_HEX)
+        canvas.alpha_composite(mark_at(source, arg))
+        canvas.convert("RGB").save(buf, "PNG", optimize=True)
+    elif kind in ("ico", "ico_dark"):
+        frames = [mark_at(source, size) for size in arg]
+        frames[-1].save(buf, format="ICO", sizes=[(size, size) for size in arg], append_images=frames[:-1])
+    elif kind in ("icns", "icns_dark"):
+        inner = round(1024 * 0.805)
+        canvas = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
+        canvas.alpha_composite(mark_at(source, inner), ((1024 - inner) // 2, (1024 - inner) // 2))
+        frames = [canvas.resize((size, size), Image.LANCZOS) for size in (16, 32, 64, 128, 256, 512, 1024)]
+        frames[-1].save(buf, format="ICNS", append_images=frames[:-1])
+    elif kind == "wide":
+        w, h, tile = arg
+        canvas = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        paste_centered(canvas, mark_at(source, tile))
+        canvas.save(buf, "PNG")
+    else:
+        raise ValueError(f"unknown mark kind {kind!r}")
+    return buf.getvalue()
+
+
 def target_bytes(art: IconArt, kind: str, arg: object) -> bytes:
     """Produce the exact bytes for one target. Shared by write + check."""
+    if kind in MARK_KINDS:
+        return mark_bytes(art.source, kind, arg)
     if kind == "svg":
         return art.master.encode("utf-8")
     if kind == "svg_dark":

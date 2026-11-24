@@ -1,3 +1,5 @@
+import '@/test/seed-advanced-mode'
+
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import {

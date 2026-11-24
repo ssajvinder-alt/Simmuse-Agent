@@ -1,3 +1,4 @@
+import { SIMMUSE_LINKS } from '@hermes/shared/simmuse-links'
 // Structured turn-error descriptor forwarded by the gateway (see
 // agent/error_surface.py). Names WHICH layer of the stack failed and the
 // classifier's failure code so the error card can say what happened in plain
@@ -318,7 +319,7 @@ export function formatErrorDiagnostics(input: {
   const model = input.surface?.model || input.model
 
   const lines = [
-    '── Hermes error details ──',
+    '── Simmuse error details ──',
     input.failedAt ? `time: ${new Date(input.failedAt * 1000).toISOString()}` : null,
     input.surface ? `layer: ${input.surface.layer}` : null,
     input.surface ? `code: ${input.surface.code}` : null,
@@ -367,8 +368,8 @@ export interface ErrorCardActions {
 }
 
 export const ERROR_SETUP_GUIDE_URLS = {
-  tls: 'https://hermes-agent.nousresearch.com/docs/user-guide/security#tls-certificate-trust',
-  local: 'https://hermes-agent.nousresearch.com/docs/user-guide/local-models#using-your-own-llama-server'
+  tls: SIMMUSE_LINKS.docsTlsTrust,
+  local: SIMMUSE_LINKS.docsLocalModels
 } as const
 
 /** Provider pages where the user fixes an account-level routing/privacy block. */
@@ -377,7 +378,7 @@ const PROVIDER_SETTINGS_URLS: Record<string, string> = {
   nous: 'https://portal.nousresearch.com'
 }
 
-/** The provider's own settings page (privacy/data policy), when Hermes knows one. */
+/** The provider's own settings page (privacy/data policy), when Simmuse knows one. */
 export function providerSettingsUrl(surface?: ErrorSurface | null): string | undefined {
   return PROVIDER_SETTINGS_URLS[(surface?.provider || '').toLowerCase()]
 }

@@ -3,7 +3,7 @@ title: Levea Video Editor
 repo: https://github.com/brajendrak00068/agentic-ai-video-production
 sha: 7358f6df15ffcaa2f5578a36d723b7b18876e891
 subdir: hermes-plugin
-description: "Agentic AI video editing via Levea: describe an edit in plain language (trim, 9:16 reframe, viral clips, captions, B-roll, multicam, audio cleanup, color, motion graphics) and get a verified MP4. Disclosure — Prompts, source video URLs/assets and project ids go to api.livecore.ai with your LEVEA_API_KEY; edits and exports consume your Levea account quota with no Hermes approval prompt; levea_video_edit and levea_job_status (wait) can block up to 10 minutes. No telemetry, no shell, no background processes."
+description: "Agentic AI video editing via Levea: describe an edit in plain language (trim, 9:16 reframe, viral clips, captions, B-roll, multicam, audio cleanup, color, motion graphics) and get a verified MP4. Disclosure — Prompts, source video URLs/assets and project ids go to api.livecore.ai with your LEVEA_API_KEY; edits and exports consume your Levea account quota with no Simmuse approval prompt; levea_video_edit and levea_job_status (wait) can block up to 10 minutes. No telemetry, no shell, no background processes."
 maintainer: brajendrak00068
 tier: community
 category: tools

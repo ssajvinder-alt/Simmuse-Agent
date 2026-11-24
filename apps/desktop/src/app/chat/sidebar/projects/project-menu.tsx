@@ -24,6 +24,7 @@ import { isDesktopFsRemoteMode } from '@/lib/desktop-fs'
 import { cn } from '@/lib/utils'
 import { $panesFlipped, dismissAutoProject, restoreAutoProject } from '@/store/layout'
 import { notify } from '@/store/notifications'
+import { openProjectInstructions } from '@/store/project-instructions-dialog'
 import {
   copyPath,
   deleteProject,
@@ -113,6 +114,17 @@ function useProjectActions({
   // The OS file manager needs the local filesystem; a remote backend's
   // project is not on this computer (the file trees hide reveal the same way).
   const pathItems: ActionItemSpec[] = [
+    // Instructions live in a file in the project folder, so they need the local filesystem too.
+    ...(isDesktopFsRemoteMode() || !project.path
+      ? []
+      : [
+          {
+            icon: 'book',
+            key: 'instructions',
+            label: 'Instructions…',
+            onSelect: () => openProjectInstructions({ folder: project.path as string, name: project.label })
+          } satisfies ActionItemSpec
+        ]),
     ...(isDesktopFsRemoteMode()
       ? []
       : [

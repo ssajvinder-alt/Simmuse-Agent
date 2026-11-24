@@ -27,6 +27,7 @@ import type { ModelSettingsTranslations } from './types_model_settings'
 import type { NoticeTranslations } from './types_notices'
 import type { NotificationSettingsTranslations } from './types_notifications'
 import type { OnboardingTranslations } from './types_onboarding'
+import type { PermissionsTranslations } from './types_permissions'
 import type { PluginPreviewAccessTranslations } from './types_plugin_preview_access'
 import type { PluginUpdateTranslations } from './types_plugin_update'
 import type { SidebarProjectsTranslations } from './types_projects'
@@ -35,6 +36,7 @@ import type { SharedMetricsTranslations } from './types_shared_metrics'
 import type { ThemePickerCopy } from './types_theme_picker'
 import type { UninstallSectionTranslations } from './types_uninstall_section'
 import type { UpdateChannelCopy } from './types_update_channel'
+import type { WorkspaceFolderTranslations } from './types_workspace_folder'
 
 /** The locales compiled into the app (`TRANSLATIONS`). */
 export type BundledLocale = 'en' | 'zh' | 'zh-hant' | 'ja' | 'ar' | 'ru' | 'fr' | 'de' | 'es'
@@ -102,6 +104,8 @@ export interface Translations extends NoticeTranslations {
     custom: (label: string) => string[]
   }
   connectors: ConnectorCardTranslations
+  permissions: PermissionsTranslations
+  workspaceFolder: WorkspaceFolderTranslations
   catalog: CatalogTranslations
   connectorsPage: {
     title: string
@@ -3431,7 +3435,7 @@ export interface Translations extends NoticeTranslations {
     }
     // First-launch set-up failure notice: the free tier could not be created at boot.
     // One sentence per backend code (`hermes_cli/anon_auth.py::ANON_*`); the copy never says
-    // the free MODEL is off — what is unavailable is using Hermes without signing in.
+    // the free MODEL is off — what is unavailable is using Simmuse without signing in.
     setupFailed: {
       gateClosed: string
       paused: string

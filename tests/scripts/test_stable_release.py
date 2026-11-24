@@ -1057,7 +1057,7 @@ def _fake_stable_context(*, lanes=lane_set.NAMES):
 def _stage_darwin_handoff(built, arch):
     from scripts.releases import handoff
 
-    package = f"HermesBundled-1.2.3-mac-{arch}.zip"
+    package = f"SimmuseBundled-1.2.3-mac-{arch}.zip"
     (built / package).write_bytes(f"signed mac zip: {arch}".encode())
     metadata = built / f"metadata-macos-{arch}.json"
     metadata.write_text(json.dumps({
@@ -1071,7 +1071,7 @@ def _stage_darwin_handoff(built, arch):
 def _stage_windows_handoff(built, arch, *, with_metadata=True):
     from scripts.releases import handoff
 
-    package = f"HermesBundled-1.2.3-win-{arch}.msix"
+    package = f"SimmuseBundled-1.2.3-win-{arch}.msix"
     (built / package).write_bytes(f"signed msix: {arch}".encode())
     includes = [package]
     if with_metadata:

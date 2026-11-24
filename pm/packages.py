@@ -1069,7 +1069,7 @@ class Chromium(Package):
             raise InstallError(self.name, f"Chromium executable missing under {native(entry)}")
         # Playwright launches without an executable_path (e.g. the
         # har-derived-api-client skill's `chromium.launch(channel="chromium")`)
-        # find this build through the root; Hermes's own launcher asks
+        # find this build through the root; Simmuse's own launcher asks
         # hermes_cli.browser_runtime.chromium_executable() instead.
         return {"PLAYWRIGHT_BROWSERS_PATH": str(entry.parent)}
 

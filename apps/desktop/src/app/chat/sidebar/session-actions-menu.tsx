@@ -29,6 +29,7 @@ import { useI18n } from '@/i18n'
 import { triggerHaptic } from '@/lib/haptics'
 import { ArchiveOff } from '@/lib/icons'
 import { isSubmitEnter } from '@/lib/ime'
+import { exportConversationAsMarkdown } from '@/lib/markdown-save'
 import { PROFILE_SWATCHES } from '@/lib/profile-color'
 import { exportSession } from '@/lib/session-export'
 import { activeGateway } from '@/store/gateway'
@@ -439,6 +440,16 @@ function useSessionActions({
       onSelect: () => {
         triggerHaptic('selection')
         void exportSession(sessionId, { profile, title })
+      }
+    }),
+    // A readable document for people; "Export session" above is the full JSON record.
+    spec({
+      disabled: !sessionId,
+      icon: 'markdown',
+      label: 'Export as Markdown',
+      onSelect: () => {
+        triggerHaptic('selection')
+        void exportConversationAsMarkdown(sessionId, { profile, title })
       }
     })
   ]

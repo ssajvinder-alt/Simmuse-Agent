@@ -192,13 +192,13 @@ def _create_openai_client(*, api_key: str, base_url: str, **kwargs: Any) -> Any:
         return _AuxProbeClientStub(api_key=api_key, base_url=base_url)
     kwargs = {**_openai_http_client_kwargs(base_url), **kwargs}
     _apply_required_codex_headers(kwargs, access_token=api_key, base_url=base_url)
-    # Hermes owns aux retry/fallback policy; the SDK default (max_retries=2) would triple
-    # wall time on a hung endpoint before Hermes sees one failure.
-    # Hermes owns auxiliary retry + provider/model fallback policy (the same-provider transient retry in
+    # Simmuse owns aux retry/fallback policy; the SDK default (max_retries=2) would triple
+    # wall time on a hung endpoint before Simmuse sees one failure.
+    # Simmuse owns auxiliary retry + provider/model fallback policy (the same-provider transient retry in
     # call_llm plus the except-chain fallback). The OpenAI SDK's own default (max_retries=2 → up to 3
     # attempts) silently multiplies the effective wall time of every aux call by 3× on a slow/hung endpoint,
-    # so a 120s timeout can stall ~360s before Hermes sees a single failure (issue #54465). Disable
-    # SDK-internal retries by default and let Hermes control the budget; explicit callers can still override
+    # so a 120s timeout can stall ~360s before Simmuse sees a single failure (issue #54465). Disable
+    # SDK-internal retries by default and let Simmuse control the budget; explicit callers can still override
     # via kwargs.
     kwargs.setdefault("max_retries", 0)
     return OpenAI(api_key=api_key, base_url=base_url, **kwargs)
@@ -874,7 +874,7 @@ _PROVIDERS_WITHOUT_VISION: frozenset = frozenset({"kimi-coding", "kimi-coding-cn
 # OpenRouter app attribution (always sent). `X-Title` is what the dashboard reads.
 _OR_HEADERS_BASE = {
     "HTTP-Referer": "https://hermes-agent.nousresearch.com",
-    "X-Title": "Hermes Agent",
+    "X-Title": "Simmuse Agent",
     "X-OpenRouter-Categories": "productivity,cli-agent",
 }
 
@@ -942,7 +942,7 @@ from hermes_cli.version_info import hermes_user_agent
 
 
 def _ai_gateway_headers() -> dict[str, str]:
-    return {"HTTP-Referer": "https://hermes-agent.nousresearch.com", "X-Title": "Hermes Agent",
+    return {"HTTP-Referer": "https://hermes-agent.nousresearch.com", "X-Title": "Simmuse Agent",
             "User-Agent": hermes_user_agent("HermesAgent")}
 
 # Nous Portal attribution extra_body. Tags come from agent.portal_tags so the client= marker
@@ -1480,7 +1480,7 @@ class _CodexCompletionsAdapter:
             current_issuer_model=wire_model, native_compaction_eligible=False,
         )
         resp_kwargs: dict[str, Any] = {
-            # Codex only knows the base slug; strip the Hermes ``-900k`` picker suffix.
+            # Codex only knows the base slug; strip the Simmuse ``-900k`` picker suffix.
             "model": wire_model, "instructions": instructions,
             "input": input_items or [_role_message_item("user", "")], "store": False,
         }
@@ -1599,7 +1599,7 @@ class _CodexCompletionsAdapter:
             text_parts, tool_calls_raw, usage, finish_reason = _parse_codex_final_response(
                 final, issuer_kind=issuer_kind, issuer_model=issuer_model,
             )
-            # Undo only the aliases THIS request emitted, before the call reaches Hermes dispatch.
+            # Undo only the aliases THIS request emitted, before the call reaches Simmuse dispatch.
             for tc in tool_calls_raw or ():
                 if tc.function.name in wire_aliases:
                     tc.function.name = wire_aliases[tc.function.name]
@@ -1769,7 +1769,7 @@ class _AnthropicCompletionsAdapter:
             }
         # response_format: top-level gets the same translation as the extra_body form; when both
         # are present the extra_body form wins. Passthrough excludes ``reasoning``/``response_format``
-        # (already TRANSLATED to native fields — raw would 400 on strict gateways) and ``_`` Hermes plumbing.
+        # (already TRANSLATED to native fields — raw would 400 on strict gateways) and ``_`` Simmuse plumbing.
         # The adapter builds the Messages body from a fixed allow-list of kwargs, so before this an
         # unrecognized top-level kwarg was dropped on the floor: the request succeeded but the schema
         # contract silently became prompt compliance (#85626 review, point 2).
@@ -4707,7 +4707,7 @@ def _to_async_client(sync_client, model: str, is_vision: bool = False):
         async_kwargs["default_headers"] = headers
     _apply_required_codex_headers(async_kwargs, access_token=sync_client.api_key, base_url=sync_base_url)
     async_kwargs = {**_openai_http_client_kwargs(sync_base_url, async_mode=True), **async_kwargs}
-    # Hermes owns the auxiliary retry/timeout budget; disable SDK-internal retries.
+    # Simmuse owns the auxiliary retry/timeout budget; disable SDK-internal retries.
     # See #54465.
     async_kwargs.setdefault("max_retries", 0)
     return AsyncOpenAI(**async_kwargs), model
@@ -6838,7 +6838,7 @@ def _note_relay_auxiliary_error(exc: BaseException) -> None:
 
 
 def _fail_relay_auxiliary_call(exc: BaseException) -> None:
-    """Close a call that ended in ``exc`` without replacing it: a Hermes abort is ``cancelled``,
+    """Close a call that ended in ``exc`` without replacing it: a Simmuse abort is ``cancelled``,
     anything else ``failed`` with the classifier's reason for the error that ended it."""
     try:
         from agent import auxiliary_call_outcome

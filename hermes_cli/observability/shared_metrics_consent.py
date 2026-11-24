@@ -22,6 +22,8 @@ import os
 import sys
 from typing import Any
 
+from hermes_cli.observability.shared_metrics_send_config import SHARING_OFFERED
+
 logger = logging.getLogger(__name__)
 
 # (label, enabled, send): the offer's two answers, in the order every surface shows them.
@@ -126,11 +128,11 @@ def offer_consent(config: dict | None = None, *, reask: bool = False) -> bool:
     from hermes_cli.cli_output import print_info, print_success
     from hermes_cli.curses_ui import curses_radiolist, flush_stdin
 
-    # The offer appears seconds into startup; an Enter typed while Hermes booted would otherwise
+    # The offer appears seconds into startup; an Enter typed while Simmuse booted would otherwise
     # answer it ("No thanks") before it was ever on screen, so the user was never really asked.
     flush_stdin()
     idx = curses_radiolist(
-        "Help improve Hermes?", [label for label, _, _ in OFFER_CHOICES], selected=_NO_THANKS, cancel_returns=-1,
+        "Help improve Simmuse?", [label for label, _, _ in OFFER_CHOICES], selected=_NO_THANKS, cancel_returns=-1,
         description=f"{_REASK_NOTE}\n{_OFFER_DESCRIPTION}" if reask else _OFFER_DESCRIPTION,
     )
     if idx < 0 and reask:
@@ -138,7 +140,7 @@ def offer_consent(config: dict | None = None, *, reask: bool = False) -> bool:
         print_info("Kept \"No thanks\". Change it any time with `hermes setup telemetry`.")
         return True
     if idx < 0:
-        print_info("Not answered; Hermes will ask again. Decide any time with `hermes setup telemetry`.")
+        print_info("Not answered; Simmuse will ask again. Decide any time with `hermes setup telemetry`.")
         return False
     _, enabled, send = OFFER_CHOICES[idx]
     save_consent(enabled, send, config)
@@ -150,6 +152,8 @@ def offer_consent(config: dict | None = None, *, reask: bool = False) -> bool:
 def offer_consent_if_undecided(config: dict | None = None) -> None:
     """The end-of-setup offer: every ``hermes setup`` flow funnels through the setup-completed
     record, so this one call covers Quick, Full, Blank Slate, Portal and ``--quick``."""
+    if not SHARING_OFFERED:
+        return
     from hermes_cli.config import is_managed
     from hermes_cli.setup import is_noninteractive
 
@@ -167,7 +171,9 @@ def offer_consent_if_undecided(config: dict | None = None) -> None:
 def offer_consent_before_chat(args: Any) -> None:
     """One-time offer before an interactive chat on a profile that never answered. Skipped for
     anything without a person at a terminal (``-q``, piped or JSON output, spawned actions) and for
-    a Desktop-spawned pane (the app shows its own strip)."""
+    a Desktop-spawned pane (the app shows its own strip). Never, while ``SHARING_OFFERED`` is off."""
+    if not SHARING_OFFERED:
+        return
     from hermes_cli.config import is_managed
     from hermes_cli.setup import is_noninteractive
 

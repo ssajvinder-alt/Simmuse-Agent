@@ -1,3 +1,5 @@
+import '@/test/seed-advanced-mode'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { onPersistenceEvent } from '@/lib/storage'

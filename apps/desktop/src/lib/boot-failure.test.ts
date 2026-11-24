@@ -1,6 +1,7 @@
-import collapseBold from '@nous-research/ui/fonts/Collapse-Bold.woff2?url'
 import { within } from '@testing-library/dom'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
+
+import wordmarkBold from '../fonts/JetBrainsMono-Bold.woff2?url'
 
 import { showBootFailure } from './boot-failure'
 import { bootRenderer } from './ui-preferences/boot'
@@ -37,8 +38,8 @@ it('shows a rejected loader’s cause and reloads only when the user clicks Relo
 
   await bootRenderer(() => Promise.reject(error)).catch(error => showBootFailure(error, reload))
 
-  expect(console.error).toHaveBeenCalledWith('Hermes failed to load', error)
-  expect(within(root).getByRole('heading', { level: 1 }).textContent).toBe('Hermes couldn’t load')
+  expect(console.error).toHaveBeenCalledWith('Simmuse failed to load', error)
+  expect(within(root).getByRole('heading', { level: 1 }).textContent).toBe('Simmuse couldn’t load')
   expect(within(root).getByRole('alert').textContent).toContain(
     'Part of the app didn’t load; reloading usually fixes it.'
   )
@@ -63,7 +64,7 @@ it.each(['element', 'text'])('leaves mounted %s content untouched and still logs
 
   expect([...root.childNodes]).toEqual([content])
   expect(root.textContent).toBe('Already mounted')
-  expect(console.error).toHaveBeenCalledWith('Hermes failed to load', error)
+  expect(console.error).toHaveBeenCalledWith('Simmuse failed to load', error)
   expect(reload).not.toHaveBeenCalled()
 })
 
@@ -85,7 +86,7 @@ it.each(['hud', 'overlay', 'quick', 'wake'])(
     showBootFailure(error, vi.fn())
 
     expect(root.childNodes).toHaveLength(0)
-    expect(console.error).toHaveBeenCalledWith('Hermes failed to load', error)
+    expect(console.error).toHaveBeenCalledWith('Simmuse failed to load', error)
   }
 )
 
@@ -98,15 +99,15 @@ it('shows the notice in an opaque secondary window', () => {
 it('shows a decorative wordmark above the accessible heading without app CSS', () => {
   showBootFailure(new Error('CSS failed'), vi.fn())
 
-  const wordmark = within(root).getByText('HERMES AGENT')
-  const heading = within(root).getByRole('heading', { level: 1, name: 'Hermes couldn’t load' })
+  const wordmark = within(root).getByText('SIMMUSE')
+  const heading = within(root).getByRole('heading', { level: 1, name: 'Simmuse couldn’t load' })
   const alert = within(root).getByRole('alert')
   expect(wordmark.tagName).toBe('P')
   expect(wordmark.getAttribute('aria-hidden')).toBe('true')
   expect(wordmark.nextElementSibling).toBe(alert)
   expect(alert.contains(heading)).toBe(true)
   expect(within(root).getByRole('main').getAttribute('lang')).toBe('en')
-  expect(wordmark.style.fontFamily).toBe('Collapse, system-ui, sans-serif')
+  expect(wordmark.style.fontFamily).toBe('"JetBrains Mono", ui-monospace, system-ui, sans-serif')
   expect(wordmark.style.fontWeight).toBe('700')
   expect(wordmark.style.letterSpacing).toBe('0.08em')
   expect(wordmark.style.lineHeight).toBe('0.9')
@@ -143,7 +144,7 @@ it('paints its own background and ink from the theme snapshot, whatever the page
   expect(notice.style.color).toBe(palette.foreground)
   expect(notice.style.position).toBe('fixed')
   expect(notice.style.inset).toBe('0px')
-  expect(within(root).getByText('HERMES AGENT').style.color).toBe(palette.accent)
+  expect(within(root).getByText('SIMMUSE').style.color).toBe(palette.accent)
   const button = within(root).getByRole('button', { name: 'Reload' })
   expect(button.style.backgroundColor).toBe(palette.accent)
   expect(button.style.color).toBe(palette.accentForeground)
@@ -173,7 +174,7 @@ it.each([
   expect(notice.style.backgroundColor).toBe('')
   expect(notice.style.color).toBe('')
   expect(notice.style.position).toBe('')
-  expect(within(root).getByText('HERMES AGENT').style.color).toBe('currentcolor')
+  expect(within(root).getByText('SIMMUSE').style.color).toBe('currentcolor')
   const button = within(root).getByRole('button', { name: 'Reload' })
   expect(button.style.backgroundColor).toBe('transparent')
   expect(button.style.color).toBe('inherit')
@@ -182,7 +183,7 @@ it.each([
   expect(button.style.borderTopColor).toBe('currentcolor')
 })
 
-it('registers the bundled Collapse face without waiting to show recovery', () => {
+it('registers the bundled wordmark face without waiting to show recovery', () => {
   const face = { load: vi.fn(() => new Promise(() => {})) }
 
   const FontFace = vi.fn(function () {
@@ -195,7 +196,7 @@ it('registers the bundled Collapse face without waiting to show recovery', () =>
 
   showBootFailure(new Error('CSS failed'), vi.fn())
 
-  expect(FontFace).toHaveBeenCalledWith('Collapse', `url("${collapseBold}")`, { weight: '700', display: 'swap' })
+  expect(FontFace).toHaveBeenCalledWith('JetBrains Mono', `url("${wordmarkBold}")`, { weight: '700', display: 'swap' })
   expect(add).toHaveBeenCalledWith(face)
   expect(face.load).toHaveBeenCalledOnce()
   expect(within(root).getByRole('button', { name: 'Reload' })).toBeTruthy()
@@ -213,7 +214,7 @@ it.each(['FontFace', 'document.fonts'])('shows recovery when %s is unavailable',
   expect(() => showBootFailure(new Error('CSS failed'), vi.fn())).not.toThrow()
   expect(FontFace).not.toHaveBeenCalled()
   expect(add).not.toHaveBeenCalled()
-  expect(within(root).getByText('HERMES AGENT').style.fontFamily).toContain('system-ui')
+  expect(within(root).getByText('SIMMUSE').style.fontFamily).toContain('system-ui')
 })
 
 it.each(['constructor', 'load', 'rejection'])('keeps recovery usable after a font %s failure', async failure => {

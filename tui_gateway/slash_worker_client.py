@@ -58,7 +58,7 @@ class _SlashWorker:
             + (["--provider", provider] if provider else [])
         self._closed = False
         from hermes_cli._subprocess_compat import windows_hide_flags
-        # slash_worker runs the Hermes agent → needs provider credentials. Tier-1 secrets
+        # slash_worker runs the Simmuse agent → needs provider credentials. Tier-1 secrets
         # (gateway/GitHub/infra) are still stripped (#29157). Global-remote / multi-profile sessions: the
         # worker must resolve config/skills/state against the session's profile home, not the gateway's
         # launch HERMES_HOME (#40677).
@@ -85,7 +85,7 @@ class _SlashWorker:
         # a quick command's shell, and anything else the worker started in its group, running forever.
         # errors="replace": bytes invalid in the system locale (GBK Windows) must not raise
         # UnicodeDecodeError in the drain threads.
-        # Prepend the Hermes venv bin dir and the user-local bin dir to PATH so slash_worker child processes
+        # Prepend the Simmuse venv bin dir and the user-local bin dir to PATH so slash_worker child processes
         # can resolve Hermes-managed CLIs (browser-use, uvx) even when the parent gateway was launched with
         # a minimal PATH (e.g. by the Desktop/Dashboard app). See #83845.
         self.proc = spawn_owned(

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import siteConfig from "@generated/docusaurus.config";
 import styles from "./styles.module.css";
 import CatalogFeatured from "../../components/CatalogFeatured";
 import { isOfficialSkillSource, pickFeatured } from "../../../../apps/shared/src/catalog-featured";
@@ -390,7 +391,7 @@ function SkillCard({
             href={installUrl}
             onClick={(e) => e.stopPropagation()}
           >
-            Install in Hermes
+            Install in Simmuse
           </a>
         )}
 
@@ -482,7 +483,7 @@ function SkillCard({
               {skill.docsPath ? (
                 <a
                   className={styles.docsLink}
-                  href={`/docs/user-guide/skills/${skill.docsPath}`}
+                  href={`${siteConfig.baseUrl}user-guide/skills/${skill.docsPath}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   View full documentation →
@@ -523,8 +524,8 @@ const PAGE_SIZE = 60;
 // `static/api/` ends up at `/docs/api/`. Hardcoding here is fine because the
 // same `baseUrl` is enforced repo-wide; if it ever changes, this is the only
 // place that needs to follow.
-const SKILLS_URL = "/docs/api/skills.json";
-const META_URL = "/docs/api/skills-meta.json";
+const SKILLS_URL = `${siteConfig.baseUrl}api/skills.json`;
+const META_URL = `${siteConfig.baseUrl}api/skills-meta.json`;
 // Idle timeout for the catalog fetch — abort only when the transfer has
 // produced no bytes for this long, so slow-but-alive downloads survive.
 const CATALOG_STALL_TIMEOUT_MS = 45_000;
@@ -550,7 +551,7 @@ function buildSearchHaystack(s: Skill): string {
 
 export default function SkillsDashboard() {
   // Picker embed mode (?embed=picker): the page is being iframed by a host
-  // app (Hermes desktop's Bot Mode agent editor) as a skill PICKER. Site
+  // app (Simmuse desktop's Bot Mode agent editor) as a skill PICKER. Site
   // chrome is hidden via a CSS class and every card gains an
   // "+ Add to this Agent" button that posts
   //   { type: 'hermes-skill-pick', name, identifier, installCmd, source }
@@ -860,13 +861,13 @@ export default function SkillsDashboard() {
   return (
     <Layout
       title="Skills Hub"
-      description="Browse all skills and plugins available for Hermes Agent"
+      description="Browse all skills and plugins available for Simmuse Agent"
     >
       <div className={`${styles.page} ${pickerMode ? styles.pickerMode : ""}`}>
         <header className={styles.hero}>
           <div className={styles.heroGlow} />
           <div className={styles.heroContent}>
-            <p className={styles.heroEyebrow}>Hermes Agent</p>
+            <p className={styles.heroEyebrow}>Simmuse Agent</p>
             <h1 className={styles.heroTitle}>Skills Hub</h1>
             <nav className={styles.crossNav} aria-label="Catalog pages">
               <span className={`${styles.crossNavLink} ${styles.crossNavActive}`}>

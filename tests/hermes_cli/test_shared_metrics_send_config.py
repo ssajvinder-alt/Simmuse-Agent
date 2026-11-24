@@ -44,7 +44,10 @@ class TestSendRequiresCollection:
         assert resolved.send is False
 
     def test_send_with_collection_sends(self):
-        resolved = resolve_send_config(_config(enabled=True, send=True))
+        # Not the default endpoint: that one is Nous Research's and is never uploaded to.
+        resolved = resolve_send_config(
+            _config(enabled=True, send=True, endpoint="https://metrics.example.test/v1")
+        )
         assert resolved.send is True
 
     def test_send_without_collection_is_refused(self):
@@ -143,3 +146,50 @@ class TestTransportSafety:
             _config(enabled=True, send=True, endpoint="http://example.test/v1")
         )
         assert resolved.enabled is True
+
+
+class TestNousUploadIsDisabled:
+    """Simmuse never uploads usage metrics to Nous Research, whatever the config says."""
+
+    def test_default_endpoint_is_never_sent_to_even_when_requested(self):
+        resolved = resolve_send_config(_config(enabled=True, send=True))
+        assert resolved.endpoint == DEFAULT_ENDPOINT
+        assert resolved.send is False
+        # collection stays a local, separate choice
+        assert resolved.enabled is True
+
+    @pytest.mark.parametrize(
+        "endpoint",
+        [
+            "https://telemetry.nousresearch.com/v1/telemetry",
+            "https://TELEMETRY.NousResearch.com/v1/telemetry",
+            "https://staging.telemetry.nousresearch.com/v1/telemetry",
+            "https://nousresearch.com/ingest",
+        ],
+    )
+    def test_any_nousresearch_host_is_refused(self, endpoint):
+        resolved = resolve_send_config(_config(enabled=True, send=True, endpoint=endpoint))
+        assert resolved.send is False
+
+    @pytest.mark.parametrize(
+        "endpoint",
+        [
+            "https://metrics.example.test/v1",
+            "https://notnousresearch.com/v1",
+            "https://nousresearch.com.evil.test/v1",
+            "http://localhost:8099/v1/telemetry",
+        ],
+    )
+    def test_other_hosts_are_not_caught_by_the_rule(self, endpoint):
+        resolved = resolve_send_config(_config(enabled=True, send=True, endpoint=endpoint))
+        assert resolved.send is True
+
+    def test_it_says_so_once_in_the_log(self, caplog):
+        import hermes_cli.observability.shared_metrics_send_config as mod
+
+        mod._warned_nous_upload_disabled = False
+        with caplog.at_level(logging.WARNING):
+            resolve_send_config(_config(enabled=True, send=True))
+            resolve_send_config(_config(enabled=True, send=True))
+        notes = [r for r in caplog.records if "disabled in Simmuse" in r.getMessage()]
+        assert len(notes) == 1

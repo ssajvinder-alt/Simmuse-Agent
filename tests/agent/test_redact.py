@@ -1449,7 +1449,7 @@ class TestSecretFileAssignmentRedaction:
 
 
 class TestHermesHomePathClassification:
-    """``_is_secret_file_arg`` must see the RESOLVED Hermes home: a managed Windows home
+    """``_is_secret_file_arg`` must see the RESOLVED Simmuse home: a managed Windows home
     (``%LOCALAPPDATA%\\hermes``) has no ``.hermes`` segment and a resolved path never spells
     ``$HERMES_HOME``, so the literal test alone classified its ``config.yaml`` as ordinary YAML."""
 
@@ -1668,8 +1668,8 @@ class TestRedactForEgress:
 class TestWebappLaunchLinks:
     """``hermes webapp`` prints a link that signs a browser in as the user: one with the gateway's
     browser credential after ``#hermes-session=`` (what older gateways printed on macOS), or a one-use
-    launch ticket after ``/webapp/launch#ticket=``. Either opens the user's Hermes until it is spent or
-    replaced, so when Hermes runs the command through its terminal tool neither reaches the transcript.
+    launch ticket after ``/webapp/launch#ticket=``. Either opens the user's Simmuse until it is spent or
+    replaced, so when Simmuse runs the command through its terminal tool neither reaches the transcript.
     The rest of the link stays readable."""
 
     CREDENTIAL = "Zq7_" + "k3Lm" * 9 + "x9-"  # the shape secrets.token_urlsafe(32) prints: 43 characters
