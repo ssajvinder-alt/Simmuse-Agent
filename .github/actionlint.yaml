@@ -14,4 +14,4 @@ self-hosted-runner:
     - ubuntu-24.04-arm
     - windows-2025
     # GitHub larger runners still used by matrices not yet migrated.
-    - windows-latest-32-arm-core
+    - windows-11-arm
