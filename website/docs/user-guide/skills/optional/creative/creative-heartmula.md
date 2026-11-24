@@ -17,7 +17,7 @@ HeartMuLa: Suno-like song generation from lyrics + tags.
 | Source | Optional — install with `hermes skills install official/creative/heartmula` |
 | Path | `optional-skills/creative/heartmula` |
 | Version | `1.0.0` |
-| Author | Teknium (teknium1), Simmuse Agent |
+| Author | Teknium (teknium1), Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos |
 | Tags | `music`, `audio`, `generation`, `ai`, `heartmula`, `heartcodec`, `lyrics`, `songs` |

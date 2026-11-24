@@ -1,12 +1,12 @@
 ---
-title: "Inspecting Simmuse Desktop Dom — Read the live Simmuse desktop DOM/CSS over CDP"
-sidebar_label: "Inspecting Simmuse Desktop Dom"
+title: "Inspecting Hermes Desktop Dom — Read the live Simmuse desktop DOM/CSS over CDP"
+sidebar_label: "Inspecting Hermes Desktop Dom"
 description: "Read the live Simmuse desktop DOM/CSS over CDP"
 ---
 
 {/* This page is auto-generated from the skill's SKILL.md by website/scripts/generate-skill-docs.py. Edit the source SKILL.md, not this page. */}
 
-# Inspecting Simmuse Desktop Dom
+# Inspecting Hermes Desktop Dom
 
 Read the live Simmuse desktop DOM/CSS over CDP.
 
@@ -17,7 +17,7 @@ Read the live Simmuse desktop DOM/CSS over CDP.
 | Source | Optional — install with `hermes skills install official/software-development/inspecting-hermes-desktop-dom` |
 | Path | `optional-skills/software-development/inspecting-hermes-desktop-dom` |
 | Version | `1.0.0` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `desktop`, `electron`, `cdp`, `dom`, `ui-verification`, `self-inspection` |

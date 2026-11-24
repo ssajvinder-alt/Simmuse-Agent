@@ -17,7 +17,7 @@ Hand-drawn Excalidraw JSON diagrams (arch, flow, seq).
 | Source | Optional — install with `hermes skills install official/creative/excalidraw` |
 | Path | `optional-skills/creative/excalidraw` |
 | Version | `1.0.1` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `Excalidraw`, `Diagrams`, `Flowcharts`, `Architecture`, `Visualization`, `JSON` |
