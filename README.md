@@ -4,21 +4,21 @@
 
 # Simmuse Agent ☤
 <p align="center">
-  <a href="https://hermes-agent.nousresearch.com/">Simmuse Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Simmuse Desktop</a>
+  <a href="https://github.com/ssajvinder-alt/Simmuse-Agent/releases">Simmuse Agent</a> | <a href="https://github.com/ssajvinder-alt/Simmuse-Agent/releases">Simmuse Desktop</a>
 </p>
 <p align="center">
-  <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentation"></a>
+  <a href="https://ssajvinder-alt.github.io/Simmuse-Agent/docs/"><img src="https://img.shields.io/badge/Docs-GitHub%20Pages-FFD700?style=for-the-badge" alt="Documentation"></a>
   <a href="https://discord.gg/NousResearch"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
   <a href="https://github.com/NousResearch/hermes-agent/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License: MIT"></a>
-  <a href="https://nousresearch.com"><img src="https://img.shields.io/badge/Built%20by-Nous%20Research-blueviolet?style=for-the-badge" alt="Built by Nous Research"></a>
+  <a href="https://nousresearch.com"><img src="https://img.shields.io/badge/Based%20on%20Hermes%20Agent-Nous%20Research-blueviolet?style=for-the-badge" alt="Based on Hermes Agent by Nous Research"></a>
   <a href="README.zh-CN.md"><img src="https://img.shields.io/badge/Lang-中文-red?style=for-the-badge" alt="中文"></a>
   <a href="README.ur-pk.md"><img src="https://img.shields.io/badge/Lang-اردو-green?style=for-the-badge" alt="اردو"></a>
   <a href="README.es.md"><img src="https://img.shields.io/badge/Lang-Español-orange?style=for-the-badge" alt="Español"></a>
 </p>
 
-**The self-improving AI agent built by [Nous Research](https://nousresearch.com).** It's the only agent with a built-in learning loop — it creates skills from experience, improves them during use, nudges itself to persist knowledge, searches its own past conversations, and builds a deepening model of who you are across sessions. Run it on a $5 VPS, a GPU cluster, or serverless infrastructure that costs nearly nothing when idle. It's not tied to your laptop — talk to it from Telegram while it works on a cloud VM.
+**The self-improving AI agent, based on [Hermes Agent](https://github.com/NousResearch/hermes-agent) by [Nous Research](https://nousresearch.com).** It's the only agent with a built-in learning loop — it creates skills from experience, improves them during use, nudges itself to persist knowledge, searches its own past conversations, and builds a deepening model of who you are across sessions. Run it on a $5 VPS, a GPU cluster, or serverless infrastructure that costs nearly nothing when idle. It's not tied to your laptop — talk to it from Telegram while it works on a cloud VM.
 
-Use any model you want — [Nous Portal](https://portal.nousresearch.com), OpenRouter, OpenAI, your own endpoint, and [many others](https://hermes-agent.nousresearch.com/docs/integrations/providers). Switch with `hermes model` — no code changes, no lock-in.
+Use any model you want — [Nous Portal](https://portal.nousresearch.com), OpenRouter, OpenAI, your own endpoint, and [many others](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/integrations/providers). Switch with `hermes model` — no code changes, no lock-in.
 
 <table>
 <tr><td><b>A real terminal interface</b></td><td>Full TUI with multiline editing, slash-command autocomplete, conversation history, interrupt-and-redirect, and streaming tool output.</td></tr>
@@ -37,26 +37,27 @@ Use any model you want — [Nous Portal](https://portal.nousresearch.com), OpenR
 ### Linux, macOS, WSL2
 
 ```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ssajvinder-alt/Simmuse-Agent/main/scripts/install.sh | HERMES_REPO_URL=https://github.com/ssajvinder-alt/Simmuse-Agent.git bash
 ```
 
 ### Windows (native, PowerShell)
 
-> **Heads up:** Native Windows runs Simmuse without WSL — CLI, gateway, TUI, and tools all work natively. If you'd rather use WSL2, the Linux/macOS one-liner above works there too. Found a bug? Please [file issues](https://github.com/NousResearch/hermes-agent/issues).
+> **Heads up:** Native Windows runs Simmuse without WSL — CLI, gateway, TUI, and tools all work natively. If you'd rather use WSL2, the Linux/macOS one-liner above works there too. Found a bug? Please [file issues](https://github.com/ssajvinder-alt/Simmuse-Agent/issues).
 
 Run this in PowerShell:
 
 ```powershell
-iex (irm https://hermes-agent.nousresearch.com/install.ps1)
+$env:HERMES_REPO_URL = "https://github.com/ssajvinder-alt/Simmuse-Agent.git"
+iex (irm https://raw.githubusercontent.com/ssajvinder-alt/Simmuse-Agent/main/scripts/install.ps1)
 ```
 
 The source installer delegates Python 3.14, Node.js, npm, ripgrep, FFmpeg,
 and Python dependencies to PM. If Git is absent, it stages the verified Git
 for Windows archive in Simmuse's tool store. It does not replace your system Git.
-See [installation methods](https://hermes-agent.nousresearch.com/docs/getting-started/installation)
+See [installation methods](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/getting-started/installation)
 for the separate MSIX/App Installer package and its update ownership.
 
-> **Android / Termux:** A signed APT repository is available for aarch64 devices, with a `stable` channel (tagged releases) and a prerelease `canary` channel. The package includes Python, Node.js, and the TUI. Use the [Termux guide](https://hermes-agent.nousresearch.com/docs/getting-started/termux), not the desktop/server installer script.
+> **Android / Termux:** A signed APT repository is available for aarch64 devices, with a `stable` channel (tagged releases) and a prerelease `canary` channel. The package includes Python, Node.js, and the TUI. Use the [Termux guide](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/getting-started/termux), not the desktop/server installer script.
 >
 > **Windows:** Native Windows is fully supported — the PowerShell one-liner above installs everything. If you'd rather use WSL2, the Linux command works there too. Native Windows install lives under `%LOCALAPPDATA%\hermes`; WSL2 installs under `~/.hermes` as on Linux.
 
@@ -118,7 +119,7 @@ hermes update       # Update to the latest version
 hermes doctor       # Diagnose any issues
 ```
 
-📖 **[Full documentation →](https://hermes-agent.nousresearch.com/docs/)**
+📖 **[Full documentation →](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/)**
 
 ---
 
@@ -135,7 +136,7 @@ One command from a fresh install:
 hermes setup --portal
 ```
 
-That logs you in via OAuth, sets Nous as your provider, and turns on the Tool Gateway. Check what's wired up any time with `hermes portal info`. Full details on the [Tool Gateway docs page](https://hermes-agent.nousresearch.com/docs/user-guide/features/tool-gateway).
+That logs you in via OAuth, sets Nous as your provider, and turns on the Tool Gateway. Check what's wired up any time with `hermes portal info`. Full details on the [Tool Gateway docs page](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/tool-gateway).
 
 You can still bring your own keys per-tool whenever you want — the gateway is per-backend, not all-or-nothing.
 
@@ -157,31 +158,31 @@ Simmuse has two entry points: start the terminal UI with `hermes`, or run the ga
 | Interrupt current work         | `Ctrl+C` or send a new message                | `/stop` or send a new message                                                    |
 | Platform-specific status       | `/platforms`                                  | `/status`, `/sethome`                                                            |
 
-For the full command lists, see the [CLI guide](https://hermes-agent.nousresearch.com/docs/user-guide/cli) and the [Messaging Gateway guide](https://hermes-agent.nousresearch.com/docs/user-guide/messaging).
+For the full command lists, see the [CLI guide](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/cli) and the [Messaging Gateway guide](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/messaging).
 
 ---
 
 ## Documentation
 
-All documentation lives at **[hermes-agent.nousresearch.com/docs](https://hermes-agent.nousresearch.com/docs/)**:
+All documentation lives at **[ssajvinder-alt.github.io/Simmuse-Agent/docs](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/)**:
 
 | Section                                                                                             | What's Covered                                             |
 | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart)                 | Install → setup → first conversation in 2 minutes          |
-| [CLI Usage](https://hermes-agent.nousresearch.com/docs/user-guide/cli)                              | Commands, keybindings, personalities, sessions             |
-| [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration)                | Config file, providers, models, all options                |
-| [Messaging Gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging)                | Telegram, Discord, Slack, WhatsApp, Signal, Home Assistant |
-| [Security](https://hermes-agent.nousresearch.com/docs/user-guide/security)                          | Command approval, DM pairing, container isolation          |
-| [Tools & Toolsets](https://hermes-agent.nousresearch.com/docs/user-guide/features/tools)            | 40+ tools, toolset system, terminal backends               |
-| [Skills System](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills)              | Procedural memory, Skills Hub, creating skills             |
-| [Memory](https://hermes-agent.nousresearch.com/docs/user-guide/features/memory)                     | Persistent memory, user profiles, best practices           |
-| [MCP Integration](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)               | Connect any MCP server for extended capabilities           |
-| [Cron Scheduling](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron)              | Scheduled tasks with platform delivery                     |
-| [Context Files](https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files)       | Project context that shapes every conversation             |
-| [Architecture](https://hermes-agent.nousresearch.com/docs/developer-guide/architecture)             | Project structure, agent loop, key classes                 |
-| [Contributing](https://hermes-agent.nousresearch.com/docs/developer-guide/contributing)             | Development setup, PR process, code style                  |
-| [CLI Reference](https://hermes-agent.nousresearch.com/docs/reference/cli-commands)                  | All commands and flags                                     |
-| [Environment Variables](https://hermes-agent.nousresearch.com/docs/reference/environment-variables) | Complete env var reference                                 |
+| [Quickstart](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/getting-started/quickstart)                 | Install → setup → first conversation in 2 minutes          |
+| [CLI Usage](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/cli)                              | Commands, keybindings, personalities, sessions             |
+| [Configuration](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/configuration)                | Config file, providers, models, all options                |
+| [Messaging Gateway](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/messaging)                | Telegram, Discord, Slack, WhatsApp, Signal, Home Assistant |
+| [Security](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/security)                          | Command approval, DM pairing, container isolation          |
+| [Tools & Toolsets](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/tools)            | 40+ tools, toolset system, terminal backends               |
+| [Skills System](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/skills)              | Procedural memory, Skills Hub, creating skills             |
+| [Memory](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/memory)                     | Persistent memory, user profiles, best practices           |
+| [MCP Integration](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/mcp)               | Connect any MCP server for extended capabilities           |
+| [Cron Scheduling](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/cron)              | Scheduled tasks with platform delivery                     |
+| [Context Files](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/features/context-files)       | Project context that shapes every conversation             |
+| [Architecture](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/developer-guide/architecture)             | Project structure, agent loop, key classes                 |
+| [Contributing](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/developer-guide/contributing)             | Development setup, PR process, code style                  |
+| [CLI Reference](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/reference/cli-commands)                  | All commands and flags                                     |
+| [Environment Variables](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/reference/environment-variables) | Complete env var reference                                 |
 
 ---
 
@@ -212,13 +213,13 @@ What gets imported from OpenClaw:
 - **TTS assets** — workspace audio files
 - **Workspace instructions** — AGENTS.md (with `--workspace-target`)
 
-`hermes claw migrate` still works as the older spelling. See the [OpenClaw migration guide](https://hermes-agent.nousresearch.com/docs/guides/migrate-from-openclaw) and [Import from Other Agents](https://hermes-agent.nousresearch.com/docs/user-guide/import-from-other-agents).
+`hermes claw migrate` still works as the older spelling. See the [OpenClaw migration guide](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/guides/migrate-from-openclaw) and [Import from Other Agents](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/user-guide/import-from-other-agents).
 
 ---
 
 ## Contributing
 
-We welcome contributions! See the [Contributing Guide](https://hermes-agent.nousresearch.com/docs/developer-guide/contributing) for development setup, code style, and PR process.
+We welcome contributions! See the [Contributing Guide](https://ssajvinder-alt.github.io/Simmuse-Agent/docs/developer-guide/contributing) for development setup, code style, and PR process.
 
 Start with the [PM developer workflow](website/docs/reference/package-management.md#developer-workflow)
 for activation, daily use, dependency changes, and leaving the environment.
@@ -230,7 +231,7 @@ for activation, daily use, dependency changes, and leaving the environment.
 
 - 💬 [Discord](https://discord.gg/NousResearch)
 - 📚 [Skills Hub](https://agentskills.io)
-- 🐛 [Issues](https://github.com/NousResearch/hermes-agent/issues)
+- 🐛 [Issues](https://github.com/ssajvinder-alt/Simmuse-Agent/issues)
 - 🔌 [computer-use-linux](https://github.com/avifenesh/computer-use-linux) — Linux desktop-control MCP server for Simmuse and other MCP hosts, with AT-SPI accessibility trees, Wayland/X11 input, screenshots, and compositor window targeting.
 - 🔌 [HermesClaw](https://github.com/AaronWong1999/hermesclaw) — Community WeChat bridge: Run Simmuse Agent and OpenClaw on the same WeChat account.
 
@@ -244,4 +245,4 @@ Free code signing provided by [SignPath.io](https://about.signpath.io/), certifi
 
 MIT — see [LICENSE](LICENSE).
 
-Built by [Nous Research](https://nousresearch.com).
+Based on [Hermes Agent](https://github.com/NousResearch/hermes-agent) by [Nous Research](https://nousresearch.com).
