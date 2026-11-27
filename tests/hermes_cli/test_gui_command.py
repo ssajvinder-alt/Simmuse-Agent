@@ -343,7 +343,8 @@ def test_gui_close_preview_flag_forwards_to_packaged_exe(tmp_path, monkeypatch):
 def test_launch_installed_macos_desktop_app_gates_on_bundle_and_platform(tmp_path, monkeypatch, exists, platform):
     monkeypatch.setattr(main_desktop.sys, "platform", platform)
     exe = Path("/Applications/Hermes.app/Contents/MacOS/Hermes")
-    monkeypatch.setattr(main_desktop.Path, "is_file", lambda self: exists if self == exe else Path.is_file(self))
+    real_is_file = Path.is_file
+    monkeypatch.setattr(main_desktop.Path, "is_file", lambda self: exists if self == exe else real_is_file(self))
     calls = []
     if exists and platform == "darwin":
         from hermes_cli import bundled_app
@@ -352,6 +353,19 @@ def test_launch_installed_macos_desktop_app_gates_on_bundle_and_platform(tmp_pat
     assert main_desktop._launch_installed_macos_desktop_app() is (exists and platform == "darwin")
     if exists and platform == "darwin":
         assert calls == [[str(exe)]]
+
+
+def test_launch_installed_macos_desktop_app_finds_the_simmuse_named_bundle(monkeypatch):
+    monkeypatch.setattr(main_desktop.sys, "platform", "darwin")
+    exe = Path("/Applications/Simmuse.app/Contents/MacOS/Simmuse")
+    real_is_file = Path.is_file
+    monkeypatch.setattr(main_desktop.Path, "is_file", lambda self: self == exe or real_is_file(self))
+    calls = []
+    from hermes_cli import bundled_app
+    monkeypatch.setattr(bundled_app, "launch_detached", lambda argv, **kw: calls.append(argv) or 4321)
+
+    assert main_desktop._launch_installed_macos_desktop_app() is True
+    assert calls == [[str(exe)]]
 
 
 # ── Content-hash stamp tests ──────────────────────────────────────────
