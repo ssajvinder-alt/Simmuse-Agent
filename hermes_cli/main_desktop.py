@@ -159,10 +159,13 @@ def _desktop_packaged_executable_in(release_dir: Path) -> Optional[Path]:
     stage-and-swap staging dir (#86443).
     """
     if sys.platform == "darwin":
-        candidates = list(release_dir.glob("mac*/Hermes.app/Contents/MacOS/Hermes"))
+        # The bundle holds one executable, named after the product (Simmuse, formerly Hermes).
+        candidates = list(release_dir.glob("mac*/*.app/Contents/MacOS/*"))
     elif sys.platform == "win32":
         candidates = [
-            release_dir / d / "Hermes.exe" for d in ("win-unpacked", "win-ia32-unpacked", "win-arm64-unpacked")
+            release_dir / d / n
+            for d in ("win-unpacked", "win-ia32-unpacked", "win-arm64-unpacked")
+            for n in ("Simmuse.exe", "Hermes.exe")
         ]
     else:
         candidates = [
@@ -972,7 +975,7 @@ def _running_macos_app_bundles() -> set[Path]:
     bundles: set[Path] = set()
     for proc in psutil.process_iter(["exe"]):
         exe = proc.info.get("exe") or ""
-        if exe.endswith("/Contents/MacOS/Hermes"):
+        if exe.endswith(("/Contents/MacOS/Simmuse", "/Contents/MacOS/Hermes")):
             bundles.add(Path(exe).resolve().parents[2])
     return bundles
 
@@ -1663,8 +1666,18 @@ def _launch_installed_macos_desktop_app() -> bool:
     """
     if sys.platform != "darwin":
         return False
-    executable = Path("/Applications/Hermes.app/Contents/MacOS/Hermes")
-    if not executable.is_file():
+    executable = next(
+        (
+            p
+            for p in (
+                Path("/Applications/Simmuse.app/Contents/MacOS/Simmuse"),
+                Path("/Applications/Hermes.app/Contents/MacOS/Hermes"),
+            )
+            if p.is_file()
+        ),
+        None,
+    )
+    if executable is None:
         return False
     from hermes_cli.bundled_app import launch_detached
 
