@@ -16,7 +16,7 @@ const variants = {
     pascal: 'HermesLight'
   },
   bundled: {
-    display: 'Simmuse',
+    display: 'Simmuse Agent',
     kebab: 'hermes-bundled',
     pascal: 'HermesBundled'
   }
@@ -66,22 +66,23 @@ const identity = {
   store,
   light,
   displayName,
-  appId: `com.nousresearch.${name.kebab}${kebabSuffix}`,
+  appId: `com.simmuse.${name.kebab}${kebabSuffix}`,
   // Store and commit builds do not publish a release feed.
   channel: store || buildCommit ? null : light ? (canary ? 'light-canary' : 'light') : (canary ? 'canary' : 'latest'),
   appNamePascal: `${name.pascal}${pascalSuffix}`,
   artifactNamePascal: name.pascal,
   windowsExecutableName: kebabSuffix ? cliName : displayName,
   cliName,
-  msixAppIdWithOrg: `NousResearch.${name.pascal}${pascalSuffix}`,
+  msixAppIdWithOrg: `Simmuse.${name.pascal}${pascalSuffix}`,
   ...(store
     ? {
         storeMsix: {
           // Partner Center publisher identity (the account's publisher ID) —
           // validated + re-signed by the Store on submission.
-          identityName: 'NousResearchInc.HermesAgent',
-          publisher: 'CN=EE6D86E4-606F-4E38-B940-AD7248C9D519',
-          publisherDisplayName: 'Nous Research Inc.'
+          // Replace all three with the values shown under Product identity in Partner Center.
+          identityName: 'REPLACE_WITH_PARTNER_CENTER_PACKAGE_IDENTITY_NAME',
+          publisher: 'CN=REPLACE_WITH_PARTNER_CENTER_PUBLISHER_ID',
+          publisherDisplayName: 'REPLACE_WITH_PUBLISHER_DISPLAY_NAME'
         }
       }
     : {})

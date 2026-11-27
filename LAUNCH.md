@@ -48,3 +48,25 @@ Nothing below can be decided from the code alone; each needs the owner's input.
 
 Install, add a model key, one chat that uses tools, one scheduled job. Record it on Windows.
 Skip Nous-hosted inference and billing. Keep a recording as a fallback.
+
+## Store signing and payments runbook
+
+Done in code: the packaging no longer carries Nous's identity. `appId` is `com.simmuse.*`,
+the release repo is `ssajvinder-alt/Simmuse-Agent`, and the Store identity in
+`apps/desktop/product-identity.cjs` holds three `REPLACE_WITH_...` placeholders. A Store
+build with the placeholders still in place is meant to fail, so it can never ship under
+another publisher's name.
+
+Needs the owner:
+1. Create a Microsoft Partner Center individual account. Reserve the app name "Simmuse".
+2. In Partner Center, open the product's Product identity page. Copy Package/Identity/Name,
+   Package/Identity/Publisher and Publisher display name into the three placeholders in
+   `apps/desktop/product-identity.cjs` (and the matching expectations in
+   `apps/desktop/electron/product-identity.test.ts`).
+3. On a Windows machine, follow `apps/desktop/BUILDING.md` to build the `store` variant, then
+   upload the package. The Store signs it on submission.
+4. Payments: open a Lemon Squeezy (or Paddle) account, create the Pro product with license
+   keys, and send the product id. Licence-key checking is not implemented yet.
+
+Not verified here: the Windows build itself, and the `electron-builder` based desktop tests
+(the package is not installed in this container).
