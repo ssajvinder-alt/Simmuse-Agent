@@ -1286,7 +1286,7 @@ def _on_server_started(
     else:
         from hermes_cli.url_utils import format_url_host
 
-        print(f"  Hermes Web UI → http://{format_url_host(host)}:{actual_port}")
+        print(f"  Simmuse Web UI → http://{format_url_host(host)}:{actual_port}")
     _maybe_open_browser(host, actual_port, open_browser, initial_profile)
 
     if start_mcp_discovery_after_bind:
