@@ -41,7 +41,6 @@ Security problems: do **not** file a public issue. Follow `SECURITY.md`.
 ## 5. Known limitations
 
 - Test builds are unsigned (see Install), so Windows SmartScreen and macOS Gatekeeper may warn.
-- `hermes desktop` (building and launching the desktop app from a source checkout) still looks for the old `Hermes` app and executable names on macOS and Windows, so it may not find the Simmuse build. Use an installer from Releases instead.
 - `hermes doctor` reports a missing optional extra (`hermes pm install --extra bedrock`) and missing API keys until you run `hermes setup`.
 - The terminal UI (`ui-tui`) depends on a version of `undici` with known denial-of-service advisories; they affect only network clients you point at untrusted servers.
 - Docs links inside some app messages may still point to the upstream Hermes Agent site.
