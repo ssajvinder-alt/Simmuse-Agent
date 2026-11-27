@@ -66,7 +66,11 @@ Needs the owner:
 3. On a Windows machine, follow `apps/desktop/BUILDING.md` to build the `store` variant, then
    upload the package. The Store signs it on submission.
 4. Payments: open a Lemon Squeezy (or Paddle) account, create the Pro product with license
-   keys, and send the product id. Licence-key checking is not implemented yet.
+   keys, and send the product id. The client is in `hermes_cli/simmuse_license.py` (activate,
+   validate with a 7-day offline grace, deactivate; 6 tests, mocked network). It is not wired into
+   app startup and was not run against the real Lemon Squeezy API. Note the code is MIT and
+   public, so a check inside it is a convenience, not copy protection; the paid value is the
+   signed installer, updates and support.
 
 Not verified here: the Windows build itself, and the `electron-builder` based desktop tests
 (the package is not installed in this container).
