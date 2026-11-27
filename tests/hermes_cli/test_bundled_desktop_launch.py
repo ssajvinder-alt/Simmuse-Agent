@@ -101,7 +101,7 @@ def _host_bundle(tmp_path: Path) -> tuple[Path, Path]:
         repo = _windows_bundle(tmp_path)
         return repo, tmp_path / "Simmuse" / "Hermes.exe"
     if sys.platform == "darwin":
-        return _macos_bundle(tmp_path), tmp_path / "Hermes.app/Contents/MacOS/Hermes"
+        return _macos_bundle(tmp_path), tmp_path / "Hermes.app/Contents/MacOS/Simmuse"
     repo = _linux_bundle(tmp_path)
     return repo, tmp_path / "linux-unpacked" / "Simmuse"
 
