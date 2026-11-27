@@ -1,12 +1,12 @@
 ---
-title: "Simmuse Agent — Use, configure, theme, extend, and orchestrate Simmuse Agent"
-sidebar_label: "Simmuse Agent"
+title: "Hermes Agent — Use, configure, theme, extend, and orchestrate Simmuse Agent"
+sidebar_label: "Hermes Agent"
 description: "Use, configure, theme, extend, and orchestrate Simmuse Agent"
 ---
 
 {/* This page is auto-generated from the skill's SKILL.md by website/scripts/generate-skill-docs.py. Edit the source SKILL.md, not this page. */}
 
-# Simmuse Agent
+# Hermes Agent
 
 Use, configure, theme, extend, and orchestrate Simmuse Agent.
 
@@ -17,7 +17,7 @@ Use, configure, theme, extend, and orchestrate Simmuse Agent.
 | Source | Bundled (installed by default) |
 | Path | `skills/autonomous-ai-agents/hermes-agent` |
 | Version | `3.2.0` |
-| Author | Simmuse Agent + Teknium |
+| Author | Hermes Agent + Teknium |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `hermes`, `setup`, `configuration`, `multi-agent`, `spawning`, `cli`, `gateway`, `bots`, `bot-mode`, `features`, `themes`, `skins`, `desktop-plugins`, `tui-widgets`, `petdex`, `development` |

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import siteConfig from "@generated/docusaurus.config";
 import styles from "./styles.module.css";
 
 interface BlueprintField {
@@ -23,7 +24,7 @@ interface Blueprint {
   appUrl: string;
 }
 
-const INDEX_URL = "/docs/api/automation-blueprints-index.json";
+const INDEX_URL = `${siteConfig.baseUrl}api/automation-blueprints-index.json`;
 
 function CopyButton({ text }: { text: string }): React.JSX.Element {
   const [copied, setCopied] = useState(false);

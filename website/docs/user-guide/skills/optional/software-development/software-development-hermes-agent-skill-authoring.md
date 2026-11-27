@@ -1,12 +1,12 @@
 ---
-title: "Simmuse Agent Skill Authoring — Author in-repo SKILL.md files: frontmatter and structure"
-sidebar_label: "Simmuse Agent Skill Authoring"
+title: "Hermes Agent Skill Authoring — Author in-repo SKILL.md files: frontmatter and structure"
+sidebar_label: "Hermes Agent Skill Authoring"
 description: "Author in-repo SKILL.md files: frontmatter and structure"
 ---
 
 {/* This page is auto-generated from the skill's SKILL.md by website/scripts/generate-skill-docs.py. Edit the source SKILL.md, not this page. */}
 
-# Simmuse Agent Skill Authoring
+# Hermes Agent Skill Authoring
 
 Author in-repo SKILL.md files: frontmatter and structure.
 
@@ -17,7 +17,7 @@ Author in-repo SKILL.md files: frontmatter and structure.
 | Source | Optional — install with `hermes skills install official/software-development/hermes-agent-skill-authoring` |
 | Path | `optional-skills/software-development/hermes-agent-skill-authoring` |
 | Version | `2.0.0` |
-| Author | Simmuse Agent |
+| Author | Hermes Agent |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `skills`, `authoring`, `hermes-agent`, `conventions`, `skill-md` |

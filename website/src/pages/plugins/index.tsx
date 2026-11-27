@@ -4,6 +4,7 @@ import Link from "@docusaurus/Link";
 import { useHistory } from "@docusaurus/router";
 import RouteLink, { useKnownRoute } from "../../components/RouteLink";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import siteConfig from "@generated/docusaurus.config";
 import styles from "./styles.module.css";
 
 import {
@@ -33,8 +34,8 @@ import { pickFeatured } from "../../../../apps/shared/src/catalog-featured";
 
 // Routes Docusaurus serves the static API JSON from. `baseUrl` is `/docs/`,
 // `static/api/` ends up at `/docs/api/` — same pattern as the Skills Hub.
-const PLUGINS_URL = "/docs/api/plugins.json";
-const META_URL = "/docs/api/plugins-meta.json";
+const PLUGINS_URL = `${siteConfig.baseUrl}api/plugins.json`;
+const META_URL = `${siteConfig.baseUrl}api/plugins-meta.json`;
 /** Mirrors the `max-width: 600px` blocks in styles.module.css. */
 const MOBILE_PANEL_QUERY = "(max-width: 600px)";
 
