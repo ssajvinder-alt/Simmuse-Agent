@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="assets/banner.png" alt="Hermes Agent" width="100%">
+  <img src="assets/banner.png" alt="Simmuse" width="100%">
 </p>
 
-# Hermes Agent ☤
+# Simmuse
 <p align="center">
-  <a href="https://hermes-agent.nousresearch.com/">Hermes Agent</a> | <a href="https://hermes-agent.nousresearch.com/">Hermes Desktop</a>
+  Simmuse
 </p>
 <p align="center">
   <a href="https://hermes-agent.nousresearch.com/docs/"><img src="https://img.shields.io/badge/Docs-hermes--agent.nousresearch.com-FFD700?style=for-the-badge" alt="Documentation"></a>
@@ -241,3 +241,7 @@ for activation, daily use, dependency changes, and leaving the environment.
 MIT — see [LICENSE](LICENSE).
 
 Built by [Nous Research](https://nousresearch.com).
+
+---
+
+Simmuse is built on the open-source Hermes Agent by Nous Research, used under the MIT License. See [LICENSE](LICENSE). Simmuse is an independent product and is not affiliated with or endorsed by Nous Research.
