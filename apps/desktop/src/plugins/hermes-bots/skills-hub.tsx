@@ -14,7 +14,7 @@ import { requestForBot } from './routing'
 import type { RosterRow } from './types'
 
 // ── skills hub section: the REAL hub page (docs) embedded as a picker ──────
-// https://hermes-agent.nousresearch.com/docs/skills?embed=picker hides the
+// https://ssajvinder-alt.github.io/Simmuse-Agent/docs/skills?embed=picker hides the
 // docs chrome and adds "+ Add to this Agent" per card, posting
 // {type: 'hermes-skill-pick', ...} to us (hermes-agent#86243). We validate
 // the origin, install via skills.manage, and bubble onInstalled so the
