@@ -1,0 +1,114 @@
+<title>Simmuse</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* Layout: one narrow reading column, a split hero, a task list that reads like a day's work, then a single price box. */
+:root{
+  --bg:#F6F4EF; --surface:#FFFFFF; --fg:#0E2222; --muted:#4F6663; --line:#D9DDD6;
+  --accent:#0B6B63; --accent-fg:#FFFFFF; --signal:#B77900;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#041C1C; --surface:#0A2B2B; --fg:#FFE6CB; --muted:#9DB8B3; --line:#1A3F3D;
+  --accent:#FFE6CB; --accent-fg:#041C1C; --signal:#FFBF00; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#041C1C; --surface:#0A2B2B; --fg:#FFE6CB; --muted:#9DB8B3; --line:#1A3F3D;
+  --accent:#FFE6CB; --accent-fg:#041C1C; --signal:#FFBF00; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body)}
+*{box-sizing:border-box}
+.wrap{max-width:62rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav{display:flex;justify-content:space-between;align-items:center;padding-block:1.25rem}
+.brand{display:flex;align-items:center;gap:.6rem;font:700 1.25rem var(--display);letter-spacing:.01em}
+.brand svg{width:1.9rem;height:1.9rem}
+.nav-note{color:var(--muted);font-size:.875rem}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;padding-block:3rem 4rem}
+h1{font:700 clamp(2.1rem,5vw,3.4rem)/1.08 var(--display);margin:0 0 1rem;text-wrap:balance;letter-spacing:-.01em}
+.lede{color:var(--muted);font-size:1.15rem;max-width:34rem;margin:0 0 1.75rem}
+.cta{display:inline-block;background:var(--accent);color:var(--accent-fg);font-weight:600;padding:.85rem 1.4rem;border-radius:6px;text-decoration:none;border:0}
+.cta:focus-visible,a:focus-visible{outline:3px solid var(--signal);outline-offset:3px}
+.fine{display:block;color:var(--muted);font-size:.85rem;margin-top:.75rem}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.1rem;min-width:0}
+.chat h2{font:500 .75rem var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .8rem}
+.msg{max-width:88%;padding:.6rem .8rem;border-radius:10px;margin:0 0 .6rem;font-size:.95rem}
+.in{background:var(--bg);border:1px solid var(--line)}
+.out{background:var(--accent);color:var(--accent-fg);margin-left:auto}
+.sample{color:var(--muted);font-size:.78rem;margin:.4rem 0 0}
+section{padding-block:3rem;border-top:1px solid var(--line)}
+h2.title{font:700 1.7rem/1.2 var(--display);margin:0 0 .4rem;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 2rem;max-width:40rem}
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem 2rem;list-style:none;margin:0;padding:0}
+.tasks li{min-width:0;padding-top:.9rem;border-top:2px solid var(--line)}
+.tasks b{display:block;font:700 1.05rem var(--display);margin-bottom:.25rem}
+.tasks span{color:var(--muted);font-size:.95rem}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.4rem;min-width:0}
+.plan h3{font:700 1.15rem var(--display);margin:0}
+.amt{font:700 2rem var(--display);margin:.4rem 0}
+.amt small{font:400 .9rem var(--body);color:var(--muted)}
+.plan ul{margin:.8rem 0 0;padding-left:1.1rem;color:var(--muted)}
+.tag{display:inline-block;color:var(--signal);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+footer{border-top:1px solid var(--line);padding-block:2rem 3rem;color:var(--muted);font-size:.85rem}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:2rem;padding-block:2rem 3rem}}
+@media (prefers-reduced-motion:no-preference){.cta{transition:opacity .15s}.cta:hover{opacity:.88}}
+</style>
+
+<div class="wrap">
+  <nav>
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#041C1C"/><path d="M44 20C44 13 20 13 20 24C20 35 44 29 44 40C44 51 20 51 20 44" fill="none" stroke="#FFE6CB" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Simmuse
+    </div>
+    <span class="nav-note">Early access</span>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>The assistant that runs your small business admin.</h1>
+      <p class="lede">Simmuse answers customer messages, keeps your to-do list and runs your routine jobs, from the chat apps you already use. It runs on your own computer.</p>
+      <a class="cta" href="#price">See early access</a>
+      <span class="fine">Bring your own AI key. Your data stays on your machine.</span>
+    </div>
+    <aside class="chat" aria-label="Example conversation">
+      <h2>Example chat</h2>
+      <p class="msg in">Hi, are you open Saturday? Can I book a 10am?</p>
+      <p class="msg out">Yes, Saturday we're open 9 to 2. 10am is free. Want me to book it under your name?</p>
+      <p class="msg in">Yes please.</p>
+      <p class="msg out">Booked: Saturday 10:00. I'll remind you Friday evening.</p>
+      <p class="sample">Illustration of the kind of task Simmuse handles. Not a real customer.</p>
+    </aside>
+  </header>
+
+  <section>
+    <h2 class="title">A day of small jobs, handled.</h2>
+    <p class="sub">Simmuse works from your messaging apps and on a schedule, so the small tasks stop eating your evening.</p>
+    <ul class="tasks">
+      <li><b>Replies to customers</b><span>Answers common questions in Telegram, WhatsApp and other chat apps you connect.</span></li>
+      <li><b>Keeps your list</b><span>Remembers what you asked for across days, so you don't repeat yourself.</span></li>
+      <li><b>Runs on a schedule</b><span>A morning summary, a weekly report or a reminder, at the time you set.</span></li>
+      <li><b>Looks things up</b><span>Browses the web and reads files on your computer when a task needs them.</span></li>
+    </ul>
+  </section>
+
+  <section id="price">
+    <h2 class="title">Early access pricing</h2>
+    <p class="sub">These are test prices while we learn what small businesses will pay for. They may change before launch.</p>
+    <div class="price">
+      <div class="plan">
+        <span class="tag">Free</span>
+        <h3>Try it</h3>
+        <p class="amt">$0</p>
+        <ul><li>A limited number of messages</li><li>One chat app</li><li>Your own AI key</li></ul>
+      </div>
+      <div class="plan">
+        <span class="tag">Test price</span>
+        <h3>Simmuse Pro</h3>
+        <p class="amt">$19 <small>/ month, or $149 / year</small></p>
+        <ul><li>No message limit</li><li>All chat apps and scheduled jobs</li><li>Your own AI key</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Simmuse is built on the open-source Hermes Agent by Nous Research, used under the MIT License. Simmuse is an independent product and is not affiliated with or endorsed by Nous Research.
+  </footer>
+</div>
