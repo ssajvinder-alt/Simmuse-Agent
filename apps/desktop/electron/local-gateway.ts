@@ -40,7 +40,13 @@ export function runGatewayEnsure(
     // Diagnostics only (never protocol): an older `hermes` without the subcommand, a missing
     // profile or an import crash explain themselves here while stdout stays empty.
     child.stderr.on('data', data => { stderr = (stderr + data.toString()).slice(-4096) })
-    child.on('error', () => { clearTimeout(timer); clearTimeout(forceTimer); reject(new Error(`Could not run ${label}`)) })
+    child.on('error', err => {
+      clearTimeout(timer)
+      clearTimeout(forceTimer)
+      // The spawn failure names its own cause (ENOENT: command missing; EACCES/EPERM: blocked by permissions or antivirus).
+      const code = (err as NodeJS.ErrnoException).code
+      reject(new Error(`Could not run ${label}: ${code ? `${code} ` : ''}${err.message} (command: ${backend.command})`))
+    })
     // A client that exits on SIGTERM still resolves (callers such as restartLocalGatewayOwner log a
     // non-zero exit and re-ensure); only one that outlives the force-kill deadline rejects. An
     // expired run never reads as success, and its last diagnostic line names the deadline.

@@ -643,3 +643,11 @@ test('an update-paused ensure refusal points to the restart that completes its t
     code: 6, stdout: JSON.stringify({ state: 'draining', reason_code: 'update_paused', endpoint: null })
   }))).rejects.toThrow('Gateway draining (update_paused). Use hermes gateway restart for recovery.')
 })
+
+test('a command that cannot be spawned reports why and which command', async () => {
+  const missing = path.join(process.cwd(), 'no-such-hermes-binary')
+
+  await expect(
+    runGatewayEnsure({ command: missing, args: [], env: {}, shell: false }, process.cwd(), '/home/x/.hermes', { PATH: process.env.PATH ?? '' })
+  ).rejects.toThrow(/Could not run hermes gateway ensure: ENOENT .*no-such-hermes-binary/)
+})
