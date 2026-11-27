@@ -80,6 +80,10 @@ function toolsetArguments(inputs) {
     const destination = path.join(tools, name)
     fs.rmSync(destination, { recursive: true, force: true })
     fs.cpSync(directory, destination, { recursive: true, verbatimSymlinks: true })
+    // The prepared toolsets are CommonJS .js files. Under apps/desktop (package.json type
+    // "module") Node would load them as ESM and fail on require(), so pin their own scope.
+    const toolsetPackage = path.join(destination, 'package.json')
+    if (!fs.existsSync(toolsetPackage)) fs.writeFileSync(toolsetPackage, '{"type":"commonjs"}\n')
     // Upstream parses this as a literal path after slicing file:// (not URL decoding).
     return `-c.toolsets.${name}.url=file://${destination}`
   })
