@@ -90,7 +90,9 @@ it('keeps Save off until the text changes, then saves into the file it loaded an
 
   fireEvent.click(save)
 
-  await waitFor(() => expect(saveProjectInstructions).toHaveBeenCalledWith('/home/ada/thesis', 'AGENTS.md', 'Be brief. Cite sources.'))
+  await waitFor(() =>
+    expect(saveProjectInstructions).toHaveBeenCalledWith('/home/ada/thesis', 'AGENTS.md', 'Be brief. Cite sources.')
+  )
   await waitFor(() => expect($projectInstructionsDialog.get()).toBeNull())
   expect(notify).toHaveBeenCalledWith(expect.objectContaining({ kind: 'success' }))
 })
@@ -116,7 +118,10 @@ it('explains why it will not edit a file it cannot read completely, and offers n
   mount()
   open()
 
-  expect(await screen.findByRole('alert')).toHaveProperty('textContent', 'AGENTS.md is too large to edit here, so Simmuse will not change it.')
+  expect(await screen.findByRole('alert')).toHaveProperty(
+    'textContent',
+    'AGENTS.md is too large to edit here, so Simmuse will not change it.'
+  )
   expect(screen.queryByRole('textbox')).toBeNull()
   expect((screen.getByRole('button', { name: 'Save' }) as HTMLButtonElement).disabled).toBe(true)
 })

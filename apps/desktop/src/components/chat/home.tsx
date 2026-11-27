@@ -286,7 +286,9 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
 
         <Wordmark className="relative mb-5 dark:text-midground" text="SIMMUSE" />
 
-        <h2 className="relative m-0 text-xl font-medium tracking-tight text-foreground">What would you like to work on?</h2>
+        <h2 className="relative m-0 text-xl font-medium tracking-tight text-foreground">
+          What would you like to work on?
+        </h2>
         <p className="mt-1 mb-2 text-muted-foreground">Pick a starting point, or just type below.</p>
 
         {scopedProject && (
@@ -295,7 +297,10 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
           </p>
         )}
 
-        <p className="mb-5 flex items-center justify-center gap-2 text-xs text-muted-foreground" data-slot="home_status">
+        <p
+          className="mb-5 flex items-center justify-center gap-2 text-xs text-muted-foreground"
+          data-slot="home_status"
+        >
           <span aria-hidden className={cn('size-2 rounded-full', TONE_DOT[status.tone])} />
           <span>{status.text}</span>
         </p>
@@ -359,9 +364,7 @@ function HomeView({ navigate }: { navigate?: OpenSessionNavigate }) {
 
             {recentProjects.length > 0 && (
               <section aria-label="Projects">
-                <h3 className="m-0 mb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                  Projects
-                </h3>
+                <h3 className="m-0 mb-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">Projects</h3>
                 <ul className="m-0 flex list-none flex-col gap-0.5 p-0">
                   {recentProjects.map(project => (
                     <li key={project.id}>

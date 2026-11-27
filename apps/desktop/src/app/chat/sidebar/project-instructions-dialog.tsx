@@ -2,7 +2,14 @@ import { useStore } from '@nanostores/react'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog'
 import { Textarea } from '@/components/ui/textarea'
 import { useI18n } from '@/i18n'
 import { type LoadedInstructions, loadProjectInstructions, saveProjectInstructions } from '@/lib/project-instructions'
@@ -116,7 +123,9 @@ export function ProjectInstructionsDialog() {
             />
             {ok && (
               <span className="text-[0.6875rem] text-(--ui-text-tertiary)" data-slot="instructions_file">
-                {ok.exists ? `Saved in ${ok.file} in the project folder.` : `Will be saved in a new ${ok.file} in the project folder.`}
+                {ok.exists
+                  ? `Saved in ${ok.file} in the project folder.`
+                  : `Will be saved in a new ${ok.file} in the project folder.`}
               </span>
             )}
           </div>

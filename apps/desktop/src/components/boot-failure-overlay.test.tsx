@@ -400,9 +400,7 @@ describe('BootFailureOverlay', () => {
       expect(screen.getByText(/reinstall the app to restore/i)).toBeTruthy()
 
       fireEvent.click(screen.getByRole('button', { name: /reinstall the app/i }))
-      await waitFor(() =>
-        expect(openExternal).toHaveBeenCalledWith('https://docs.simmuse.example/desktop')
-      )
+      await waitFor(() => expect(openExternal).toHaveBeenCalledWith('https://docs.simmuse.example/desktop'))
     } finally {
       restore()
     }

@@ -20,7 +20,9 @@ describe('the Simmuse default theme', () => {
     const { colors } = BUILTIN_THEMES.simmuse!
 
     // Orange on the black surface (text/icons) and black ink on the orange fill (buttons).
-    expect(luminance(colors.midground ?? colors.ring) + 0.05).toBeGreaterThan(4.5 * (luminance(colors.background) + 0.05))
+    expect(luminance(colors.midground ?? colors.ring) + 0.05).toBeGreaterThan(
+      4.5 * (luminance(colors.background) + 0.05)
+    )
     expect(luminance(colors.primary) + 0.05).toBeGreaterThan(4.5 * (luminance(colors.primaryForeground) + 0.05))
   })
 })

@@ -45,7 +45,9 @@ export function conversationToMarkdown({
   const date = exportedAt.toISOString().slice(0, 10)
   const header = `# ${heading}\n\n_Exported from Simmuse on ${date}._`
 
-  return turns.length ? `${header}\n\n${turns.join('\n\n')}\n` : `${header}\n\n_This conversation has no messages yet._\n`
+  return turns.length
+    ? `${header}\n\n${turns.join('\n\n')}\n`
+    : `${header}\n\n_This conversation has no messages yet._\n`
 }
 
 /** A file name safe on every system, ending in `.md`. */

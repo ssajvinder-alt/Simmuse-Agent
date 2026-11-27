@@ -1,4 +1,9 @@
-import { DesktopFileMissingError, isDesktopFsRemoteMode, readDesktopFileText, writeDesktopFileText } from '@/lib/desktop-fs'
+import {
+  DesktopFileMissingError,
+  isDesktopFsRemoteMode,
+  readDesktopFileText,
+  writeDesktopFileText
+} from '@/lib/desktop-fs'
 
 // Project instructions: plain-language guidance for Simmuse that applies to every conversation in a
 // project's main folder. The agent already reads one "project context" file from the working folder
@@ -99,7 +104,13 @@ export async function loadProjectInstructions(folder: string): Promise<LoadedIns
         return { file: name, reason: 'too-large', status: 'unsafe' }
       }
 
-      return { exists: true, file: name, instructions: extractInstructions(result.text), status: 'ok', text: result.text }
+      return {
+        exists: true,
+        file: name,
+        instructions: extractInstructions(result.text),
+        status: 'ok',
+        text: result.text
+      }
     } catch (error) {
       if (!(error instanceof DesktopFileMissingError)) {
         throw error

@@ -28,7 +28,8 @@ export const sortProviders = (providers: OAuthProvider[]) =>
 /** Nous Portal is one provider among several, run by Nous Research, not part of Simmuse. English only:
  *  the translated `onboarding.featuredPitch` calls it "the recommended way to run Simmuse", which is
  *  no longer true (Simmuse recommends bringing your own provider key, OpenRouter first). */
-export const NOUS_PORTAL_PITCH = 'A Nous Research service: one subscription, 300+ frontier models. Sign in with a Nous account.'
+export const NOUS_PORTAL_PITCH =
+  'A Nous Research service: one subscription, 300+ frontier models. Sign in with a Nous account.'
 
 /** The "Recommended" tag, in the same style the featured row used to carry. */
 export function RecommendedTag() {
@@ -66,11 +67,7 @@ export function FeaturedProviderRow({
           <span className="text-[length:var(--conversation-text-font-size)] font-semibold">
             {freeTier ? t.freeTier.providerRowTitle : providerTitle(provider)}
           </span>
-          {freeTier ? (
-            <FreeTierTag />
-          ) : loggedIn ? (
-            <ConnectedTag />
-          ) : null}
+          {freeTier ? <FreeTierTag /> : loggedIn ? <ConnectedTag /> : null}
         </div>
         <p className="mt-1 text-xs leading-5 text-muted-foreground">
           {freeTier ? t.freeTier.providerRowPitch : NOUS_PORTAL_PITCH}

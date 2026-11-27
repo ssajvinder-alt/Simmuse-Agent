@@ -1,6 +1,11 @@
 import type { SessionInfo } from '@/hermes'
 import { getAllSessionMessages } from '@/hermes'
-import { conversationToMarkdown, markdownFilename, saveMarkdownFile, type SaveMarkdownResult } from '@/lib/markdown-export'
+import {
+  conversationToMarkdown,
+  markdownFilename,
+  saveMarkdownFile,
+  type SaveMarkdownResult
+} from '@/lib/markdown-export'
 import { notify, notifyError } from '@/store/notifications'
 
 function report(result: SaveMarkdownResult, path: string | undefined, what: string) {

@@ -101,8 +101,7 @@ export function SidebarLoadErrorState({ onRetry }: { onRetry: () => void }) {
   )
 }
 
-const SESSION_STORAGE_RECOVERY_URL =
-  SIMMUSE_LINKS.docsRecovery
+const SESSION_STORAGE_RECOVERY_URL = SIMMUSE_LINKS.docsRecovery
 
 interface SidebarStorageCorruptNoticeProps {
   openRecoveryGuide?: (url: string) => void
