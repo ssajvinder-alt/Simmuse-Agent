@@ -73,7 +73,7 @@ jobs:
     needs: plan
     if: ${{ needs.plan.outputs.count != '0' }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 120
+    timeout-minutes: 200
     continue-on-error: ${{ matrix.best-effort }}
     strategy:
       fail-fast: false
@@ -90,15 +90,52 @@ jobs:
         with:
           python-version: '3.12'
 
+      # A build can fail for reasons that have nothing to do with the code (a dropped
+      # download, a flaky runner). Try twice from a clean output folder before giving up.
       - name: Build installers (macOS, Linux)
         if: runner.os != 'Windows'
         shell: bash
-        run: scripts/build-bundle.sh
+        run: |
+          for attempt in 1 2; do
+            rm -rf apps/desktop/release
+            if scripts/build-bundle.sh; then exit 0; fi
+            echo "::warning::build attempt $attempt failed"
+          done
+          echo "::error::build failed twice"; exit 1
 
       - name: Build installer (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
-        run: scripts\build-bundle.ps1
+        run: |
+          foreach ($attempt in 1..2) {
+            if (Test-Path apps\desktop\release) { Remove-Item -Recurse -Force apps\desktop\release }
+            scripts\build-bundle.ps1
+            if ($LASTEXITCODE -eq 0 -and $?) { exit 0 }
+            Write-Host "::warning::build attempt $attempt failed"
+          }
+          Write-Host "::error::build failed twice"; exit 1
+
+      # Refuse to publish an installer that is missing or implausibly small.
+      - name: Check the installers look sane
+        shell: bash
+        env:
+          OS_NAME: ${{ runner.os }}
+        run: |
+          cd apps/desktop/release
+          case "$OS_NAME" in
+            macOS)   need='*.dmg *.zip' ;;
+            Linux)   need='*.AppImage' ;;
+            Windows) need='*.msix' ;;
+          esac
+          for pattern in $need; do
+            files=$(ls $pattern 2>/dev/null || true)
+            [ -n "$files" ] || { echo "::error::no $pattern was produced"; exit 1; }
+            for f in $files; do
+              size=$(stat -c %s "$f" 2>/dev/null || stat -f %z "$f")
+              echo "$f $size bytes"
+              [ "$size" -gt 100000000 ] || { echo "::error::$f is only $size bytes"; exit 1; }
+            done
+          done
 
       - name: Upload installers
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -168,9 +205,27 @@ jobs:
 
           Not attached because GitHub limits release files to under 2 GiB: $(ls too-big | tr '\n' ' '). Ask the maintainer for a copy, or build it from source."
           fi
-          gh release create "$TAG" installers/* \
-            --repo "$GITHUB_REPOSITORY" \
-            --target "$TARGET" \
-            --prerelease \
-            --title "Simmuse $TAG" \
-            --notes "$notes"
+          # Say which platforms are missing so nobody is surprised.
+          missing=""
+          ls installers | grep -q 'mac-arm64.*\.dmg$' || missing="$missing macOS-Apple-silicon"
+          ls installers | grep -q 'mac-x64.*\.dmg$'   || missing="$missing macOS-Intel"
+          ls installers | grep -q '\.AppImage$'       || missing="$missing Linux"
+          if [ -n "$missing" ]; then
+            notes="$notes
+
+          Missing from this release (the build did not produce them):$missing"
+          fi
+          retry() { for n in 1 2 3; do "$@" && return 0; echo "retry $n: $*" >&2; sleep 20; done; return 1; }
+          # Build the release as a hidden draft, attach every file (retrying), and only
+          # then publish it, so a half-uploaded release is never visible.
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$TARGET" \
+              --draft --prerelease --title "Simmuse $TAG" --notes "$notes"
+          fi
+          retry gh release upload "$TAG" installers/* --clobber --repo "$GITHUB_REPOSITORY"
+          # Confirm every file really arrived.
+          uploaded=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | sort)
+          expected=$(ls installers | sort)
+          [ "$uploaded" = "$expected" ] || { echo "::error::release assets do not match what was built"; diff <(echo "$expected") <(echo "$uploaded") || true; exit 1; }
+          gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false --prerelease \
+            --title "Simmuse $TAG" --notes "$notes"
