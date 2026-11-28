@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simmuse Agent</title>
+<meta name="description" content="Simmuse is a personal AI agent for your terminal, desktop and chat apps. It learns across sessions, delegates to subagents and runs scheduled jobs.">
+<style>
+  :root { --bg:#fff; --fg:#14161a; --muted:#5b6370; --line:#e3e6ea; --accent:#2f5bea; --accent-fg:#fff; --card:#f6f7f9; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f1115; --fg:#eef0f3; --muted:#9aa3b0; --line:#272b33; --accent:#6b8cff; --accent-fg:#0f1115; --card:#171a20; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:72px 20px 56px; }
+  h1 { font-size:2.4rem; line-height:1.15; margin:0 0 12px; letter-spacing:-0.02em; }
+  p.lead { font-size:1.15rem; color:var(--muted); margin:0 0 28px; }
+  .actions { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:40px; }
+  a.btn { display:inline-block; padding:12px 20px; border-radius:8px; text-decoration:none; font-weight:600; border:1px solid var(--line); color:var(--fg); }
+  a.btn.primary { background:var(--accent); color:var(--accent-fg); border-color:var(--accent); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:40px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card h2 { font-size:1rem; margin:0 0 6px; }
+  .card p { margin:0; color:var(--muted); font-size:.95rem; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; overflow-x:auto; font-size:.9rem; }
+  footer { color:var(--muted); font-size:.9rem; border-top:1px solid var(--line); padding-top:20px; }
+  footer a { color:inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Simmuse Agent</h1>
+  <p class="lead">A personal AI agent that works from your terminal, a desktop app and your chat apps. It remembers across sessions, runs scheduled jobs and delegates to subagents.</p>
+  <div class="actions">
+    <a class="btn primary" href="docs/getting-started/download">Download the pre-release</a>
+    <a class="btn" href="docs/">Read the docs</a>
+    <a class="btn" href="https://github.com/ssajvinder-alt/Simmuse-Agent">Source on GitHub</a>
+  </div>
+  <div class="grid">
+    <div class="card"><h2>macOS</h2><p>DMG for Apple silicon and Intel Macs.</p></div>
+    <div class="card"><h2>Linux</h2><p>AppImage for x64.</p></div>
+    <div class="card"><h2>Command line</h2><p>One-line install on Linux, macOS and Windows.</p></div>
+  </div>
+  <pre><code>curl -fsSL https://raw.githubusercontent.com/ssajvinder-alt/Simmuse-Agent/main/scripts/install.sh | HERMES_REPO_URL=https://github.com/ssajvinder-alt/Simmuse-Agent.git bash</code></pre>
+  <footer>Pre-release builds are unsigned, so macOS and Windows will warn on first launch. <a href="docs/getting-started/download">How to open them</a>.</footer>
+</main>
+</body>
+</html>

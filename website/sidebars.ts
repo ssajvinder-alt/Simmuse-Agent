@@ -13,6 +13,7 @@ const sidebars: SidebarsConfig = {
       label: 'Getting Started',
       collapsed: true,
       items: [
+        'getting-started/download',
         'getting-started/quickstart',
         'getting-started/installation',
         'getting-started/platform-support',
